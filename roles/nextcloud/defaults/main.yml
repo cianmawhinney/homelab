@@ -1,0 +1,7 @@
+nextcloud_dir: "{{ data_dir }}/nextcloud"
+
+nextcloud_version: "21-apache"
+
+nextcloud_sql_user: "nextcloud-user"
+nextcloud_sql_pass: "nextcloud-pass"
+nextcloud_sql_secret: "nextcloud-secret"

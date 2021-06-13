@@ -1,0 +1,3 @@
+unifi_dir: "{{ data_dir }}/unifi"
+
+unifi_web_admin_port: "443"

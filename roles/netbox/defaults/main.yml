@@ -1,0 +1,5 @@
+netbox_dir: "{{ data_dir }}/netbox"
+
+netbox_db_user: "netbox"
+netbox_db_pass: "netbox-db-pass"
+netbox_secret_key: "netbox-secret"

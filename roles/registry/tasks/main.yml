@@ -1,0 +1,12 @@
+---
+
+- name: Create registry storage directory
+  file:
+    state: directory
+    path: "{{ registry_dir }}"
+
+- name: Create local registry container
+  docker_container:
+    name: registry:2.7
+    container_default_behavior: compatibility
+    restart_policy: always

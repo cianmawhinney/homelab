@@ -1,0 +1,96 @@
+---
+
+- name: Set up nextcloud data directories
+  file:
+    path: "{{ nextcloud_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - db
+    - data
+
+- name: Copy nextcloud Dockerfile to host
+  template:
+    src: "{{ item }}"
+    dest: "{{ nextcloud_dir }}/{{ item }}"
+  with_items:
+    - Dockerfile
+    - .dockerignore
+  register: nextcloud_dockerfile
+
+- name: Build nextcloud image with smbclient installed
+  docker_image:
+    name: nextcloud
+    tag: "{{ nextcloud_version }}-smb"
+    build:
+      pull: true
+      path: "{{ nextcloud_dir }}"
+    source: build
+    force_source: "{{ nextcloud_dockerfile.changed }}"
+  register: nextcloud_image
+
+- name: Nextcloud - MariaDB container
+  docker_container:
+    name: nextcloud-mariadb
+    image: mariadb:10.5
+    pull: true
+    volumes:
+      - "{{ nextcloud_dir }}/db:/var/lib/mysql"
+    env:
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
+      MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_secret }}"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+
+- name: Nextcloud - Redis container
+  docker_container:
+    name: nextcloud-redis
+    image: redis:6.0-alpine
+    pull: true
+    restart_policy: always
+    container_default_behavior: compatibility
+
+- name: Nextcloud - Cron container
+  docker_container:
+    name: nextcloud-cron
+    image: "nextcloud:{{ nextcloud_version }}-smb"
+    recreate: "{{ nextcloud_image.changed }}"
+    links:
+      - nextcloud-mariadb:mariadb
+      - nextcloud-redis:redis
+    volumes:
+      - "{{ nextcloud_dir }}/data:/var/www/html:rw"
+    entrypoint: "/cron.sh"
+    restart_policy: always
+    container_default_behavior: compatibility
+
+- name: Nextcloud - App container
+  docker_container:
+    name: nextcloud-app
+    image: "nextcloud:{{ nextcloud_version }}-smb"
+    recreate: "{{ nextcloud_image.changed }}"
+    links:
+      - nextcloud-mariadb:mariadb
+      - nextcloud-redis:redis
+    volumes:
+      - "{{ nextcloud_dir }}/data:/var/www/html:rw"
+    ports:
+      - "{{ nextcloud_port }}:80"
+    env:
+      MYSQL_HOST: "mariadb"
+      MYSQL_DATABASE: "nextcloud"
+      MYSQL_USER: "{{ nextcloud_sql_user }}"
+      MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
+      REDIS_HOST: redis
+      NEXTCLOUD_TRUSTED_DOMAINS: "files.{{ homelab_domain }}"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.nextcloud.rule: "Host(`files.{{ homelab_domain }}`)"
+      traefik.http.routers.nextcloud.entrypoints: "websecure"
+      traefik.http.routers.nextcloud.tls: "true"
+      traefik.http.middlewares.nextcloud-redirectregex.redirectRegex.permanent: "true"
+      traefik.http.middlewares.nextcloud-redirectregex.redirectRegex.regex: "https://(.*)/.well-known/(card|cal)dav"
+      traefik.http.middlewares.nextcloud-redirectregex.redirectRegex.replacement: "https://${1}/remote.php/dav/"

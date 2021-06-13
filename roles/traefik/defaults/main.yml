@@ -1,0 +1,10 @@
+traefik_port_http: "80"
+traefik_port_https: "443"
+traefik_port_ui: "8083"
+
+# traefik_acme_server: "https://acme-staging-v02.api.letsencrypt.org/directory" # staging
+traefik_acme_server: "https://acme-v02.api.letsencrypt.org/directory" # production
+traefik_dns_provider: cloudflare
+
+traefik_environment_variables:
+  CF_DNS_API_TOKEN: "abcdabcd123412341234"

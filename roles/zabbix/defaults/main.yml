@@ -1,0 +1,5 @@
+zabbix_dir: "{{ data_dir }}/zabbix"
+
+zabbix_db_user: "zabbix"
+zabbix_db_pass: "zabbix"
+zabbix_db_secret: "secret123456"

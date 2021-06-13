@@ -1,0 +1,43 @@
+api:
+  dashboard: true
+
+
+entryPoints:
+  web:
+    address: ":{{ traefik_port_http }}"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":{{ traefik_port_https }}"
+    http:
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: "{{ homelab_domain }}"
+            sans:
+              - "*.{{ homelab_domain }}" # wildcard
+
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "{{ letsencrypt_email }}"
+      storage: "/letsencrypt/acme.json"
+      caServer: "{{ traefik_acme_server }}"
+
+      dnsChallenge:
+        provider: "{{ traefik_dns_provider }}"
+
+
+serversTransport:
+  insecureSkipVerify: true

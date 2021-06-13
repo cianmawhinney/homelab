@@ -1,0 +1,92 @@
+---
+
+- name: Set up netbox data directories
+  file:
+    path: "{{ netbox_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - media
+    - db
+    - redis
+    # TODO: create subdirectories for the scripts/configuration
+    # https://github.com/netbox-community/netbox-docker/blob/release/docker-compose.yml#L13
+    
+
+- name: Create netbox shared network
+  docker_network:
+    name: netbox_network
+  
+- name: Netbox - Postgres DB container
+  docker_container:
+    name: netbox-postgres
+    image: postgres:13-alpine
+    pull: true
+    networks:
+      - name: netbox_network
+        aliases:
+          - postgres
+    volumes:
+      - "{{ netbox_dir }}/db:/data"
+    env:
+      POSTGRES_USER: "{{ netbox_db_user }}"
+      POSTGRES_PASSWORD: "{{ netbox_db_pass }}"
+      PGDATA: "/data"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+
+- name: Netbox - Redis container
+  docker_container:
+    name: netbox-redis
+    image: redis:6.0-alpine
+    pull: true
+    networks:
+      - name: netbox_network
+        aliases:
+          - redis
+    volumes:
+      - "{{ netbox_dir }}/redis:/data"
+    command: "redis-server --appendonly yes"
+    restart_policy: always
+    container_default_behavior: compatibility
+
+- name: Netbox - Redis cache container
+  docker_container:
+    name: netbox-redis-cache
+    image: redis:6.0-alpine
+    pull: true
+    networks:
+      - name: netbox_network
+        aliases:
+          - redis-cache
+    restart_policy: always
+    container_default_behavior: compatibility
+
+# TODO: change logging level to be less verbose
+- name: Netbox - App container
+  docker_container:
+    name: netbox-app
+    image: netboxcommunity/netbox:v2.11
+    pull: true
+    ports:
+      - "3000:8080"
+    networks:
+      - name: netbox_network
+    env:
+      SECRET_KEY: "{{ netbox_secret_key }}"
+      DB_HOST: postgres
+      DB_NAME: netbox
+      DB_USER: "{{ netbox_db_user }}"
+      DB_PASSWORD: "{{ netbox_db_pass }}"
+      REDIS_CACHE_DATABASE: "1"
+      REDIS_CACHE_HOST: "redis-cache"
+      REDIS_CACHE_SSL: "false"
+      REDIS_DATABASE: "0"
+      REDIS_HOST: "redis"
+      REDIS_SSL: "false"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.netbox.rule: "Host(`netbox.{{ homelab_domain }}`)"
+      traefik.http.routers.netbox.entrypoints: "websecure"
+      traefik.http.routers.netbox.tls: "true"

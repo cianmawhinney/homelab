@@ -1,0 +1,15 @@
+---
+
+- name: Install app
+  docker_container:
+    name: hello
+    image: nginxdemos/hello
+    ports:
+      - 8000:80
+    container_default_behavior: compatibility
+    restart_policy: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.hello.rule: "Host(`hello.{{ homelab_domain }}`)"
+      traefik.http.routers.hello.entrypoints: websecure
+      traefik.http.routers.hello.tls: "true"

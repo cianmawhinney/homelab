@@ -1,0 +1,4 @@
+# Ignore everything
+# I want to have the dockerfile within the nextcloud directory
+# See https://github.com/moby/moby/issues/34711 for why ignoring everything is needed
+**

@@ -1,0 +1,42 @@
+---
+
+- name: Set up unifi controller data directory
+  file:
+    path: "{{ unifi_dir }}"
+    state: directory
+
+
+- name: Change port that web admin is listening on
+  lineinfile:
+    path: "{{ unifi_dir }}/data/system.properties"
+    regexp: "^unifi.https.port="
+    line: "unifi.https.port={{ unifi_web_admin_port }}"
+
+- name: Create Unifi controller app container
+  docker_container:
+    name: unifi-app
+    image: linuxserver/unifi-controller
+    pull: true
+    volumes:
+      - "{{ data_dir }}/unifi:/config"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+    ports:
+      - "1900:1900/udp"   # Required for 'Make controller discoverable on L2 network' option
+      - "3478:3478/udp"   # Unifi STUN port
+      - "10001:10001/udp" # AP discovery
+      - "5514:5514"       # Remote syslog port
+      - "6789:6789"       # For mobile throughput test
+      - "8080:8080"       # Device communication (AP inform port etc.)
+      # - "8843:8843"       # Unifi guest portal HTTPS redirect
+      # - "8880:8880"       # Unifi guest portal HTTP redirect
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.unifi.rule: "Host(`unifi.{{ homelab_domain }}`)"
+      traefik.http.routers.unifi.entrypoints: "websecure"
+      traefik.http.routers.unifi.tls: "true"
+      traefik.http.services.unifi.loadbalancer.server.scheme: "https"
+      traefik.http.services.unifi.loadbalancer.server.port: "{{ unifi_web_admin_port }}"

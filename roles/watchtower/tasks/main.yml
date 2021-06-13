@@ -1,0 +1,19 @@
+---
+
+- name: Create watchtower app container
+  docker_container:
+    name: watchtower-app
+    image: containrrr/watchtower
+    hostname: "{{ ansible_hostname }}"
+    pull: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env: "{{ watchtower_environment_variables }}"
+    command: --monitor-only --schedule "{{ watchtower_schedule }}"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+  
+
+# FIXME: Fix `Could not do a head request, falling back to regular pull.`
+# Think I need to set up a local registry to query against
+# Either that or just disable the offending container(s)

@@ -1,0 +1,84 @@
+---
+
+- hosts: all
+
+  vars_files:
+    - vars.yml
+
+  # install docker python library to be able to create docker containers
+  vars:
+    pip_install_packages:
+      - name: docker
+
+  roles:
+    - role: geerlingguy.pip
+      tags:
+        - setup
+    - role: geerlingguy.docker
+      become: yes
+      tags:
+        - setup
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 600
+      become: true
+      when: ansible_os_family == 'Debian'
+
+    - name: Upgrade apt packages
+      apt:
+        upgrade: 'yes'
+      become: true
+      when: ansible_os_family == 'Debian'
+
+  tasks:
+    - name: Set up main docker data directory
+      file:
+        path: "{{ data_dir }}"
+        state: directory
+
+    - import_role: 
+        name: traefik
+      tags:
+        - traefik
+
+    - import_role:
+        name: nginx-hello
+      tags:
+        - nginx-hello
+    
+    - import_role:
+        name: unifi
+      tags:
+        - unifi
+
+    - import_role:
+        name: nextcloud
+      tags:
+        - nextcloud
+
+    - import_role:
+        name: zabbix
+      tags:
+        - zabbix
+
+    - import_role:
+        name: watchtower
+      tags:
+        - watchtower
+
+    # TODO: Finish setting up netbox
+    - import_role:
+        name: netbox
+      tags:
+        - netbox
+
+    # TODO: add authelia identity provider
+
+    # TODO: add LDAP provider
+
+    # TODO: add DDNS updater
+
+    # TODO: add Hashicorp Vault
