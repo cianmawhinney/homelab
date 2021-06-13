@@ -25,6 +25,7 @@
       - name: netbox_network
         aliases:
           - postgres
+    network_mode: default
     volumes:
       - "{{ netbox_dir }}/db:/data"
     env:
@@ -43,6 +44,7 @@
       - name: netbox_network
         aliases:
           - redis
+    network_mode: default
     volumes:
       - "{{ netbox_dir }}/redis:/data"
     command: "redis-server --appendonly yes"
@@ -58,6 +60,7 @@
       - name: netbox_network
         aliases:
           - redis-cache
+    network_mode: default
     restart_policy: always
     container_default_behavior: compatibility
 
@@ -71,6 +74,7 @@
       - "3000:8080"
     networks:
       - name: netbox_network
+    network_mode: default
     env:
       SECRET_KEY: "{{ netbox_secret_key }}"
       DB_HOST: postgres

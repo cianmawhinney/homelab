@@ -5,7 +5,7 @@
     state: directory
     name: "{{ zabbix_dir }}/{{ item }}"
   with_items:
-    - config # FIXME: Find a better name for this (maybe something like `installation`?)
+    - config # TODO: Find a better name for this (maybe something like `installation`?)
     - scripts
     - db
 
@@ -50,6 +50,7 @@
       - "{{ zabbix_dir }}/config/ssh_keys:/var/lib/zabbix/ssh_keys:ro"
     networks:
       - name: zabbix_network
+    network_mode: default
     privileged: true
     restart_policy: unless-stopped
     container_default_behavior: compatibility
@@ -77,6 +78,7 @@
       MYSQL_PASSWORD: "{{ zabbix_db_pass }}"
     networks:
       - name: zabbix_network
+    network_mode: default
     restart_policy: unless-stopped
     container_default_behavior: compatibility
 
@@ -91,6 +93,7 @@
     - "{{ zabbix_dir }}/config/snmptraps:/var/lib/zabbix/snmptraps"
     networks:
       - name: zabbix_network
+    network_mode: default
     restart_policy: unless-stopped
     container_default_behavior: compatibility
 
@@ -109,6 +112,7 @@
       MYSQL_PASSWORD: "{{ zabbix_db_pass }}"
     networks:
       - name: zabbix_network
+    network_mode: default
     restart_policy: unless-stopped
     container_default_behavior: compatibility
     labels:
