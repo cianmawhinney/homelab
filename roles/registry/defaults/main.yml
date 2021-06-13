@@ -1,1 +1,4 @@
 registry_dir: "{{ data_dir }}/registry"
+
+registry_host: "localhost"
+registry_port: "5000"

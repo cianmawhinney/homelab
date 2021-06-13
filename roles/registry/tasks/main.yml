@@ -7,6 +7,11 @@
 
 - name: Create local registry container
   docker_container:
-    name: registry:2.7
+    name: registry
+    image: "registry:2.7"
+    ports:
+      "{{ registry_port }}:5000"
+    volumes:
+      - "{{ registry_dir }}:/var/lib/registry/"
     container_default_behavior: compatibility
     restart_policy: always

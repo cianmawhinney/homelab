@@ -38,6 +38,11 @@
       file:
         path: "{{ data_dir }}"
         state: directory
+    
+    - import_role:
+        name: registry
+      tags:
+        - registry
 
     - import_role: 
         name: traefik
@@ -82,3 +87,8 @@
     # TODO: add DDNS updater
 
     # TODO: add Hashicorp Vault
+
+  post_tasks:
+    - name: Prune unused images
+      docker_prune:
+        images: true
