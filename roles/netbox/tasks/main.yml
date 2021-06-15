@@ -8,9 +8,6 @@
     - media
     - db
     - redis
-    # TODO: create subdirectories for the scripts/configuration
-    # https://github.com/netbox-community/netbox-docker/blob/release/docker-compose.yml#L13
-    
 
 - name: Create netbox shared network
   docker_network:
@@ -75,6 +72,11 @@
     networks:
       - name: netbox_network
     network_mode: default
+    volumes:
+      # default configuration scripts are included with dockerfile
+      # see https://github.com/netbox-community/netbox-docker/blob/release/docker-compose.yml
+      # for details of the folders, should any of the files need modifying.
+      - "{{ netbox_dir }}/app/media:/opt/netbox/netbox/media"
     env:
       SECRET_KEY: "{{ netbox_secret_key }}"
       DB_HOST: postgres
@@ -87,6 +89,7 @@
       REDIS_DATABASE: "0"
       REDIS_HOST: "redis"
       REDIS_SSL: "false"
+      LOGIN_REQUIRED: "true"
     restart_policy: unless-stopped
     container_default_behavior: compatibility
     labels:
