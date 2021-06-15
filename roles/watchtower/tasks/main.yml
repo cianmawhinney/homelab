@@ -1,19 +1,5 @@
 ---
 
-- name: Create single use watchtower app container
-  docker_container:
-    name: watchtower-singleuse
-    image: containrrr/watchtower
-    hostname: "{{ ansible_hostname }}"
-    pull: true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    env: "{{ watchtower_environment_variables }}"
-    command: --monitor-only --run-once
-    restart_policy: "no"
-    container_default_behavior: compatibility
-  changed_when: false # this is a 'one time' task, so ignore any changes being logged
-
 - name: Create scheduled watchtower app container
   docker_container:
     name: watchtower-app
