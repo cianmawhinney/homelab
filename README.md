@@ -20,6 +20,7 @@ miniumum, you'll need to override some variables (especially secrets/passwords).
 * [Unifi Controller](https://github.com/linuxserver/docker-unifi-controller)
 * [Watchtower](https://github.com/containrrr/watchtower)
 * [Zabbix Monitoring](https://github.com/zabbix/zabbix-docker)
+* [MonitoRSS](https://github.com/synzen/MonitoRSS)
 
 
 ## Usage
