@@ -74,12 +74,15 @@
       tags:
         - watchtower
 
-    # TODO: Finish setting up netbox
     - import_role:
         name: netbox
       tags:
         - netbox
 
+    - import_role:
+        name: monitorss
+      tags:
+        - monitorss
 
     # TODO: add dashboard (eg. Heimdall)
 

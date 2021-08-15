@@ -1,0 +1,6 @@
+monitorss_dir: "{{ data_dir }}/monitorss"
+
+# discord tokens
+monitorss_bot_token: discord-bot-token
+monitorss_discord_clientid: discord-clientid
+monitorss_discord_clientsecret: discord-clientsecret

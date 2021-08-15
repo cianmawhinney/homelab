@@ -1,0 +1,85 @@
+---
+- name: Create MonitoRSS data directories
+  file:
+    state: directory
+    path: "{{ monitorss_dir }}/{{ item }}"
+  with_items:
+    - db
+
+- name: Create MonitoRSS shared network
+  docker_network:
+    name: monitorss_network
+
+- name: MonitoRSS - Redis container
+  docker_container:
+    name: monitorss-redis
+    image: redis:6.0-alpine
+    pull: true
+    networks:
+      - name: monitorss_network
+        aliases:
+          - redis
+    network_mode: default
+    restart_policy: always
+    container_default_behavior: compatibility    
+  
+- name: MonitoRSS - MongoDB container
+  docker_container:
+    name: monitorss-mongodb
+    # mongo:5.0 requires a CPU with AVX
+    image: mongo:4.4
+    pull: true
+    networks:
+      - name: monitorss_network
+        aliases:
+          - db
+    network_mode: default
+    volumes:
+      - "{{ monitorss_dir }}/db:/data/db"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+
+- name: MonitoRSS - Bot container
+  docker_container:
+    name: monitorss-bot
+    image: synzen/monitorss
+    pull: true
+    networks:
+      - name: monitorss_network
+        aliases:
+          - bot
+    network_mode: default
+    env:
+      DRSS_START: bot
+      DRSS_BOT_TOKEN: "{{ monitorss_bot_token }}"
+      DRSS_DATABASE_URI: "mongodb://db:27017/rss"
+    restart_policy: "no"
+    container_default_behavior: compatibility
+
+- name: MonitoRSS - Web container
+  docker_container:
+    name: monitorss-web
+    image: synzen/monitorss
+    pull: true
+    networks:
+      - name: monitorss_network
+        aliases:
+          - web
+    network_mode: default
+    ports:
+      - "8081"
+    env:
+      DRSS_START: web
+      DRSSWEB_BOT_TOKEN: "{{ monitorss_bot_token }}"
+      DRSSWEB_DATABASE_URI: mongodb://db:27017/rss
+      DRSSWEB_DATABASE_REDIS: redis://redis:6379
+      DRSSWEB_BOT_REDIRECTURI: "https://monitorss.{{ homelab_domain }}/authorize"
+      DRSSWEB_BOT_CLIENTID: "{{ monitorss_discord_clientid }}"
+      DRSSWEB_BOT_CLIENTSECRET: "{{ monitorss_discord_clientsecret }}"
+    restart_policy: "no"
+    container_default_behavior: compatibility
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.monitorss.rule: "Host(`monitorss.{{ homelab_domain }}`)"
+      traefik.http.routers.monitorss.entrypoints: "websecure"
+      traefik.http.routers.monitorss.tls: "true"
