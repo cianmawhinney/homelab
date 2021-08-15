@@ -68,7 +68,7 @@
     image: netboxcommunity/netbox:v2.11
     pull: true
     ports:
-      - "3000:8080"
+      - "8080"
     networks:
       - name: netbox_network
     network_mode: default
