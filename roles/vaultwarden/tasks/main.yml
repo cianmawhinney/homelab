@@ -1,0 +1,36 @@
+- name: Set up vaultwarden data directories
+  file:
+    path: "{{ vaultwarden_dir }}"
+    state: directory
+
+- name: Vaultwarden - App contrainer
+  docker_container:
+    name: vaultwarden-app
+    image: vaultwarden/server:1.22.2-alpine
+    pull: true
+    ports:
+      - "80"
+    volumes:
+      - "{{ vaultwarden_dir }}/:/data/"
+    env:
+      ADMIN_TOKEN: "{{ vaultwarden_admin_token }}"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.vaultwarden.rule: "Host(`vw.{{ homelab_domain }}`)"
+      traefik.http.routers.vaultwarden.entrypoints: "websecure"
+      traefik.http.routers.vaultwarden.tls: "true"
+    
+
+
+
+# services:
+#   vaultwarden:
+#     image: vaultwarden/server:latest
+#     container_name: vaultwarden
+#     restart: always
+#     environment:
+#       - WEBSOCKET_ENABLED=true  # Enable WebSocket notifications.
+#     volumes:
+#       - ./vw-data:/data

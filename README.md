@@ -21,6 +21,7 @@ miniumum, you'll need to override some variables (especially secrets/passwords).
 * [Watchtower](https://github.com/containrrr/watchtower)
 * [Zabbix Monitoring](https://github.com/zabbix/zabbix-docker)
 * [MonitoRSS](https://github.com/synzen/MonitoRSS)
+* [Vaultwarden](https://github.com/dani-garcia/vaultwarden/)
 
 
 ## Usage

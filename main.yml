@@ -84,6 +84,11 @@
       tags:
         - monitorss
 
+    - import_role:
+        name: vaultwarden
+      tags:
+        - vaultwarden
+
     # TODO: add dashboard (eg. Heimdall)
 
     # TODO: configure storage mounts
