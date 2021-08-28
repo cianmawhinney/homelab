@@ -65,7 +65,7 @@
 - name: Netbox - App container
   docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v2.11
+    image: netboxcommunity/netbox:feature
     pull: true
     ports:
       - "8080"
