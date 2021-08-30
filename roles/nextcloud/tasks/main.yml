@@ -29,11 +29,20 @@
     force_source: "{{ nextcloud_dockerfile.changed }}"
   register: nextcloud_image
 
+- name: Create nextcloud network
+  docker_network:
+    name: nextcloud_network
+
 - name: Nextcloud - MariaDB container
   docker_container:
     name: nextcloud-mariadb
     image: mariadb:10.5
     pull: true
+    networks:
+      - name: nextcloud_network
+        aliases:
+          - mariadb
+    network_mode: default
     volumes:
       - "{{ nextcloud_dir }}/db:/var/lib/mysql"
     env:
@@ -48,6 +57,11 @@
   docker_container:
     name: nextcloud-redis
     image: redis:6.0-alpine
+    networks:
+      - name: nextcloud_network
+        aliases:
+          - redis
+    network_mode: default
     pull: true
     restart_policy: always
     container_default_behavior: compatibility
@@ -57,9 +71,11 @@
     name: nextcloud-cron
     image: "{{ registry_host }}:{{ registry_port }}/nextcloud:{{ nextcloud_version }}-smb"
     recreate: "{{ nextcloud_image.changed }}"
-    links:
-      - nextcloud-mariadb:mariadb
-      - nextcloud-redis:redis
+    networks:
+      - name: nextcloud_network
+        aliases:
+          - cron
+    network_mode: default
     volumes:
       - "{{ nextcloud_dir }}/data:/var/www/html:rw"
     entrypoint: "/cron.sh"
@@ -71,9 +87,11 @@
     name: nextcloud-app
     image: "{{ registry_host }}:{{ registry_port }}/nextcloud:{{ nextcloud_version }}-smb"
     recreate: "{{ nextcloud_image.changed }}"
-    links:
-      - nextcloud-mariadb:mariadb
-      - nextcloud-redis:redis
+    networks:
+      - name: nextcloud_network
+        aliases:
+          - app
+    network_mode: default
     volumes:
       - "{{ nextcloud_dir }}/data:/var/www/html:rw"
     ports:
