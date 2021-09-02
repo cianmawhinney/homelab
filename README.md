@@ -35,6 +35,14 @@ homelab_domain: "example.com"
 letsencrypt_email: "admin@example.com"
 ```
 
+The playbook also depends on the [geerlingguy.pip](https://github.com/geerlingguy/ansible-role-pip)
+and [geerlingguy.docker](https://github.com/geerlingguy/ansible-role-docker)
+roles. These can be installed by running:
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
 ### Running everything
 
 ```bash
