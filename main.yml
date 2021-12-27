@@ -93,8 +93,6 @@
 
     # TODO: configure storage mounts
 
-    # TODO: configure backups of docker data
-
     # TODO: add bittorrent client
 
     # TODO: add authelia identity provider
