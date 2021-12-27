@@ -83,3 +83,6 @@
       traefik.http.routers.monitorss.rule: "Host(`monitorss.{{ homelab_domain }}`)"
       traefik.http.routers.monitorss.entrypoints: "websecure"
       traefik.http.routers.monitorss.tls: "true"
+      traefik.http.middlewares.redirectControlPanel.redirectregex.regex: "https://monitorss.{{ homelab_domain }}/+$"
+      traefik.http.middlewares.redirectControlPanel.redirectregex.replacement: "https://monitorss.{{ homelab_domain }}/cp/"
+      traefik.http.routers.monitorss.middlewares: redirectControlPanel@docker
