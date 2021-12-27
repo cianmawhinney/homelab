@@ -6,7 +6,7 @@
 - name: Vaultwarden - App contrainer
   docker_container:
     name: vaultwarden-app
-    image: vaultwarden/server:1.22.2-alpine
+    image: vaultwarden/server:1.23.1-alpine
     pull: true
     ports:
       - "80"
