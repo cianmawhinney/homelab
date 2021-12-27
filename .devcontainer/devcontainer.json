@@ -1,0 +1,29 @@
+{
+	"name": "Ansible (Ubuntu 20.04)",
+
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+	},
+
+	// "image": "geerlingguy/docker-ubuntu2004-ansible:latest",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-azuretools.vscode-docker",
+		"redhat.vscode-yaml"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+
+	// automatically install dependencies for this project
+	"postCreateCommand": "ansible-galaxy install -r requirements.yml"
+}
