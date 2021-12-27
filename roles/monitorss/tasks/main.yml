@@ -13,7 +13,7 @@
 - name: MonitoRSS - Redis container
   docker_container:
     name: monitorss-redis
-    image: redis:6.0-alpine
+    image: redis:6.2-alpine
     pull: true
     networks:
       - name: monitorss_network
