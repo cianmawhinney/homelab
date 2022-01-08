@@ -89,6 +89,16 @@
       tags:
         - vaultwarden
 
+    # TODO: add separate traefik network
+
+    # TODO: restructure playbook to not use raw docker containers
+
+    # TODO: documentation for working on the playbook: folder structure, used ports etc.
+    
+    # TODO: health checks for services
+    
+    # TODO: automated testing
+
     # TODO: add dashboard (eg. Heimdall)
 
     # TODO: configure storage mounts
