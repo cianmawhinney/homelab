@@ -1,0 +1,5 @@
+authelia_dir: "{{ data_dir }}/authelia"
+
+authelia_jwt_secret_seed: authelia_jwt_secret_seed_changeme
+authelia_session_secret: authelia_session_secret_changeme
+authelia_encryption_key: you_must_generate_a_random_string_of_more_than_twenty_chars_and_configure_this

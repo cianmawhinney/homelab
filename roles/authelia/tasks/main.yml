@@ -1,0 +1,37 @@
+---
+
+- name: Set up authelia data directories
+  file:
+    path: "{{ authelia_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - config
+
+- name: Copy authelia configuration file
+  template:
+    src: configuration.yml
+    dest: "{{ authelia_dir }}/config/configuration.yml"
+  register: template
+
+# TODO: ensure users_database.yml exists, don't modify if it does
+
+- name: Create authelia app container
+  docker_container:
+    name: authelia-app
+    image: authelia/authelia:4.33.1
+    pull: true
+    ports:
+      - "9091"
+    # networks:
+    network_mode: default
+    volumes:
+      - "{{ authelia_dir }}/config:/config"
+    env:
+      TZ: "Europe/London"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.authelia.rule: "Host(`auth.{{ homelab_domain }}`)"
+      traefik.http.routers.authelia.entrypoints: "websecure"
+      traefik.http.routers.authelia.tls: "true"

@@ -43,6 +43,11 @@
         name: registry
       tags:
         - registry
+    
+    - import_role:
+        name: authelia
+      tags:
+        - authelia
 
     - import_role: 
         name: traefik

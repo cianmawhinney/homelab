@@ -45,3 +45,11 @@
       # I don't understand this behaviour, but it seems to work now 🙃
       # See: https://github.com/traefik/traefik/issues/5732
       traefik.http.services.dummyService.loadbalancer.server.port: "1337"
+
+      # Enable Authelia authentication middleware
+      traefik.http.middlewares.authelia.forwardauth.address: "http://authelia-app:9091/api/verify?rd=https://auth.{{ homelab_domain }}/"
+      traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardauth.authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
+      traefik.http.middlewares.authelia-basic.forwardauth.address: "http://authelia-app:9091/api/verify?auth=basic"
+      traefik.http.middlewares.authelia-basic.forwardauth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia-basic.forwardauth.authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
