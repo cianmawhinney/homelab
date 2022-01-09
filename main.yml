@@ -89,6 +89,11 @@
       tags:
         - vaultwarden
 
+    - import_role:
+        name: plex
+      tags:
+        - plex
+
     # TODO: add separate traefik network
 
     # TODO: restructure playbook to not use raw docker containers
