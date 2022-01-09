@@ -5,12 +5,12 @@
     path: "{{ unifi_dir }}"
     state: directory
 
-
-- name: Change port that web admin is listening on
+- name: Change web admin port
   lineinfile:
     path: "{{ unifi_dir }}/data/system.properties"
     regexp: "^unifi.https.port="
     line: "unifi.https.port={{ unifi_web_admin_port }}"
+    create: yes
 
 - name: Create Unifi controller app container
   docker_container:
