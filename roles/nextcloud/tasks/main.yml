@@ -95,7 +95,7 @@
     volumes:
       - "{{ nextcloud_dir }}/data:/var/www/html:rw"
     ports:
-      - "{{ nextcloud_port }}:80"
+      - "80"
     env:
       MYSQL_HOST: "mariadb"
       MYSQL_DATABASE: "nextcloud"
