@@ -50,6 +50,7 @@
       MYSQL_USER: "{{ nextcloud_sql_user }}"
       MYSQL_PASSWORD: "{{ nextcloud_sql_pass }}"
       MYSQL_ROOT_PASSWORD: "{{ nextcloud_sql_secret }}"
+    command: --skip-innodb-read-only-compressed
     restart_policy: unless-stopped
     container_default_behavior: compatibility
 
