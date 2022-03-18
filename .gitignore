@@ -2,5 +2,5 @@
 */__pycache__
 *.pyc
 .cache
-vars.yml
-inventory
+ansible/vars.yml
+ansible/inventory
