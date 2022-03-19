@@ -1,7 +1,26 @@
-FROM geerlingguy/docker-ubuntu2004-ansible:latest
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/ubuntu/.devcontainer/base.Dockerfile
 
-# [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+# [Choice] Ubuntu version (use hirsuite or bionic on local arm64/Apple Silicon): hirsute, focal, bionic
+ARG VARIANT="hirsute"
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+
+RUN apt-get update \
+    && apt-get install -y software-properties-common \
+    && curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
+    && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
+    && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-        git \
-        ssh
+        terraform \
+        packer \
+        apt-utils \
+        build-essential \
+        libffi-dev \
+        libssl-dev \
+        libyaml-dev \
+        python3-dev \
+        python3-setuptools \
+        python3-pip \
+        python3-yaml \
+    && pip3 install ansible \
+    && rm -rf /var/lib/apt/lists/*
+
