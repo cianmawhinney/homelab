@@ -1,10 +1,10 @@
-# Ansible homelab configuration
+# IaC Homelab Honfiguration
 
 Inspired by David Stephen's [ansible-nas](https://github.com/davestephens/ansible-nas).
 
 
 ## Disclaimer
-I don't recommend you use this playbook, this repository intended to be purely a
+I don't recommend you use this repository, it's intended to be purely a
 reference (and probably not even a very good one at that). 
 
 The configuration sets up services the way I like them I like them. At a
