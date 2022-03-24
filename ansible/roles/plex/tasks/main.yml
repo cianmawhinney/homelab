@@ -12,7 +12,7 @@
 - name: Create Plex server container
   docker_container:
     name: plex-app
-    image: linuxserver/plex:1.25.7
+    image: linuxserver/plex:1.25.8
     pull: true
     network_mode: default
     ports:
