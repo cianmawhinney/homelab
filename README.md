@@ -1,4 +1,4 @@
-# IaC Homelab Honfiguration
+# IaC Homelab Configuration
 
 Inspired by David Stephen's [ansible-nas](https://github.com/davestephens/ansible-nas).
 
