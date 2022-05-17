@@ -1,0 +1,23 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_GB.UTF-8
+  keyboard:
+    layout: en
+    variant: gb
+  identity:
+    hostname: template
+    password: "$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0" # ubuntu
+    username: ubuntu
+  refresh-installer:
+    update: false
+  ssh:
+    install-server: yes
+    allow-pw: yes # ensure logging in with password is disabled in first-boot provisioning!
+  packages:
+    - qemu-guest-agent
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
