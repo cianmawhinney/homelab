@@ -18,7 +18,8 @@
 		"ms-azuretools.vscode-docker",
 		"redhat.vscode-yaml",
 		"4ops.packer",
-		"hashicorp.terraform"
+		"hashicorp.terraform",
+		"cschleiden.vscode-github-actions"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
