@@ -16,6 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Initialise Packer
+        uses: hashicorp/packer-github-actions@master
+        with:
+          working_directory: packer
+          command: init
+          arguments: ""
+          target: .
+
       - name: Build Template
         uses: hashicorp/packer-github-actions@master
         env:
@@ -27,4 +35,4 @@ jobs:
           working_directory: packer
           command: build
           arguments: "-on-error=abort -force"
-          target: ubuntu-2004.pkr.hcl
+          target: .
