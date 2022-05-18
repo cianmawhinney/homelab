@@ -14,18 +14,15 @@ variable "password" {
   type = string
 }
 
-// allow overriding of the IP used to host autoinstall config
-variable "builderip" {
-  type = string
-  default = "{{ .HTTPIP }}"
-}
-
-source "proxmox" "ubuntu-2004" {
+source "proxmox-iso" "ubuntu-2004" {
 
   proxmox_url          = "${var.url}"
   node                 = "${var.node}"
   username             = "${var.username}"
   password             = "${var.password}"
+
+  // skip validating the certificate on the proxmox server
+  insecure_skip_tls_verify = true
 
   template_description = "Ubuntu 20.04.4 image, generated on ${timestamp()}"
   template_name        = "ubuntu-2004"
@@ -39,6 +36,13 @@ source "proxmox" "ubuntu-2004" {
   iso_file = "local:iso/ubuntu-20.04.4-live-server-amd64.iso"
   iso_storage_pool = "local"
   iso_checksum = "sha256:28ccdb56450e643bad03bb7bcf7507ce3d8d90e8bf09e38f6bd9ac298a98eaad"
+
+  additional_iso_files {
+    iso_storage_pool = "local"
+    cd_files = ["autoinstall/*"]
+    cd_label = "cidata"
+    unmount = true
+  }
 
   os = "l26"
   
@@ -59,17 +63,14 @@ source "proxmox" "ubuntu-2004" {
     bridge = "vmbr0"
   }
 
-  http_directory           = "http"
-  insecure_skip_tls_verify = true
-
   boot_wait    = "5s"
   boot_command = [
     "<esc><wait>",
     "<esc><wait>",
     "<f6><wait>",
     "<esc><wait>",
-    "autoinstall ds=nocloud-net;s=http://${ var.builderip }:{{ .HTTPPort }}/",
-    "<enter>"
+    "autoinstall",
+    "<wait><enter><enter>"
   ]
 
   ssh_timeout          = "30m"
@@ -82,7 +83,7 @@ source "proxmox" "ubuntu-2004" {
 }
 
 build {
-  sources = ["source.proxmox.ubuntu-2004"]
+  sources = ["source.proxmox-iso.ubuntu-2004"]
   # provisioner "ansible-local" {
   #   galaxy_file = "./ansible/requirements.yml"
   #   playbook_file = "./ansible/playbook.yml"
