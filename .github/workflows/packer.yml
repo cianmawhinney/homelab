@@ -14,30 +14,24 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Initialise Packer
-        uses: hashicorp/packer-github-actions@master
-        with:
-          working_directory: packer
-          command: init
+      - name: Install Packer
+        uses: hashicorp-contrib/setup-packer@v1
+
+      - name: Initialise Packer plugins
+        run: packer init -upgrade .
+        working-directory: ./packer
       
       - name: Validate Template
-        uses: hashicorp/packer-github-actions@master
-        with:
-          working_directory: packer
-          command: validate
-          arguments: "-syntax-only"
+        run: packer validate -syntax-only .
+        working-directory: ./packer
 
       - name: Build Template
-        uses: hashicorp/packer-github-actions@master
+        run: packer build -on-error=abort -force .
+        working-directory: ./packer
         env:
           PKR_VAR_url: "${{ secrets.PROXMOX_URL }}"
           PKR_VAR_node: "${{ secrets.PROXMOX_NODE }}"
           PKR_VAR_username: "${{ secrets.PROXMOX_USERNAME }}"
           PKR_VAR_password: "${{ secrets.PROXMOX_PASSWORD }}"
-        with:
-          working_directory: packer
-          command: build
-          arguments: "-on-error=abort -force"
-          target: .
