@@ -21,8 +21,13 @@ jobs:
         with:
           working_directory: packer
           command: init
-          arguments: ""
-          target: .
+      
+      - name: Validate Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          working_directory: packer
+          command: validate
+          arguments: "-syntax-only"
 
       - name: Build Template
         uses: hashicorp/packer-github-actions@master
