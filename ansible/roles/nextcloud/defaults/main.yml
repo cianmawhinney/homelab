@@ -1,6 +1,6 @@
 nextcloud_dir: "{{ data_dir }}/nextcloud"
 
-nextcloud_version: "22-apache"
+nextcloud_version: "production-apache"
 
 nextcloud_sql_user: "nextcloud-user"
 nextcloud_sql_pass: "nextcloud-pass"
