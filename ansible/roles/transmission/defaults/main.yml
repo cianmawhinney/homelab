@@ -1,0 +1,8 @@
+transmission_dir: "{{ data_dir }}/transmission"
+
+transmission_config_dir: "{{ transmission_dir }}/config"
+transmission_downloads_dir: "{{ transmission_dir }}/downloads"
+transmission_watch_dir: "{{ transmission_dir }}/watch"
+
+transmission_user: admin
+transmission_password: supersecret

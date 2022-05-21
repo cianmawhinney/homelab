@@ -94,6 +94,11 @@
       tags:
         - plex
 
+    - import_role:
+        name: transmission
+      tags:
+        - transmission
+
     # TODO: add separate traefik network
 
     # TODO: restructure playbook to not use raw docker containers

@@ -1,0 +1,39 @@
+---
+
+- name: Create transmission storage directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ transmission_config_dir }}"
+    - "{{ transmission_downloads_dir }}"
+    - "{{ transmission_watch_dir }}"
+
+- name: Create Transmission container
+  docker_container:
+    name: transmission-app
+    image: linuxserver/transmission:3.00-r5-ls125
+    pull: true
+    network_mode: default
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - "{{ transmission_config_dir }}:/config"
+      - "{{ transmission_downloads_dir }}:/downloads"
+      - "{{ transmission_watch_dir }}:/watch"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      USER: "{{ transmission_user }}"
+      PASS: "{{ transmission_password }}"
+      HOST_WHITELIST: "transmission.{{ homelab_domain }}"
+      TRANSMISSION_WEB_HOME: "/combustion-release/"
+    container_default_behavior: compatibility
+    restart_policy: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.transmission.rule: "Host(`transmission.{{ homelab_domain }}`)"
+      traefik.http.routers.transmission.entrypoints: "websecure"
+      traefik.http.routers.transmission.tls: "true"
