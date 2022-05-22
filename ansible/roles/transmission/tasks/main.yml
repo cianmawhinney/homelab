@@ -16,7 +16,7 @@
     pull: true
     network_mode: default
     ports:
-      - 9091:9091
+      - "9091"
       - 51413:51413
       - 51413:51413/udp
     volumes:
@@ -37,3 +37,4 @@
       traefik.http.routers.transmission.rule: "Host(`transmission.{{ homelab_domain }}`)"
       traefik.http.routers.transmission.entrypoints: "websecure"
       traefik.http.routers.transmission.tls: "true"
+      traefik.http.services.transmission.loadbalancer.server.port: "8080"

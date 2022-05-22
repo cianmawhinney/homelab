@@ -22,6 +22,7 @@ miniumum, you'll need to override some variables (especially secrets/passwords).
 * [Zabbix Monitoring](https://github.com/zabbix/zabbix-docker)
 * [MonitoRSS](https://github.com/synzen/MonitoRSS)
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden/)
+* [Transmission](https://github.com/linuxserver/docker-transmission)
 
 
 ## Usage
