@@ -23,6 +23,8 @@ miniumum, you'll need to override some variables (especially secrets/passwords).
 * [MonitoRSS](https://github.com/synzen/MonitoRSS)
 * [Vaultwarden](https://github.com/dani-garcia/vaultwarden/)
 * [Transmission](https://github.com/linuxserver/docker-transmission)
+* [Sonarr](https://github.com/linuxserver/docker-sonarr)
+* [Prowlarr](https://github.com/linuxserver/docker-prowlarr)
 
 
 ## Usage
@@ -34,6 +36,7 @@ Before running, the following is necessary:
 data_dir: ~/docker_data
 homelab_domain: "example.com"
 letsencrypt_email: "admin@example.com"
+media_dir: /path/to/media
 ```
 
 The playbook also depends on the [geerlingguy.pip](https://github.com/geerlingguy/ansible-role-pip)

@@ -1,4 +1,3 @@
 plex_dir: "{{ data_dir }}/plex"
-plex_media_dir: "{{ plex_dir }}/media" # For large media libraries this is likely somewhere else
 
 plex_claim_token: "plex_claim_token"

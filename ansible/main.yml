@@ -99,6 +99,11 @@
       tags:
         - transmission
 
+    - import_role:
+        name: servarr
+      tags:
+        - servarr
+
     # TODO: add separate traefik network
 
     # TODO: restructure playbook to not use raw docker containers

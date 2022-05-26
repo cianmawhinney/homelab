@@ -1,0 +1,73 @@
+---
+
+- name: Create *arr storage directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ media_dir }}"
+    - "{{ sonarr_dir }}/config"
+    - "{{ prowlarr_dir }}/config"
+
+- name: Create torrent client network
+  docker_network:
+    name: torrent_client_network
+
+# - name: Add connection to transmission container
+#   community.general.xml:
+#     path: {{}}
+
+- name: Create Sonarr container
+  docker_container:
+    name: sonarr-app
+    image: linuxserver/sonarr:3.0.8
+    pull: true
+    networks:
+      - name: torrent_client_network
+        aliases:
+          - sonarr
+    network_mode: default
+    ports:
+      - "8989"
+    volumes:
+      - "{{ sonarr_dir }}/config:/config"
+      - "{{ media_dir }}:/data"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "Europe/Dublin"
+    container_default_behavior: compatibility
+    restart_policy: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.sonarr.rule: "Host(`sonarr.{{ homelab_domain }}`)"
+      traefik.http.routers.sonarr.entrypoints: "websecure"
+      traefik.http.routers.sonarr.tls: "true"
+      traefik.http.services.sonarr.loadbalancer.server.port: "8989"
+
+- name: Create Prowlarr container
+  docker_container:
+    name: prowlarr-app
+    image: linuxserver/prowlarr:0.3.0-develop
+    pull: true
+    networks:
+      - name: torrent_client_network
+        aliases:
+          - prowlarr
+    network_mode: default
+    ports:
+      - "9696"
+    volumes:
+      - "{{ prowlarr_dir }}/config:/config"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "Europe/Dublin"
+    container_default_behavior: compatibility
+    restart_policy: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.prowlarr.rule: "Host(`prowlarr.{{ homelab_domain }}`)"
+      traefik.http.routers.prowlarr.entrypoints: "websecure"
+      traefik.http.routers.prowlarr.tls: "true"
+      traefik.http.services.prowlarr.loadbalancer.server.port: "9696"

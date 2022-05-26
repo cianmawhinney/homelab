@@ -6,7 +6,7 @@
     state: directory
   with_items:
     - "{{ plex_dir }}/config"
-    - "{{ plex_media_dir }}"
+    - "{{ media_dir }}/media"
 
 
 - name: Create Plex server container
@@ -28,7 +28,7 @@
       - "32469"         # Plex DLNA (Not used)
     volumes:
       - "{{ plex_dir }}/config:/config"
-      - "{{ plex_media_dir }}:/media"
+      - "{{ media_dir }}/media:/data/media"
     env:
       PUID: "1000"
       PGID: "1000"

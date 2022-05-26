@@ -6,14 +6,22 @@
     state: directory
   with_items:
     - "{{ transmission_config_dir }}"
-    - "{{ transmission_downloads_dir }}"
     - "{{ transmission_watch_dir }}"
+    - "{{ media_dir }}/torrents"
+
+- name: Create torrent client network
+  docker_network:
+    name: torrent_client_network
 
 - name: Create Transmission container
   docker_container:
     name: transmission-app
     image: linuxserver/transmission:3.00-r5-ls125
     pull: true
+    networks:
+      - name: torrent_client_network
+        aliases:
+          - transmission
     network_mode: default
     ports:
       - "9091"
@@ -21,8 +29,8 @@
       - 51413:51413/udp
     volumes:
       - "{{ transmission_config_dir }}:/config"
-      - "{{ transmission_downloads_dir }}:/downloads"
       - "{{ transmission_watch_dir }}:/watch"
+      - "{{ media_dir }}/torrents:/data/torrents"
     env:
       PUID: "1000"
       PGID: "1000"
