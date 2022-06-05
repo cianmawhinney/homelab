@@ -1,3 +1,5 @@
+---
+
 monitorss_dir: "{{ data_dir }}/monitorss"
 
 # discord tokens

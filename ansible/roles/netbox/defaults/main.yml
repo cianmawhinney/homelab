@@ -1,3 +1,5 @@
+---
+
 netbox_dir: "{{ data_dir }}/netbox"
 
 netbox_db_user: "netbox"

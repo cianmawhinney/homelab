@@ -5,7 +5,7 @@
     state: directory
     name: "{{ zabbix_dir }}/{{ item }}"
   with_items:
-    - config # TODO: Find a better name for this (maybe something like `installation`?)
+    - config  # TODO: Find a better name for config (maybe something like `installation`?)
     - scripts
     - db
 
@@ -62,7 +62,7 @@
     pull: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro 
+      - /etc/timezone:/etc/timezone:ro
       - "{{ zabbix_dir }}/scripts/alertscripts:/usr/lib/zabbix/alertscripts:ro"
       - "{{ zabbix_dir }}/scripts/externalscripts:/usr/lib/zabbix/externalscripts:ro"
       - "{{ zabbix_dir }}/config/export:/var/lib/zabbix/export:rw"
@@ -88,9 +88,9 @@
     image: zabbix/zabbix-snmptraps:alpine-5.2-latest
     pull: true
     ports:
-    - "162:1162/udp"
+      - "162:1162/udp"
     volumes:
-    - "{{ zabbix_dir }}/config/snmptraps:/var/lib/zabbix/snmptraps"
+      - "{{ zabbix_dir }}/config/snmptraps:/var/lib/zabbix/snmptraps"
     networks:
       - name: zabbix_network
     network_mode: default

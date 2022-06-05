@@ -1,3 +1,5 @@
+---
+
 nextcloud_dir: "{{ data_dir }}/nextcloud"
 
 nextcloud_version: "production-apache"

@@ -39,7 +39,6 @@
       # Look into how authelia can work with permission groups, potentially with
       # LDAP if that's necessary
       traefik.http.routers.dashboard.entrypoints: "websecure"
-      
 
       # A dummy service is needed to allow traefik to see its own internal service
       # I don't understand this behaviour, but it seems to work now 🙃

@@ -1,4 +1,5 @@
 ---
+
 - name: Create MonitoRSS data directories
   file:
     state: directory
@@ -21,8 +22,8 @@
           - redis
     network_mode: default
     restart_policy: always
-    container_default_behavior: compatibility    
-  
+    container_default_behavior: compatibility
+
 - name: MonitoRSS - MongoDB container
   docker_container:
     name: monitorss-mongodb

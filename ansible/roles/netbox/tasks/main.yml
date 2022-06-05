@@ -12,7 +12,7 @@
 - name: Create netbox shared network
   docker_network:
     name: netbox_network
-  
+
 - name: Netbox - Postgres DB container
   docker_container:
     name: netbox-postgres

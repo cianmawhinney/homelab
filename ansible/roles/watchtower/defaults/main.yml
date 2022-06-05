@@ -1,6 +1,8 @@
+---
+
 watchtower_environment_variables:
   # WATCHTOWER_NOTIFICATIONS: slack
   # WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: https://discord.com/api/webhooks/.../slack
 
 # seconds, minutes, hours, days, months, day of week
-watchtower_schedule: 0 0 14 * * * # every day at 1400 UTC
+watchtower_schedule: 0 0 14 * * *  # every day at 1400 UTC
