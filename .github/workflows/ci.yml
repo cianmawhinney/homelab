@@ -1,5 +1,4 @@
-name: Lint & Test
-
+name: CI
 on:
   pull_request:
     branches:
@@ -15,14 +14,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install python
+      - name: Install Python
         uses: actions/setup-python@v3
       
       - name: Install linting dependencies
         run: pip install yamllint ansible-lint
 
-      - name: Lint codebase
+      - name: Lint ansible playbook
         run: yamllint . && ansible-lint
+        working-directory: ansible
   
   test:
     needs: lint
