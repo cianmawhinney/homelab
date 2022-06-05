@@ -1,19 +1,21 @@
 ---
 
 - name: Set up unifi controller data directory
-  file:
+  ansible.builtin.file:
     path: "{{ unifi_dir }}"
     state: directory
+    mode: 0775
 
 - name: Change web admin port
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ unifi_dir }}/data/system.properties"
     regexp: "^unifi.https.port="
     line: "unifi.https.port={{ unifi_web_admin_port }}"
     create: true
+    mode: 0775
 
 - name: Create Unifi controller app container
-  docker_container:
+  community.general.docker_container:
     name: unifi-app
     image: linuxserver/unifi-controller
     pull: true

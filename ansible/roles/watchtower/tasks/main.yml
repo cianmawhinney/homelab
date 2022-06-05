@@ -1,7 +1,7 @@
 ---
 
 - name: Create scheduled watchtower app container
-  docker_container:
+  community.general.docker_container:
     name: watchtower-app
     image: containrrr/watchtower
     hostname: "{{ ansible_hostname }}"

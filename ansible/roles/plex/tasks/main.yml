@@ -1,16 +1,17 @@
 ---
 
 - name: Set up plex data directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0775
   with_items:
     - "{{ plex_dir }}/config"
     - "{{ media_dir }}/media"
 
 
 - name: Create Plex server container
-  docker_container:
+  community.general.docker_container:
     name: plex-app
     image: linuxserver/plex:1.26.2
     pull: true

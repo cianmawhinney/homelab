@@ -1,20 +1,21 @@
 ---
 
 - name: Set up netbox data directories
-  file:
+  ansible.builtin.file:
     path: "{{ netbox_dir }}/{{ item }}"
     state: directory
+    mode: 0775
   with_items:
     - media
     - db
     - redis
 
 - name: Create netbox shared network
-  docker_network:
+  community.general.docker_network:
     name: netbox_network
 
 - name: Netbox - Postgres DB container
-  docker_container:
+  community.general.docker_container:
     name: netbox-postgres
     image: postgres:14-alpine
     pull: true
@@ -33,7 +34,7 @@
     container_default_behavior: compatibility
 
 - name: Netbox - Redis container
-  docker_container:
+  community.general.docker_container:
     name: netbox-redis
     image: redis:6.2-alpine
     pull: true
@@ -49,7 +50,7 @@
     container_default_behavior: compatibility
 
 - name: Netbox - Redis cache container
-  docker_container:
+  community.general.docker_container:
     name: netbox-redis-cache
     image: redis:6.2-alpine
     pull: true
@@ -63,7 +64,7 @@
 
 # TODO: change logging level to be less verbose
 - name: Netbox - App container
-  docker_container:
+  community.general.docker_container:
     name: netbox-app
     image: netboxcommunity/netbox:v3.1
     pull: true

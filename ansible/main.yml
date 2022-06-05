@@ -50,9 +50,10 @@
         - traefik
 
     - import_role:
-        name: nginx-hello
+        name: nginx_hello
       tags:
-        - nginx-hello
+        - nginx_hello
+        - hello
 
     - import_role:
         name: unifi

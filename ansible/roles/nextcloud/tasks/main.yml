@@ -1,24 +1,26 @@
 ---
 
 - name: Set up nextcloud data directories
-  file:
+  ansible.builtin.file:
     path: "{{ nextcloud_dir }}/{{ item }}"
     state: directory
+    mode: 0775
   with_items:
     - db
     - data
 
 - name: Copy nextcloud Dockerfile to host
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ nextcloud_dir }}/{{ item }}"
+    mode: 0775
   with_items:
     - Dockerfile
     - .dockerignore
   register: nextcloud_dockerfile
 
 - name: Build nextcloud image with smbclient installed
-  docker_image:
+  community.general.docker_image:
     name: "{{ registry_host }}:{{ registry_port }}/nextcloud"
     tag: "{{ nextcloud_version }}-smb"
     build:
@@ -30,11 +32,11 @@
   register: nextcloud_image
 
 - name: Create nextcloud network
-  docker_network:
+  community.general.docker_network:
     name: nextcloud_network
 
 - name: Nextcloud - MariaDB container
-  docker_container:
+  community.general.docker_container:
     name: nextcloud-mariadb
     image: mariadb:10.7
     pull: true
@@ -55,7 +57,7 @@
     container_default_behavior: compatibility
 
 - name: Nextcloud - Redis container
-  docker_container:
+  community.general.docker_container:
     name: nextcloud-redis
     image: redis:6.2-alpine
     networks:
@@ -68,7 +70,7 @@
     container_default_behavior: compatibility
 
 - name: Nextcloud - Cron container
-  docker_container:
+  community.general.docker_container:
     name: nextcloud-cron
     image: "{{ registry_host }}:{{ registry_port }}/nextcloud:{{ nextcloud_version }}-smb"
     recreate: "{{ nextcloud_image.changed }}"
@@ -84,7 +86,7 @@
     container_default_behavior: compatibility
 
 - name: Nextcloud - App container
-  docker_container:
+  community.general.docker_container:
     name: nextcloud-app
     image: "{{ registry_host }}:{{ registry_port }}/nextcloud:{{ nextcloud_version }}-smb"
     recreate: "{{ nextcloud_image.changed }}"

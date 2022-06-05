@@ -1,18 +1,19 @@
 ---
 
 - name: Create MonitoRSS data directories
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ monitorss_dir }}/{{ item }}"
+    mode: 0775
   with_items:
     - db
 
 - name: Create MonitoRSS shared network
-  docker_network:
+  community.general.docker_network:
     name: monitorss_network
 
 - name: MonitoRSS - Redis container
-  docker_container:
+  community.general.docker_container:
     name: monitorss-redis
     image: redis:6.2-alpine
     pull: true
@@ -25,7 +26,7 @@
     container_default_behavior: compatibility
 
 - name: MonitoRSS - MongoDB container
-  docker_container:
+  community.general.docker_container:
     name: monitorss-mongodb
     # mongo:5.0 requires a CPU with AVX
     image: mongo:4.4
@@ -41,7 +42,7 @@
     container_default_behavior: compatibility
 
 - name: MonitoRSS - Bot container
-  docker_container:
+  community.general.docker_container:
     name: monitorss-bot
     image: synzen/monitorss
     pull: true
@@ -58,7 +59,7 @@
     container_default_behavior: compatibility
 
 - name: MonitoRSS - Web container
-  docker_container:
+  community.general.docker_container:
     name: monitorss-web
     image: synzen/monitorss
     pull: true
