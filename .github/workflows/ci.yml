@@ -1,0 +1,35 @@
+name: Lint & Test
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install python
+        uses: actions/setup-python@v3
+      
+      - name: Install linting dependencies
+        run: pip install yamllint ansible-lint
+
+      - name: Lint codebase
+        run: yamllint . && ansible-lint
+  
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      # TODO: Come up with a more rigorous test setup
+      # Will likely need to be run on the selfhosted runner
+      - name: Pass
+        run: echo 'Looks good to me 🤪'
+  
