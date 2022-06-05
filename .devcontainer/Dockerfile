@@ -24,5 +24,6 @@ RUN apt-get update \
     && pip3 install \
         ansible \
         yamllint \
+        ansible-lint \
     && rm -rf /var/lib/apt/lists/*
 
