@@ -21,6 +21,8 @@ source "proxmox-iso" "ubuntu-2004" {
   username             = "${var.username}"
   password             = "${var.password}"
 
+  task_timeout         = "3m"
+
   // skip validating the certificate on the proxmox server
   insecure_skip_tls_verify = true
 
