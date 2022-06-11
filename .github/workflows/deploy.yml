@@ -1,19 +1,18 @@
-name: Build Packer templates
+name: Deploy
 
 on:
   push:
     branches:
       - master
     paths:
-      - packer
+      - templates
   workflow_dispatch:
   schedule:
     - cron: 0 6 * * * # every day at 6am
   
 
 jobs:
-  build-ubuntu-2004:
-    name: Build Ubuntu 20.04
+  build-templates:
     runs-on: self-hosted
 
     steps:
@@ -25,15 +24,15 @@ jobs:
 
       - name: Initialise Packer plugins
         run: packer init -upgrade .
-        working-directory: ./packer
+        working-directory: ./templates
       
-      - name: Validate Template
+      - name: Validate Templates
         run: packer validate -syntax-only .
-        working-directory: ./packer
+        working-directory: ./templates
 
-      - name: Build Template
+      - name: Build Templates
         run: packer build -on-error=abort -force .
-        working-directory: ./packer
+        working-directory: ./templates
         env:
           PKR_VAR_url: "${{ secrets.PROXMOX_URL }}"
           PKR_VAR_node: "${{ secrets.PROXMOX_NODE }}"
