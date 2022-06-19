@@ -1,7 +1,7 @@
 ---
 
 - name: Install app
-  docker_container:
+  community.general.docker_container:
     name: hello
     image: nginxdemos/hello
     ports:

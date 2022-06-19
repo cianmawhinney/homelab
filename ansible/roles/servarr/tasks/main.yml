@@ -1,16 +1,17 @@
 ---
 
 - name: Create *arr storage directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0775
   with_items:
     - "{{ media_dir }}"
     - "{{ sonarr_dir }}/config"
     - "{{ prowlarr_dir }}/config"
 
 - name: Create torrent client network
-  docker_network:
+  community.general.docker_network:
     name: torrent_client_network
 
 # - name: Add connection to transmission container
@@ -18,7 +19,7 @@
 #     path: {{}}
 
 - name: Create Sonarr container
-  docker_container:
+  community.general.docker_container:
     name: sonarr-app
     image: linuxserver/sonarr:3.0.8
     pull: true
@@ -46,7 +47,7 @@
       traefik.http.services.sonarr.loadbalancer.server.port: "8989"
 
 - name: Create Prowlarr container
-  docker_container:
+  community.general.docker_container:
     name: prowlarr-app
     image: linuxserver/prowlarr:0.3.0-develop
     pull: true

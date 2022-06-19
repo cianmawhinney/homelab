@@ -1,20 +1,21 @@
 ---
 
 - name: Create data directories
-  file:
+  ansible.builtin.file:
     state: directory
     name: "{{ zabbix_dir }}/{{ item }}"
+    mode: 0775
   with_items:
-    - config # TODO: Find a better name for this (maybe something like `installation`?)
+    - config  # TODO: Find a better name for config (maybe something like `installation`?)
     - scripts
     - db
 
 - name: Create zabbix shared network
-  docker_network:
+  community.general.docker_network:
     name: zabbix_network
 
 - name: MariaDB database container
-  docker_container:
+  community.general.docker_container:
     name: zabbix-mariadb
     image: mariadb:10.7
     pull: true
@@ -35,7 +36,7 @@
     container_default_behavior: compatibility
 
 - name: Zabbix agent container
-  docker_container:
+  community.general.docker_container:
     name: zabbix-agent
     image: zabbix/zabbix-agent:alpine-5.2-latest
     pull: true
@@ -56,13 +57,13 @@
     container_default_behavior: compatibility
 
 - name: Main server container
-  docker_container:
+  community.general.docker_container:
     name: zabbix-server
     image: zabbix/zabbix-server-mysql:alpine-5.2-latest
     pull: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro 
+      - /etc/timezone:/etc/timezone:ro
       - "{{ zabbix_dir }}/scripts/alertscripts:/usr/lib/zabbix/alertscripts:ro"
       - "{{ zabbix_dir }}/scripts/externalscripts:/usr/lib/zabbix/externalscripts:ro"
       - "{{ zabbix_dir }}/config/export:/var/lib/zabbix/export:rw"
@@ -83,14 +84,14 @@
     container_default_behavior: compatibility
 
 - name: SNMP traps container
-  docker_container:
+  community.general.docker_container:
     name: zabbix-snmptraps
     image: zabbix/zabbix-snmptraps:alpine-5.2-latest
     pull: true
     ports:
-    - "162:1162/udp"
+      - "162:1162/udp"
     volumes:
-    - "{{ zabbix_dir }}/config/snmptraps:/var/lib/zabbix/snmptraps"
+      - "{{ zabbix_dir }}/config/snmptraps:/var/lib/zabbix/snmptraps"
     networks:
       - name: zabbix_network
     network_mode: default
@@ -98,7 +99,7 @@
     container_default_behavior: compatibility
 
 - name: Front end container
-  docker_container:
+  community.general.docker_container:
     name: zabbix-frontend
     image: zabbix/zabbix-web-apache-mysql:alpine-5.2-latest
     pull: true

@@ -1,12 +1,13 @@
 ---
 
 - name: Create registry storage directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ registry_dir }}"
+    mode: 0775
 
 - name: Create local registry container
-  docker_container:
+  community.general.docker_container:
     name: registry
     image: "registry:2.8"
     ports:

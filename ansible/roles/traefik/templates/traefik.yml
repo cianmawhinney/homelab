@@ -1,3 +1,5 @@
+---
+
 api:
   dashboard: true
 
@@ -19,7 +21,7 @@ entryPoints:
         domains:
           - main: "{{ homelab_domain }}"
             sans:
-              - "*.{{ homelab_domain }}" # wildcard
+              - "*.{{ homelab_domain }}"  # wildcard
 
 
 providers:

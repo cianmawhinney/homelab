@@ -1,3 +1,5 @@
+---
+
 plex_dir: "{{ data_dir }}/plex"
 
 plex_claim_token: "plex_claim_token"

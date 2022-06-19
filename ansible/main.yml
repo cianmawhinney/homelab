@@ -15,7 +15,7 @@
       tags:
         - setup
     - role: geerlingguy.docker
-      become: yes
+      become: true
       tags:
         - setup
 
@@ -38,22 +38,23 @@
       file:
         path: "{{ data_dir }}"
         state: directory
-    
+
     - import_role:
         name: registry
       tags:
         - registry
 
-    - import_role: 
+    - import_role:
         name: traefik
       tags:
         - traefik
 
     - import_role:
-        name: nginx-hello
+        name: nginx_hello
       tags:
-        - nginx-hello
-    
+        - nginx_hello
+        - hello
+
     - import_role:
         name: unifi
       tags:
@@ -109,9 +110,9 @@
     # TODO: restructure playbook to not use raw docker containers
 
     # TODO: documentation for working on the playbook: folder structure, used ports etc.
-    
+
     # TODO: health checks for services
-    
+
     # TODO: automated testing
 
     # TODO: add dashboard (eg. Heimdall)
