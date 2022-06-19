@@ -16,6 +16,8 @@ jobs:
 
       - name: Install Python
         uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
       
       - name: Install linting dependencies
         run: pip install yamllint ansible-lint
