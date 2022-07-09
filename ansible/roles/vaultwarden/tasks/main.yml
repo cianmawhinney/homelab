@@ -1,10 +1,13 @@
+---
+
 - name: Set up vaultwarden data directories
-  file:
+  ansible.builtin.file:
     path: "{{ vaultwarden_dir }}"
     state: directory
+    mode: 0775
 
 - name: Vaultwarden - App contrainer
-  docker_container:
+  community.general.docker_container:
     name: vaultwarden-app
     image: vaultwarden/server:1.25.0-alpine
     pull: true
@@ -21,16 +24,3 @@
       traefik.http.routers.vaultwarden.rule: "Host(`vw.{{ homelab_domain }}`)"
       traefik.http.routers.vaultwarden.entrypoints: "websecure"
       traefik.http.routers.vaultwarden.tls: "true"
-    
-
-
-
-# services:
-#   vaultwarden:
-#     image: vaultwarden/server:latest
-#     container_name: vaultwarden
-#     restart: always
-#     environment:
-#       - WEBSOCKET_ENABLED=true  # Enable WebSocket notifications.
-#     volumes:
-#       - ./vw-data:/data

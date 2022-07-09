@@ -1,20 +1,21 @@
 ---
 
 - name: Create transmission storage directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0775
   with_items:
     - "{{ transmission_config_dir }}"
     - "{{ transmission_watch_dir }}"
     - "{{ media_dir }}/torrents"
 
 - name: Create torrent client network
-  docker_network:
+  community.general.docker_network:
     name: torrent_client_network
 
 - name: Create Transmission container
-  docker_container:
+  community.general.docker_container:
     name: transmission-app
     image: linuxserver/transmission:3.00-r5-ls125
     pull: true

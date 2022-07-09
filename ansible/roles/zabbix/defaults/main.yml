@@ -1,3 +1,5 @@
+---
+
 zabbix_dir: "{{ data_dir }}/zabbix"
 
 zabbix_db_user: "zabbix"

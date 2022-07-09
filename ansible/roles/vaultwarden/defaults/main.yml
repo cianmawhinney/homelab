@@ -1,3 +1,5 @@
+---
+
 vaultwarden_dir: "{{ data_dir }}/vaultwarden"
 
 vaultwarden_admin_token: secure-admin-token

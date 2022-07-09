@@ -21,6 +21,8 @@ RUN apt-get update \
         python3-setuptools \
         python3-pip \
         python3-yaml \
-    && pip3 install ansible \
+    && pip3 install \
+        ansible \
+        yamllint \
+        ansible-lint==6.2.2 \
     && rm -rf /var/lib/apt/lists/*
-

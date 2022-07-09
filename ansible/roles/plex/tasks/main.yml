@@ -1,31 +1,32 @@
 ---
 
 - name: Set up plex data directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0775
   with_items:
     - "{{ plex_dir }}/config"
     - "{{ media_dir }}/media"
 
 
 - name: Create Plex server container
-  docker_container:
+  community.general.docker_container:
     name: plex-app
     image: linuxserver/plex:1.26.2
     pull: true
     network_mode: default
     ports:
-      - "32400"         # Web interface
-      - "1900/udp"      # Plex DLNA (Not used)
-      - 3005:3005       # Plex Companion
-      - 5353:5353/udp   # Bonjour/Avahi network discovery
-      - 8324:8324       # Plex Companion
-      - 32410:32410/udp # GDM network discovery
-      - 32412:32412/udp # GDM network discovery
-      - 32413:32413/udp # GDM network discovery
-      - 32414:32414/udp # GDM network discovery
-      - "32469"         # Plex DLNA (Not used)
+      - "32400"          # Web interface
+      - "1900/udp"       # Plex DLNA (Not used)
+      - 3005:3005        # Plex Companion
+      - 5353:5353/udp    # Bonjour/Avahi network discovery
+      - 8324:8324        # Plex Companion
+      - 32410:32410/udp  # GDM network discovery
+      - 32412:32412/udp  # GDM network discovery
+      - 32413:32413/udp  # GDM network discovery
+      - 32414:32414/udp  # GDM network discovery
+      - "32469"          # Plex DLNA (Not used)
     volumes:
       - "{{ plex_dir }}/config:/config"
       - "{{ media_dir }}/media:/data/media"
