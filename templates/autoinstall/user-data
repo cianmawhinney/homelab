@@ -15,6 +15,7 @@ autoinstall:
     install-server: yes
     allow-pw: yes # ensure logging in with password is disabled in first-boot provisioning!
   packages:
+    - cloud-init
     - qemu-guest-agent
   storage:
     layout:
