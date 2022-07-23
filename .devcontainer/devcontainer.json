@@ -19,6 +19,7 @@
 		"redhat.vscode-yaml",
 		"4ops.packer",
 		"hashicorp.terraform",
+		"GitHub.vscode-pull-request-github",
 		"cschleiden.vscode-github-actions"
 	],
 
