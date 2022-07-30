@@ -21,6 +21,7 @@ RUN apt-get update \
         python3-setuptools \
         python3-pip \
         python3-yaml \
+        xorriso \
     && pip3 install \
         ansible \
         yamllint \

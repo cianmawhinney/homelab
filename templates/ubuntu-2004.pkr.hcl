@@ -1,25 +1,8 @@
-variable "url" {
-  type = string
-}
-
-variable "node" {
-  type = string
-}
-
-variable "username" {
-  type = string
-}
-
-variable "password" {
-  type = string
-}
-
 source "proxmox-iso" "ubuntu-2004" {
-
-  proxmox_url          = "${var.url}"
-  node                 = "${var.node}"
-  username             = "${var.username}"
-  password             = "${var.password}"
+  proxmox_url          = "${var.proxmox_url}"
+  node                 = "${var.proxmox_node}"
+  username             = "${var.proxmox_token_id}"
+  token                = "${var.proxmox_token_secret}"
 
   task_timeout         = "3m"
 
@@ -51,8 +34,8 @@ source "proxmox-iso" "ubuntu-2004" {
   scsi_controller = "virtio-scsi-pci"
   disks {
     disk_size         = "8G"
-    storage_pool      = "local-lvm"
-    storage_pool_type = "lvm"
+    storage_pool      = "local-zfs"
+    storage_pool_type = "zfspool"
     type              = "scsi"
   }
 
@@ -81,7 +64,7 @@ source "proxmox-iso" "ubuntu-2004" {
 
   unmount_iso          = true
   cloud_init           = true
-  cloud_init_storage_pool = "local-lvm"
+  cloud_init_storage_pool = "local-zfs"
 }
 
 build {
