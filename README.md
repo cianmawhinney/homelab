@@ -8,7 +8,7 @@ Inspired by David Stephen's [ansible-nas](https://github.com/davestephens/ansibl
 This repository is currently undergoing a revamp. At present the Ansible playbook is the only section ready for use.
 
 Goals for the repo:
-- Build VM images for faster deployments
+- Pre-build VM images for faster deployments
 - Continuous deployment using immutable infrastructure
 - Tightening up on security for secrets (move away from a local vars.yml file 👀)
 - Documentation & diagrams
