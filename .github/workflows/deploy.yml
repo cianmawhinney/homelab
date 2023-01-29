@@ -13,6 +13,7 @@ on:
 
 jobs:
   build-templates:
+    if: ${{ false }}  # disable for now
     runs-on: self-hosted
 
     steps:
