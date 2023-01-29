@@ -36,5 +36,10 @@
 	"postCreateCommand": "ansible-galaxy install -r ansible/requirements.yml",
 	
 	// "mounts": ["source=${localEnv:HOME}${localEnv:USERPROFILE}\\.terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached"]
-	"mounts": ["source=c:\\Users\\Cian\\AppData\\Roaming\\terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached"]
+	"mounts": [
+		"source=c:\\Users\\Cian\\AppData\\Roaming\\terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached"
+	],
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/digitalocean-cli:1": {}
+	}
 }
