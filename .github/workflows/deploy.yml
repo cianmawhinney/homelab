@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - templates
+  workflow_dispatch:
+  schedule:
+    - cron: 0 6 * * * # every day at 6am
+  
+
+jobs:
+  build-templates:
+    if: ${{ false }}  # disable for now
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Packer
+        uses: hashicorp-contrib/setup-packer@v1
+
+      - name: Initialise Packer plugins
+        run: packer init -upgrade .
+        working-directory: ./templates
+      
+      - name: Validate Templates
+        run: packer validate -syntax-only .
+        working-directory: ./templates
+
+      - name: Build Templates
+        run: packer build -on-error=abort -force .
+        working-directory: ./templates
+        env:
+          PKR_VAR_proxmox_url: "${{ secrets.PROXMOX_URL }}"
+          PKR_VAR_proxmox_node: "${{ secrets.PROXMOX_NODE }}"
+          PKR_VAR_proxmox_username: "${{ secrets.PROXMOX_TOKEN_ID }}" # packer requires secret ID to be specified in username
+          PKR_VAR_proxmox_token_secret: "${{ secrets.PROXMOX_TOKEN_SECRET }}"

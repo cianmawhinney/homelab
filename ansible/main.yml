@@ -69,6 +69,7 @@
         name: zabbix
       tags:
         - zabbix
+      when: false
 
     - import_role:
         name: watchtower
@@ -94,16 +95,19 @@
         name: plex
       tags:
         - plex
+      when: false
 
     - import_role:
         name: transmission
       tags:
         - transmission
+      when: false
 
     - import_role:
         name: servarr
       tags:
         - servarr
+      when: false
 
     # TODO: add separate traefik network
 
