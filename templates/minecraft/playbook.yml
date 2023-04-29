@@ -1,0 +1,69 @@
+---
+
+- name: 'Install Minecraft Server'
+  hosts: default
+  vars_files:
+    - variables.yml
+  become: true
+
+  tasks:
+    - name: Add AWS Coretto apt repository key
+      ansible.builtin.get_url:
+        url: "https://apt.corretto.aws/corretto.key"
+        dest: /etc/apt/trusted.gpg.d/aws-coretto.asc
+        mode: '0644'
+        force: true
+
+    - name: Add AWS Coretto apt repo
+      ansible.builtin.apt_repository:
+         repo: deb https://apt.corretto.aws stable main
+         state: present
+         update_cache: true
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Upgrade installed apt packages
+      ansible.builtin.apt:
+        upgrade: 'yes'
+
+    - name: Install Java 17
+      ansible.builtin.apt:
+        name: java-17-amazon-corretto-jdk
+        state: present
+
+    - name: Create directory for server files
+      ansible.builtin.file:
+        state: directory
+        path: "{{ minecraft_server_location }}"
+        mode: "0775"
+
+    # - name: Get latest build of paper server
+
+    - name: Download Paper Server
+      ansible.builtin.get_url:
+        url: "{{ paper_server_download_url }}"
+        dest: "{{ minecraft_server_location }}/paper-server.jar"
+
+    - name: Agree to Minecraft EULA
+      ansible.builtin.lineinfile:
+        path: "{{ minecraft_server_location }}/eula.txt"
+        regexp: "^eula="
+        line: "eula=true"
+        create: true
+
+    - name: Create minecraft.service systemd service file
+      ansible.builtin.template:
+        src: minecraft.service.j2
+        dest: /etc/systemd/system/minecraft.service
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable minecraft.service
+      ansible.builtin.systemd:
+        name: minecraft.service
+        enabled: true
+
+    # Symlink to worlds

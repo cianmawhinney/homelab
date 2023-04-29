@@ -1,0 +1,10 @@
+# /etc/systemd/system/minecraft.service
+[Unit]
+Description=Minecraft server
+
+[Service]
+WorkingDirectory=/usr/src/server
+ExecStart=java -Xms2G -Xmx2G -jar paper-server.jar --nogui
+
+[Install]
+WantedBy=multi-user.target
