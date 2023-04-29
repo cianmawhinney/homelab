@@ -1,6 +1,8 @@
+---
+
 name: Deploy
 
-on:
+'on':
   push:
     branches:
       - master
@@ -8,8 +10,8 @@ on:
       - templates
   workflow_dispatch:
   schedule:
-    - cron: 0 6 * * * # every day at 6am
-  
+    - cron: 0 6 * * *  # every day at 6am
+
 
 jobs:
   build-templates:
@@ -26,7 +28,7 @@ jobs:
       - name: Initialise Packer plugins
         run: packer init -upgrade .
         working-directory: ./templates
-      
+
       - name: Validate Templates
         run: packer validate -syntax-only .
         working-directory: ./templates
@@ -37,5 +39,5 @@ jobs:
         env:
           PKR_VAR_proxmox_url: "${{ secrets.PROXMOX_URL }}"
           PKR_VAR_proxmox_node: "${{ secrets.PROXMOX_NODE }}"
-          PKR_VAR_proxmox_username: "${{ secrets.PROXMOX_TOKEN_ID }}" # packer requires secret ID to be specified in username
+          PKR_VAR_proxmox_username: "${{ secrets.PROXMOX_TOKEN_ID }}"  # packer requires secret ID to be specified in username
           PKR_VAR_proxmox_token_secret: "${{ secrets.PROXMOX_TOKEN_SECRET }}"
