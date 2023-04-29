@@ -22,11 +22,10 @@ jobs:
       - name: Install linting dependencies
         run: pip install yamllint ansible-lint==6.2.2
 
-      - name: Lint ansible playbook dir
-        run: yamllint . && ansible-lint
-        working-directory: ansible
+      - name: Lint ansible playbooks dir
+        run: yamllint ansible/ && ansible-lint
 
-      - name: Lint all other yaml
+      - name: Lint all yaml in repo
         run: yamllint .
 
   test:
