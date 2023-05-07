@@ -57,6 +57,9 @@ jobs:
       - name: Install linting dependencies
         run: pip install yamllint ansible-lint==${{ matrix.ansible-lint-version }}
 
+      - name: Install external roles for ansible-lint
+        run: ansible-galaxy install -r ansible/requirements.yml
+
       - name: Lint ansible playbooks dir
         run: yamllint ansible/ && ansible-lint
 
