@@ -4,4 +4,5 @@ roles:
   - name: geerlingguy.docker
 
 collections:
+  - name: community.general
   - name: community.docker
