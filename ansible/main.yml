@@ -133,5 +133,5 @@
 
   post_tasks:
     - name: Prune unused images
-      docker_prune:
+      community.docker.docker_prune:
         images: true
