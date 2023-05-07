@@ -1,6 +1,7 @@
 ---
 
-- hosts: all
+- name: Set up all services for homelab
+  hosts: all
 
   vars_files:
     - vars.yml
@@ -21,89 +22,103 @@
 
   pre_tasks:
     - name: Update apt cache
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 3600
       become: true
       when: ansible_os_family == 'Debian'
 
     - name: Upgrade apt packages
-      apt:
+      ansible.builtin.apt:
         upgrade: 'yes'
       become: true
       when: ansible_os_family == 'Debian'
 
   tasks:
     - name: Set up main docker data directory
-      file:
+      ansible.builtin.file:
         path: "{{ data_dir }}"
         state: directory
+        mode: 0755
 
-    - import_role:
+    - name: Set up local docker registry
+      ansible.builtin.import_role:
         name: registry
       tags:
         - registry
 
-    - import_role:
+    - name: Set up traefik reverse proxy
+      ansible.builtin.import_role:
         name: traefik
       tags:
         - traefik
 
-    - import_role:
+    - name: Set up nginx test page
+      ansible.builtin.import_role:
         name: nginx_hello
       tags:
         - nginx_hello
         - hello
 
-    - import_role:
+    - name: Set up unifi controller
+      ansible.builtin.import_role:
         name: unifi
       tags:
         - unifi
 
-    - import_role:
+    - name: Set up nextcloud
+      ansible.builtin.import_role:
         name: nextcloud
       tags:
         - nextcloud
 
-    - import_role:
+    - name: Set up zabbix
+      ansible.builtin.import_role:
         name: zabbix
       tags:
         - zabbix
       when: false
 
-    - import_role:
+    - name: Set up watchtower
+      ansible.builtin.import_role:
         name: watchtower
       tags:
         - watchtower
 
-    - import_role:
+    - name: Set up netbox
+      ansible.builtin.import_role:
         name: netbox
       tags:
         - netbox
 
-    - import_role:
+    - name: Set up monitorss
+      ansible.builtin.import_role:
         name: monitorss
       tags:
         - monitorss
 
-    - import_role:
+    - name: Set up vaultwarden
+      ansible.builtin.import_role:
         name: vaultwarden
       tags:
         - vaultwarden
 
-    - import_role:
+    - name: Set up plex
+      ansible.builtin.import_role:
         name: plex
       tags:
         - plex
       when: false
 
-    - import_role:
+    - name: Set up transmission
+      ansible.builtin.import_role:
         name: transmission
       tags:
         - transmission
       when: false
 
-    - import_role:
+    - name: Set up servarr
+      ansible.builtin.import_role:
         name: servarr
       tags:
         - servarr
