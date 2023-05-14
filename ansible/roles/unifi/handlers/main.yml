@@ -1,2 +1,4 @@
+---
+
 - name: Restart unifi controller
-  command: docker restart unifi-app
+  ansible.builtin.command: docker restart unifi-app
