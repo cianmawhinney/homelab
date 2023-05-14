@@ -1,0 +1,2 @@
+- name: Restart unifi controller
+  command: docker restart unifi-app
