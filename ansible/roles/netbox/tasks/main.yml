@@ -112,3 +112,41 @@
       traefik.http.routers.netbox.rule: "Host(`netbox.{{ homelab_domain }}`)"
       traefik.http.routers.netbox.entrypoints: "websecure"
       traefik.http.routers.netbox.tls: "true"
+    healthcheck:
+      start_period: 60s
+      timeout: 3s
+      interval: 15s
+      test: "curl -f http://localhost:8080/api/ || exit 1"
+
+# FIXME: A lot of this is a quick & dirty copy and paste job from above
+- name: Netbox - Housekeeping
+  community.general.docker_container:
+    name: netbox-housekeeping
+    image: netboxcommunity/netbox:v3.1
+    pull: true
+    networks:
+      - name: netbox_network
+    volumes:
+      - "{{ netbox_dir }}/app/media:/opt/netbox/netbox/media"
+    env:
+      SECRET_KEY: "{{ netbox_secret_key }}"
+      DB_HOST: postgres
+      DB_NAME: netbox
+      DB_USER: "{{ netbox_db_user }}"
+      DB_PASSWORD: "{{ netbox_db_pass }}"
+      REDIS_CACHE_DATABASE: "1"
+      REDIS_CACHE_HOST: "redis-cache"
+      REDIS_CACHE_SSL: "false"
+      REDIS_DATABASE: "0"
+      REDIS_HOST: "redis"
+      REDIS_SSL: "false"
+      LOGIN_REQUIRED: "true"
+    restart_policy: unless-stopped
+    container_default_behavior: compatibility
+    command:
+    - /opt/netbox/housekeeping.sh
+    healthcheck:
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      test: "ps | grep -v grep | grep -q housekeeping || exit 1"
