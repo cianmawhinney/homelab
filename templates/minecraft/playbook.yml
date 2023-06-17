@@ -16,9 +16,9 @@
 
     - name: Add AWS Coretto apt repo
       ansible.builtin.apt_repository:
-         repo: deb https://apt.corretto.aws stable main
-         state: present
-         update_cache: true
+        repo: deb https://apt.corretto.aws stable main
+        state: present
+        update_cache: true
 
     - name: Update apt cache
       ansible.builtin.apt:
@@ -66,4 +66,4 @@
         name: minecraft.service
         enabled: true
 
-    # Symlink to worlds
+    # Symlink to binaries & plugins

@@ -1,3 +1,5 @@
+---
+
 # server location
 minecraft_server_location: "/usr/src/server"
 minecraft_server_version: "1.19.4"
