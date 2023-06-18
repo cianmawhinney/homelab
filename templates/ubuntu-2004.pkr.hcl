@@ -11,7 +11,7 @@ source "proxmox-iso" "ubuntu-2004" {
 
   template_description = "Ubuntu 20.04.4 image, generated on ${timestamp()}"
   template_name        = "ubuntu-2004"
-  
+
   // iso_urls = [
   //   "ubuntu-20.04.4-live-server-amd64.iso",
   //   "http://releases.ubuntu.com/focal/ubuntu-20.04.4-live-server-amd64.iso"
@@ -30,7 +30,7 @@ source "proxmox-iso" "ubuntu-2004" {
   }
 
   os = "l26"
-  
+
   scsi_controller = "virtio-scsi-pci"
   disks {
     disk_size         = "8G"
