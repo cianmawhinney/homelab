@@ -1,7 +1,7 @@
 resource "digitalocean_droplet" "hyq_mc" {
   name = "hyq-mc-01"
   size   = "s-1vcpu-2gb-intel"
-  image  = "134843480" # Ubuntu based minecraft image. # TODO: HCP Packer setup (#90)
+  image  = "134883045" # Ubuntu based minecraft image. # TODO: HCP Packer setup (#90)
   region = "lon1"
 
   ssh_keys = [
