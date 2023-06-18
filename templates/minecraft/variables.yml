@@ -1,15 +1,6 @@
 ---
 
-# server location
-minecraft_server_location: "/usr/src/server"
-minecraft_server_version: "1.19.4"
-paper_server_build_version: "550"
-
-paper_server_download_url: "https://api.papermc.io/v2/projects/paper/versions/{{minecraft_server_version}}/builds/{{paper_server_build_version}}/downloads/paper-{{minecraft_server_version}}-{{paper_server_build_version}}.jar"
-
-world_location: "/mnt/whatever"
-symlinks:
-  - world
-  - world_nether
-  - world_the_end
-  - server.properties
+minecraft_data_location: "/data"
+minecraft_server_location: "/opt/server"
+minecraft_server_version: "1.19.4" # TODO: only set this as a default, this should be set by the calling script
+paper_server_build_version: "latest" # TODO: this should mostly be determined automaticly, but it should be possible to override it

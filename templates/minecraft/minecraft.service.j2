@@ -3,8 +3,8 @@
 Description=Minecraft server
 
 [Service]
-WorkingDirectory=/usr/src/server
-ExecStart=java -Xms2G -Xmx2G -jar paper-server.jar --nogui
+WorkingDirectory={{ minecraft_data_location }}
+ExecStart=java -Xms1G -Xmx1G -Dcom.mojang.eula.agree=true -jar {{ minecraft_server_location }}/paper-server.jar --nogui
 
 [Install]
 WantedBy=multi-user.target
