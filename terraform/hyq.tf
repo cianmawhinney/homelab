@@ -18,11 +18,15 @@ resource "digitalocean_droplet" "hyq_mc" {
 
   user_data = <<EOF
 #!/bin/bash
-# Automatically mount the volume immediately on VM creation and on subsequent boots
 
+# Automatically mount the volume immediately on VM creation and on subsequent boots
 mkdir -p /data
 echo "/dev/disk/by-id/scsi-0DO_Volume_${digitalocean_volume.hyq_mc_data.name} /data ext4 defaults,nofail,discard 0 0" >> /etc/fstab
 mount -a
+
+# start and enable minecraft service
+systemctl enable minecraft.service
+systemctl start minecraft.service
 EOF
 
 }
@@ -33,4 +37,8 @@ resource "digitalocean_volume" "hyq_mc_data" {
   size                    = 10
   initial_filesystem_type = "ext4"
   description             = "Volume for storing Minecraft data"
+}
+
+output "hyq_mc_ip" {
+  value = digitalocean_droplet.hyq_mc.ipv4_address
 }
