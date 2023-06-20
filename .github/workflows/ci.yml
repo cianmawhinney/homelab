@@ -1,5 +1,7 @@
+---
+
 name: CI
-on:
+'on':
   pull_request:
     branches:
       - master
@@ -17,15 +19,20 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-      
-      - name: Install linting dependencies
-        run: pip install yamllint ansible-lint==6.2.2
+          python-version: '3.8'  # https://github.com/cianmawhinney/homelab/issues/74
 
-      - name: Lint ansible playbook
-        run: yamllint . && ansible-lint
-        working-directory: ansible
-  
+      - name: Install linting dependencies
+        run: pip install yamllint ansible-lint==6.12.2  # https://github.com/cianmawhinney/homelab/issues/74
+
+      - name: Install external roles & collections for ansible-lint
+        run: ansible-galaxy install -r ansible/requirements.yml
+
+      - name: Lint ansible playbooks dir
+        run: yamllint ansible/ && ansible-lint
+
+      - name: Lint all yaml in repo
+        run: yamllint .
+
   test:
     needs: lint
     runs-on: ubuntu-latest
@@ -34,4 +41,3 @@ jobs:
       # Will likely need to be run on the selfhosted runner
       - name: Pass
         run: echo 'Looks good to me 🤪'
-  

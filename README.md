@@ -13,11 +13,9 @@ Goals for the repo:
 - Tightening up on security for secrets (move away from a local vars.yml file 👀)
 - Documentation & diagrams
 
-Some of this work has been started in the [`actions-deploy`](https://github.com/cianmawhinney/homelab/pull/42) branch.
-
 Additionally, one of the longer term goals is to eventually migrate away from spinning up individual containers 'orchestrated' (term used loosely) by the Ansible playbook. At the beginning when deployment was against a single host this worked well, though as more and more services have been added, deployment times have increased significantly. A further annoyance is how containers have to be manually namespaced to avoid conflicts and how links between containers can feel flimsy at times.
 
-Kubernetes seems like it *could* to be a good fit to help with these problems, even if it is a tad overkill for hosting the services for 1 user, so I hope to find time to properly research whether it is actually the best option.
+Kubernetes looks like a good fit to help with these problems, even if it is a tad overkill for hosting the services for 1 user.
 
 
 ## Disclaimer
