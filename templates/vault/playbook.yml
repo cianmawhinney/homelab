@@ -19,8 +19,8 @@
   tasks:
     - name: Update package cache
       package:
-        update_cache: yes
-    
+        update_cache: true
+
     - name: Install dependencies
       package:
         name:
@@ -37,7 +37,7 @@
       unarchive:
         src: "{{ vault_download.dest }}"
         dest: /usr/local/bin
-        copy: no
+        copy: false
         mode: 0755
 
     - name: Create systemctl service
