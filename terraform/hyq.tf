@@ -39,6 +39,16 @@ resource "digitalocean_volume" "hyq_mc_data" {
   description             = "Volume for storing Minecraft data"
 }
 
-output "hyq_mc_ip" {
+resource "digitalocean_reserved_ip" "hyq_mc_ip" {
+  droplet_id = digitalocean_droplet.hyq_mc.id
+  region     = digitalocean_droplet.hyq_mc.region
+}
+
+
+output "hyq_mc_droplet_ip" {
   value = digitalocean_droplet.hyq_mc.ipv4_address
+}
+
+output "hyq_mc_droplet_ip_floating" {
+  value = digitalocean_reserved_ip.hyq_mc_ip.ip_address
 }
