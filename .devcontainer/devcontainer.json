@@ -1,12 +1,12 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/ubuntu
 {
-	"name": "Homelab (Ubuntu Focal)",
+	"name": "Homelab (Ubuntu 22.04)",
 	"build": {
 		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick an Ubuntu version: hirsute, focal, bionic
 		// Use hirsute or bionic on local arm64/Apple Silicon.
-		"args": { "VARIANT": "focal" }
+		"args": { "VARIANT": "ubuntu-22.04" }
 	},
 
 	"customizations": {
