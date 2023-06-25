@@ -1,4 +1,3 @@
 ---
 
-vault_version: "1.3.2"
-vault_checksum: ""
+vault_data_directory: /data

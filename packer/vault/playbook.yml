@@ -1,45 +1,50 @@
 ---
 
-# "echo 'Hey' 1>&2",
-# "sleep 60",
-# "sudo apt-get update",
-# "sudo apt-get install unzip -y",
-# "curl -L https://releases.hashicorp.com/vault/1.3.2/vault_1.3.2_linux_amd64.zip -o vault.zip",
-# "unzip vault.zip",
-# "sudo chown root:root vault",
-# "mv vault /usr/local/bin/",
-# "rm -f vault.zip"
-
-- name: 'Install & Configure Vault'
-  hosts: default
+- name: Install & Configure Vault
+  hosts: all
+  become: true
   vars_files:
     - variables.yml
-  become: true
 
   tasks:
-    - name: Update package cache
-      package:
+    - name: Create vault user
+      ansible.builtin.user:
+        name: vault
+        shell: /bin/false
+        system: true
+
+    - name: Add hashicorp rpm repo
+      ansible.builtin.yum_repository:
+        name: hashicorp
+        description: Hashicorp Stable Repo
+        baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+        gpgcheck: true
+        gpgkey: https://rpm.releases.hashicorp.com/gpg
+
+    - name: Update package list cache
+      ansible.builtin.package:
         update_cache: true
 
-    - name: Install dependencies
-      package:
+    - name: Install vault package
+      ansible.builtin.package:
         name:
-          - unzip
+          - vault-{{ vault_version }}
+        state: present
 
-    - name: Download Vault binary
-      get_url:
-        url: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
-        dest: /tmp/vault_{{ vault_version }}_linux_amd64.zip
-        checksum: "{{ vault_checksum }}"
-      register: vault_download
+    - name: Copy vault config template
+      ansible.builtin.template:
+        src: templates/vault.hcl.j2
+        dest: /etc/vault.d/vault.hcl
+        owner: vault
+        group: vault
+        mode: '0644'
 
-    - name: "Unzip vault archive"
-      unarchive:
-        src: "{{ vault_download.dest }}"
-        dest: /usr/local/bin
-        copy: false
-        mode: 0755
+    - name: Enable vault.service
+      ansible.builtin.systemd:
+        name: vault.service
+        enabled: true
 
-    - name: Create systemctl service
-      debug:
-        msg: "hey!"
+    # TODO: LetsEncrypt certificates
+    # TODO: Limit permissions and access of vault user
+    # TODO: Disable swap
+    # TODO: Workflow for unsealing vault after restart (manually?)
