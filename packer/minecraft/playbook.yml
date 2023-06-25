@@ -55,14 +55,18 @@
     - name: Get download URL for paper server
       when: paper_server_build_version == "latest"
       block:
-        - name: Get latest build of paper server
-          ansible.builtin.shell: |
-            curl -s https://papermc.io/api/v2/projects/paper/versions/{{ minecraft_server_version }}/ | jq -r '.builds[-1]'
+        - name: Fetch version list of Paper server
+          ansible.builtin.uri:
+            url: https://papermc.io/api/v2/projects/paper/versions/{{ minecraft_server_version }}/
+            method: GET
+            return_content: true
+            status_code: 200
+            body_format: json
           register: paper_server_build_version_check
 
         - name: Remember latest paper server build version
           ansible.builtin.set_fact:
-            latest_paper_server_version: "{{ paper_server_build_version_check.stdout }}"
+            latest_paper_server_version: "{{ paper_server_build_version_check.json.builds | last }}"
 
     - name: Set paper server build version
       ansible.builtin.set_fact:
@@ -76,6 +80,9 @@
       ansible.builtin.get_url:
         url: "{{ paper_server_download_url }}"
         dest: "{{ minecraft_server_location }}/paper-server.jar"
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Create minecraft.service systemd service file
       ansible.builtin.template:
