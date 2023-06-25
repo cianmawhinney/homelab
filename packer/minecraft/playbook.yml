@@ -74,7 +74,7 @@
 
     - name: Set paper server download URL
       ansible.builtin.set_fact:
-        paper_server_download_url: "https://api.papermc.io/v2/projects/paper/versions/{{ minecraft_server_version }}/builds/{{ requested_paper_server_version }}/downloads/paper-{{ minecraft_server_version }}-{{ requested_paper_server_version }}.jar"
+        paper_server_download_url: "https://api.papermc.io/v2/projects/paper/versions/{{ minecraft_server_version }}/builds/{{ requested_paper_server_version }}/downloads/paper-{{ minecraft_server_version }}-{{ requested_paper_server_version }}.jar"  # yamllint disable-line rule:line-length
 
     - name: Download Paper Server
       ansible.builtin.get_url:
