@@ -19,10 +19,10 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'  # https://github.com/cianmawhinney/homelab/issues/74
+          python-version: '3.10'
 
       - name: Install linting dependencies
-        run: pip install yamllint ansible-lint==6.12.2  # https://github.com/cianmawhinney/homelab/issues/74
+        run: pip install yamllint ansible-lint
 
       - name: Install external roles & collections for ansible-lint
         run: ansible-galaxy install -r ansible/requirements.yml

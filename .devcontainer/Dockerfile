@@ -1,7 +1,7 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/ubuntu/.devcontainer/base.Dockerfile
 
 # [Choice] Ubuntu version (use hirsuite or bionic on local arm64/Apple Silicon): hirsute, focal, bionic
-ARG VARIANT="hirsute"
+ARG VARIANT="ubuntu-22.04"
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 RUN apt-get update \
@@ -25,5 +25,5 @@ RUN apt-get update \
     && pip3 install \
         ansible \
         yamllint \
-        ansible-lint==6.12.2 \
+        ansible-lint \
     && rm -rf /var/lib/apt/lists/*
