@@ -1,17 +1,17 @@
 variable "proxmox_url" {
-  default = ""
+  default = "http://proxmox.example.com:8006/api2/json"
 }
 
 variable "proxmox_node" {
-  default = ""
+  default = "proxmox-01"
 }
 
 variable "proxmox_token_id" {
-  default = ""
+  default = "my-token-id"
 }
 
 variable "proxmox_token_secret" {
-  default = ""
+  default = "my-token-secret"
 }
 
 source "proxmox-iso" "ubuntu-2004" {
