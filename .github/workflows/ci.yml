@@ -27,14 +27,21 @@ jobs:
       - name: Install external roles & collections for ansible-lint
         run: ansible-galaxy install -r ansible/requirements.yml
 
-      - name: Lint ansible playbooks dir
-        run: yamllint ansible/ && ansible-lint
+      - name: Lint all ansible in repos
+        run: ansible-lint
 
       - name: Lint all yaml in repo
         run: yamllint .
 
+      - name: Initialise Packer
+        run: packer init .
+        working-directory: packer
+
+      - name: Validate Packer templates
+        run: packer validate .
+        working-directory: packer
+
   test:
-    needs: lint
     runs-on: ubuntu-latest
     steps:
       # TODO: Come up with a more rigorous test setup

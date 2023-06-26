@@ -7,7 +7,8 @@ name: Deploy
     branches:
       - master
     paths:
-      - templates
+      - packer
+      - terraform
   workflow_dispatch:
   schedule:
     - cron: 0 6 * * *  # every day at 6am
@@ -27,15 +28,15 @@ jobs:
 
       - name: Initialise Packer plugins
         run: packer init -upgrade .
-        working-directory: ./templates
+        working-directory: ./packer
 
       - name: Validate Templates
         run: packer validate -syntax-only .
-        working-directory: ./templates
+        working-directory: ./packer
 
       - name: Build Templates
         run: packer build -on-error=abort -force .
-        working-directory: ./templates
+        working-directory: ./packer
         env:
           PKR_VAR_proxmox_url: "${{ secrets.PROXMOX_URL }}"
           PKR_VAR_proxmox_node: "${{ secrets.PROXMOX_NODE }}"

@@ -21,8 +21,9 @@
 				"4ops.packer",
 				"hashicorp.terraform",
 				"GitHub.vscode-pull-request-github",
-				"cschleiden.vscode-github-actions",
-				"HashiCorp.terraform"
+				"HashiCorp.terraform",
+				"eamodio.gitlens",
+				"github.vscode-github-actions"
 			]
 		}
 	},

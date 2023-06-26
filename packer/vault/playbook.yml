@@ -1,0 +1,50 @@
+---
+
+- name: Install & Configure Vault
+  hosts: all
+  become: true
+  vars_files:
+    - variables.yml
+
+  tasks:
+    - name: Create vault user
+      ansible.builtin.user:
+        name: vault
+        shell: /bin/false
+        system: true
+
+    - name: Add hashicorp rpm repo
+      ansible.builtin.yum_repository:
+        name: hashicorp
+        description: Hashicorp Stable Repo
+        baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+        gpgcheck: true
+        gpgkey: https://rpm.releases.hashicorp.com/gpg
+
+    - name: Update package list cache
+      ansible.builtin.package:
+        update_cache: true
+
+    - name: Install vault package
+      ansible.builtin.package:
+        name:
+          - vault-{{ vault_version }}
+        state: present
+
+    - name: Copy vault config template
+      ansible.builtin.template:
+        src: templates/vault.hcl.j2
+        dest: /etc/vault.d/vault.hcl
+        owner: vault
+        group: vault
+        mode: '0644'
+
+    - name: Enable vault.service
+      ansible.builtin.systemd:
+        name: vault.service
+        enabled: true
+
+    # TODO: LetsEncrypt certificates
+    # TODO: Limit permissions and access of vault user
+    # TODO: Disable swap
+    # TODO: Workflow for unsealing vault after restart (manually?)

@@ -1,6 +1,0 @@
----
-
-minecraft_data_location: "/data"
-minecraft_server_location: "/opt/server"
-minecraft_server_version: "1.19.4" # TODO: only set this as a default, this should be set by the calling script
-paper_server_build_version: "latest" # TODO: this should mostly be determined automaticly, but it should be possible to override it
