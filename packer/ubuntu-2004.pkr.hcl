@@ -1,3 +1,19 @@
+variable "proxmox_url" {
+  default = ""
+}
+
+variable "proxmox_node" {
+  default = ""
+}
+
+variable "proxmox_token_id" {
+  default = ""
+}
+
+variable "proxmox_token_secret" {
+  default = ""
+}
+
 source "proxmox-iso" "ubuntu-2004" {
   proxmox_url          = "${var.proxmox_url}"
   node                 = "${var.proxmox_node}"
