@@ -49,7 +49,7 @@
 - name: Create Prowlarr container
   community.general.docker_container:
     name: prowlarr-app
-    image: linuxserver/prowlarr:1.7.0-develop
+    image: linuxserver/prowlarr:1.7.1-develop
     pull: true
     networks:
       - name: torrent_client_network
