@@ -29,7 +29,7 @@
   community.general.docker_container:
     name: monitorss-mongodb
     # mongo:5.0 requires a CPU with AVX
-    image: mongo:4.4
+    image: mongo:7.0
     pull: true
     networks:
       - name: monitorss_network
