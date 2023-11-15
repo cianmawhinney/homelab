@@ -1,4 +1,4 @@
 ---
 
-sonarr_dir: "{{ data_dir }}/sonarr"
-prowlarr_dir: "{{ data_dir }}/prowlarr"
+servarr_sonarr_dir: "{{ data_dir }}/sonarr"
+servarr_prowlarr_dir: "{{ data_dir }}/prowlarr"

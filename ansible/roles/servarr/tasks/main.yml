@@ -7,8 +7,8 @@
     mode: 0775
   with_items:
     - "{{ media_dir }}"
-    - "{{ sonarr_dir }}/config"
-    - "{{ prowlarr_dir }}/config"
+    - "{{ servarr_sonarr_dir }}/config"
+    - "{{ servarr_prowlarr_dir }}/config"
 
 - name: Create torrent client network
   community.general.docker_network:
@@ -31,7 +31,7 @@
     ports:
       - "8989"
     volumes:
-      - "{{ sonarr_dir }}/config:/config"
+      - "{{ servarr_sonarr_dir }}/config:/config"
       - "{{ media_dir }}:/data"
     env:
       PUID: "1000"
@@ -59,7 +59,7 @@
     ports:
       - "9696"
     volumes:
-      - "{{ prowlarr_dir }}/config:/config"
+      - "{{ servarr_prowlarr_dir }}/config:/config"
     env:
       PUID: "1000"
       PGID: "1000"
