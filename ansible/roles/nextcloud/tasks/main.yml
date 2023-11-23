@@ -38,7 +38,7 @@
 - name: Nextcloud - MariaDB container
   community.general.docker_container:
     name: nextcloud-mariadb
-    image: mariadb:10.7
+    image: mariadb:11.2
     pull: true
     networks:
       - name: nextcloud_network
