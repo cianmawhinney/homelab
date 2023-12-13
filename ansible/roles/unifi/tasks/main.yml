@@ -9,7 +9,7 @@
 - name: Create Unifi controller app container
   community.general.docker_container:
     name: unifi-app
-    image: linuxserver/unifi-controller:7.5.187
+    image: linuxserver/unifi-controller:8.0.24
     pull: true
     volumes:
       - "{{ data_dir }}/unifi:/config"
