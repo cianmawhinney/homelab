@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/cianmawhinney/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/cianmawhinney/homelab/actions/workflows/ci.yml)
 
-Inspired by David Stephen's [ansible-nas](https://github.com/davestephens/ansible-nas).
+Originally based on David Stephen's [ansible-nas](https://github.com/davestephens/ansible-nas).
 
 ## Future Plans
 This repository is currently undergoing a revamp. At present the Ansible playbook is the only section ready for use.
@@ -20,7 +20,7 @@ Kubernetes looks like a good fit to help with these problems, even if it is a ta
 
 ## Disclaimer
 I don't recommend you use this repository, it's intended to be purely a
-reference (and probably not even a very good one at that). 
+reference (and probably not even a very good one at that).
 
 The configuration sets up services the way I like them I like them. At a
 miniumum, you'll need to override some variables (especially secrets/passwords).
@@ -67,4 +67,3 @@ ansible-galaxy install -r requirements.yml
 ```bash
 ansible-playbook -i inventory main.yml
 ```
-
