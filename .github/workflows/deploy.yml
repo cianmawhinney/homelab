@@ -22,7 +22,7 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: main.yml
-          directory: ./ansible
+          directory: ansible
           key: ${{secrets.RUNNER_SSH_PRIVATE_KEY}}
           inventory: |
             [dockerhosts]
