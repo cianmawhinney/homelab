@@ -27,8 +27,13 @@ jobs:
       - name: Install external roles & collections for ansible-lint
         run: ansible-galaxy install -r ansible/requirements.yml
 
-      - name: Lint all ansible in repos
-        run: ansible-lint
+      - name: Lint all ansible playbooks in repo
+        run: |
+          echo "$VAULT_PASSWORD" > .vault_pass.txt
+          export ANSIBLE_VAULT_PASSWORD_FILE=".vault_pass.txt"
+          ansible-lint
+        env:
+          VAULT_PASSWORD: ${{secrets.VAULT_PASSWORD}}
 
       - name: Lint all yaml in repo
         run: yamllint .
@@ -45,6 +50,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # TODO: Come up with a more rigorous test setup
-      # Will likely need to be run on the selfhosted runner
       - name: Pass
         run: echo 'Looks good to me 🤪'

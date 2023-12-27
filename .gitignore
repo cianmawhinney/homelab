@@ -2,9 +2,8 @@
 */__pycache__
 *.pyc
 .cache
-ansible/vars.yml
 ansible/inventory
 .env*
-
+.vault_pass.txt
 
 *.test*

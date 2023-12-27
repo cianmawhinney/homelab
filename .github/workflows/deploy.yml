@@ -7,38 +7,53 @@ name: Deploy
     branches:
       - master
     paths:
-      - packer
-      - terraform
+      - ansible
   workflow_dispatch:
   schedule:
     - cron: 0 6 * * *  # every day at 6am
 
 
 jobs:
-  build-templates:
-    if: ${{ false }}  # disable for now
-    runs-on: self-hosted
+  deploy-prod-dryrun:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Packer
-        uses: hashicorp-contrib/setup-packer@v2
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: main.yml
+          directory: ./ansible
+          key: ${{secrets.RUNNER_SSH_PRIVATE_KEY}}
+          inventory: |
+            [dockerhosts]
+            139.59.190.200 ansible_user=root
+          vault_password: ${{secrets.VAULT_PASSWORD}}
+          requirements: requirements.yml
+          options: |
+            --check
+            --verbose
 
-      - name: Initialise Packer plugins
-        run: packer init -upgrade .
-        working-directory: ./packer
+  deploy-prod:
+    environment: prod
+    runs-on: ubuntu-latest
 
-      - name: Validate Templates
-        run: packer validate -syntax-only .
-        working-directory: ./packer
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Build Templates
-        run: packer build -on-error=abort -force .
-        working-directory: ./packer
-        env:
-          PKR_VAR_proxmox_url: "${{ secrets.PROXMOX_URL }}"
-          PKR_VAR_proxmox_node: "${{ secrets.PROXMOX_NODE }}"
-          PKR_VAR_proxmox_username: "${{ secrets.PROXMOX_TOKEN_ID }}"  # packer requires secret ID to be specified in username
-          PKR_VAR_proxmox_token_secret: "${{ secrets.PROXMOX_TOKEN_SECRET }}"
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: main.yml
+          directory: ./ansible
+          key: ${{secrets.RUNNER_SSH_PRIVATE_KEY}}
+          inventory: |
+            [dockerhosts]
+            139.59.190.200 ansible_user=root
+          vault_password: ${{secrets.VAULT_PASSWORD}}
+          requirements: requirements.yml
+          options: |
+            --verbose
