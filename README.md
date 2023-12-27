@@ -1,6 +1,7 @@
 # IaC Homelab Configuration
 
 [![CI](https://github.com/cianmawhinney/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/cianmawhinney/homelab/actions/workflows/ci.yml)
+[![Deploy](https://github.com/cianmawhinney/homelab/actions/workflows/deploy.yml/badge.svg)](https://github.com/cianmawhinney/homelab/actions/workflows/deploy.yml)
 
 Originally based on David Stephen's [ansible-nas](https://github.com/davestephens/ansible-nas).
 
