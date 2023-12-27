@@ -37,7 +37,7 @@ jobs:
             --verbose
 
   deploy-prod:
-    environment: prod
+    environment: production
     runs-on: ubuntu-latest
 
     steps:
