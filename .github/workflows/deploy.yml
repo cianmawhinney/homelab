@@ -7,7 +7,7 @@ name: Deploy
     branches:
       - master
     paths:
-      - ansible
+      - ./ansible/**
   workflow_dispatch:
   schedule:
     - cron: 0 6 * * *  # every day at 6am
