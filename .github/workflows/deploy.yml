@@ -14,28 +14,6 @@ name: Deploy
 
 
 jobs:
-  deploy-prod-dryrun:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          playbook: main.yml
-          directory: ./ansible
-          key: ${{secrets.RUNNER_SSH_PRIVATE_KEY}}
-          inventory: |
-            [dockerhosts]
-            139.59.190.200 ansible_user=root
-          vault_password: ${{secrets.VAULT_PASSWORD}}
-          requirements: requirements.yml
-          options: |
-            --check
-            --verbose
-
   deploy-prod:
     environment: production
     runs-on: ubuntu-latest
