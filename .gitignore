@@ -4,6 +4,6 @@
 .cache
 ansible/inventory
 .env*
-
+.vault_pass.txt
 
 *.test*

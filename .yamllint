@@ -5,3 +5,6 @@ extends: default
 rules:
   line-length: disable
   comments-indentation: disable
+
+ignore: |
+  ansible/vars.yml
