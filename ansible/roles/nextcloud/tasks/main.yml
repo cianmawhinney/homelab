@@ -37,7 +37,7 @@
 - name: Nextcloud - Redis container
   community.general.docker_container:
     name: nextcloud-redis
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     networks:
       - name: nextcloud_network
         aliases:
