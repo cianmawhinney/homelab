@@ -46,9 +46,9 @@ jobs:
         run: packer validate .
         working-directory: packer
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      # TODO: Come up with a more rigorous test setup
-      - name: Pass
-        run: echo 'Looks good to me 🤪'
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # TODO: Come up with a more rigorous test setup
+  #     - name: Pass
+  #       run: echo 'Looks good to me 🤪'
