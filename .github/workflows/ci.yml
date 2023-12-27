@@ -29,9 +29,11 @@ jobs:
 
       - name: Lint all ansible playbooks in repo
         run: |
-          echo ${{secrets.VAULT_PASSWORD}} > .vault_pass.txt
+          echo "$VAULT_PASSWORD" > .vault_pass.txt
           export ANSIBLE_VAULT_PASSWORD_FILE=".vault_pass.txt"
           ansible-lint
+        env:
+          VAULT_PASSWORD: ${{secrets.VAULT_PASSWORD}}
 
       - name: Lint all yaml in repo
         run: yamllint .
