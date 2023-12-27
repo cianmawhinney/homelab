@@ -2,8 +2,7 @@
 
 nextcloud_dir: "{{ data_dir }}/nextcloud"
 
-nextcloud_version: "production-apache"
-
+# These should be overridden with secure values
 nextcloud_sql_user: "nextcloud-user"
 nextcloud_sql_pass: "nextcloud-pass"
 nextcloud_sql_secret: "nextcloud-secret"

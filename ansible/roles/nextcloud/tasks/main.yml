@@ -9,28 +9,6 @@
     - db
     - data
 
-- name: Copy nextcloud Dockerfile to host
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: "{{ nextcloud_dir }}/{{ item }}"
-    mode: 0775
-  with_items:
-    - Dockerfile
-    - .dockerignore
-  register: nextcloud_dockerfile
-
-- name: Build nextcloud image with smbclient installed
-  community.general.docker_image:
-    name: "{{ registry_host }}:{{ registry_port }}/nextcloud"
-    tag: "{{ nextcloud_version }}-smb"
-    build:
-      pull: true
-      path: "{{ nextcloud_dir }}"
-    push: true
-    source: build
-    force_source: "{{ nextcloud_dockerfile.changed }}"
-  register: nextcloud_image
-
 - name: Create nextcloud network
   community.general.docker_network:
     name: nextcloud_network
@@ -72,8 +50,7 @@
 - name: Nextcloud - Cron container
   community.general.docker_container:
     name: nextcloud-cron
-    image: "{{ registry_host }}:{{ registry_port }}/nextcloud:{{ nextcloud_version }}-smb"
-    recreate: "{{ nextcloud_image.changed }}"
+    image: "nextcloud:28.0.1-apache"
     networks:
       - name: nextcloud_network
         aliases:
@@ -88,8 +65,7 @@
 - name: Nextcloud - App container
   community.general.docker_container:
     name: nextcloud-app
-    image: "{{ registry_host }}:{{ registry_port }}/nextcloud:{{ nextcloud_version }}-smb"
-    recreate: "{{ nextcloud_image.changed }}"
+    image: "nextcloud:28.0.1-apache"
     networks:
       - name: nextcloud_network
         aliases:
