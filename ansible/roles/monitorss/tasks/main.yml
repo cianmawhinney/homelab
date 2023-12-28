@@ -15,7 +15,7 @@
 - name: MonitoRSS - Redis container
   community.general.docker_container:
     name: monitorss-redis
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     pull: true
     networks:
       - name: monitorss_network
