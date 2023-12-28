@@ -24,6 +24,14 @@
     mode: 0775
   become: true
 
+- name: Set up netbox redis cache directory
+  ansible.builtin.file:
+    path: "{{ netbox_dir }}/redis-cache"
+    state: directory
+    owner: 999
+    mode: 0775
+  become: true
+
 - name: Create netbox shared network
   community.general.docker_network:
     name: netbox_network
@@ -50,7 +58,7 @@
 - name: Netbox - Redis container
   community.general.docker_container:
     name: netbox-redis
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     pull: true
     networks:
       - name: netbox_network
@@ -66,13 +74,15 @@
 - name: Netbox - Redis cache container
   community.general.docker_container:
     name: netbox-redis-cache
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     pull: true
     networks:
       - name: netbox_network
         aliases:
           - redis-cache
     network_mode: default
+    volumes:
+      - "{{ netbox_dir }}/redis-cache:/data"
     restart_policy: always
     container_default_behavior: compatibility
 
@@ -80,7 +90,7 @@
 - name: Netbox - App container
   community.general.docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v3.1
+    image: netboxcommunity/netbox:v3.6.7
     pull: true
     ports:
       - "8080"
@@ -98,13 +108,17 @@
       DB_NAME: netbox
       DB_USER: "{{ netbox_db_user }}"
       DB_PASSWORD: "{{ netbox_db_pass }}"
-      REDIS_CACHE_DATABASE: "1"
-      REDIS_CACHE_HOST: "redis-cache"
-      REDIS_CACHE_SSL: "false"
+
       REDIS_DATABASE: "0"
       REDIS_HOST: "redis"
       REDIS_SSL: "false"
+
+      REDIS_CACHE_DATABASE: "1"
+      REDIS_CACHE_HOST: "redis-cache"
+      REDIS_CACHE_SSL: "false"
+
       LOGIN_REQUIRED: "true"
+      RELEASE_CHECK_URL: "https://api.github.com/repos/netbox-community/netbox/releases"
     restart_policy: unless-stopped
     container_default_behavior: compatibility
     labels:
@@ -122,7 +136,7 @@
 - name: Netbox - Housekeeping
   community.general.docker_container:
     name: netbox-housekeeping
-    image: netboxcommunity/netbox:v3.1
+    image: netboxcommunity/netbox:v3.6.7
     pull: true
     networks:
       - name: netbox_network
@@ -134,13 +148,17 @@
       DB_NAME: netbox
       DB_USER: "{{ netbox_db_user }}"
       DB_PASSWORD: "{{ netbox_db_pass }}"
-      REDIS_CACHE_DATABASE: "1"
-      REDIS_CACHE_HOST: "redis-cache"
-      REDIS_CACHE_SSL: "false"
+
       REDIS_DATABASE: "0"
       REDIS_HOST: "redis"
       REDIS_SSL: "false"
+
+      REDIS_CACHE_DATABASE: "1"
+      REDIS_CACHE_HOST: "redis-cache"
+      REDIS_CACHE_SSL: "false"
+
       LOGIN_REQUIRED: "true"
+      RELEASE_CHECK_URL: "https://api.github.com/repos/netbox-community/netbox/releases"
     restart_policy: unless-stopped
     container_default_behavior: compatibility
     command:
