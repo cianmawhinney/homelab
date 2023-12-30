@@ -21,7 +21,7 @@
 - name: Create Sonarr container
   community.general.docker_container:
     name: sonarr-app
-    image: linuxserver/sonarr:3.0.10
+    image: linuxserver/sonarr:4.0.0
     pull: true
     networks:
       - name: torrent_client_network
