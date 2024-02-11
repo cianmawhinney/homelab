@@ -14,9 +14,13 @@ name: Deploy
 
 
 jobs:
+  # This is a bit of a hack - ideally deployments would happen using something like AWX, but this mostly works (kind of)
   deploy-prod:
     environment: production
     runs-on: ubuntu-latest
+    concurrency:
+      group: ansible-deployment-production
+      cancel-in-progress: false
 
     steps:
       - name: Checkout repository
