@@ -90,7 +90,7 @@
 - name: Netbox - App container
   community.general.docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v3.7.1
+    image: netboxcommunity/netbox:v3.7.2
     pull: true
     ports:
       - "8080"
@@ -136,7 +136,7 @@
 - name: Netbox - Housekeeping
   community.general.docker_container:
     name: netbox-housekeeping
-    image: netboxcommunity/netbox:v3.7.1
+    image: netboxcommunity/netbox:v3.7.2
     pull: true
     networks:
       - name: netbox_network
