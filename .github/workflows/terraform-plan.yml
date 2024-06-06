@@ -1,0 +1,26 @@
+---
+    
+name: Terraform Plan
+'on':
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  plan:
+    defaults:
+      run:
+        working-directory: terraform
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - run: terraform fmt -check
+      - run: terraform init
+      - run: terraform validate -no-color
+      - run: terraform plan
