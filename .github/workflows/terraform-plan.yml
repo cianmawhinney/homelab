@@ -1,5 +1,5 @@
 ---
-    
+
 name: Terraform Plan
 'on':
   pull_request:
@@ -10,16 +10,16 @@ name: Terraform Plan
       - master
 
 jobs:
-  plan:    
+  plan:
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         working-directory: terraform
-        
+
     env:
       DIGITALOCEAN_TOKEN: ${secrets.DIGITALOCEAN_TOKEN}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
