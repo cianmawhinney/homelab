@@ -10,13 +10,20 @@ name: Terraform Plan
       - master
 
 jobs:
-  plan:
+  plan:    
+    runs-on: ubuntu-latest
+    
     defaults:
       run:
         working-directory: terraform
-
-    runs-on: ubuntu-latest
+        
+    env:
+      DIGITALOCEAN_TOKEN: ${secrets.DIGITALOCEAN_TOKEN}
+    
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
