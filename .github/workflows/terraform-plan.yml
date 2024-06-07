@@ -1,0 +1,68 @@
+---
+
+name: Terraform Plan & Apply
+'on':
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+
+      - run: terraform fmt -check
+      - run: terraform init
+      - run: terraform validate -no-color
+      - run: terraform plan -out=tfplan -var "do_token=${{secrets.DIGITALOCEAN_TOKEN}}"
+
+      - name: Save Terraform plan for later
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: terraform/tfplan
+          if-no-files-found: error
+
+
+  apply:
+    needs: plan
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+
+      - run: terraform init
+
+      - name: Download plan
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: terraform/
+
+      - run: terraform apply -out=tfplan -var "do_token=${{secrets.DIGITALOCEAN_TOKEN}}"
