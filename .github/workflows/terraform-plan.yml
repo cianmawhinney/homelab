@@ -65,4 +65,4 @@ jobs:
           name: tfplan
           path: terraform/
 
-      - run: terraform apply -out=tfplan -var "do_token=${{secrets.DIGITALOCEAN_TOKEN}}"
+      - run: terraform apply -auto-approve tfplan -var "do_token=${{secrets.DIGITALOCEAN_TOKEN}}"
