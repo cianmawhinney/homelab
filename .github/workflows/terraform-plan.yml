@@ -35,7 +35,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: tfplan
+          path: terraform/tfplan
+          if-no-files-found: error
+
 
   apply:
     needs: plan
@@ -61,5 +63,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
+          path: terraform/
 
       - run: terraform apply -out=tfplan -var "do_token=${{secrets.DIGITALOCEAN_TOKEN}}"
