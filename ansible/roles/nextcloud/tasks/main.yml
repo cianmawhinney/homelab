@@ -50,7 +50,7 @@
 - name: Nextcloud - Cron container
   community.general.docker_container:
     name: nextcloud-cron
-    image: "nextcloud:29.0.3-apache"
+    image: "nextcloud:29.0.5-apache"
     networks:
       - name: nextcloud_network
         aliases:
@@ -65,7 +65,7 @@
 - name: Nextcloud - App container
   community.general.docker_container:
     name: nextcloud-app
-    image: "nextcloud:29.0.3-apache"
+    image: "nextcloud:29.0.5-apache"
     networks:
       - name: nextcloud_network
         aliases:
