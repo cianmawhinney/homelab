@@ -1,6 +1,9 @@
 {
+  "configMigration": true,
   "extends": [
-    "config:base",
-    ":dependencyDashboard"
+    "config:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
+    ":pinDevDependencies"
   ]
 }
