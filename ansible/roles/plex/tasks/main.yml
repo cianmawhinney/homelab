@@ -13,7 +13,7 @@
 - name: Create Plex server container
   community.general.docker_container:
     name: plex-app
-    image: linuxserver/plex:1.40.5
+    image: linuxserver/plex:1.41.0@sha256:0c4e1981b23c3bdf2892cb9b85c299137af55390044dd5cfdd33bdbc4e32ee1f
     pull: true
     network_mode: default
     ports:
