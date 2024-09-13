@@ -39,7 +39,7 @@
 - name: Netbox - Postgres DB container
   community.general.docker_container:
     name: netbox-postgres
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:d898b0b78a2627cb4ee63464a14efc9d296884f1b28c841b0ab7d7c42f1fffdf
     pull: true
     networks:
       - name: netbox_network
@@ -58,7 +58,7 @@
 - name: Netbox - Redis container
   community.general.docker_container:
     name: netbox-redis
-    image: redis:7.4-alpine
+    image: redis:7.4-alpine@sha256:c35af3bbcef51a62c8bae5a9a563c6f1b60d7ebaea4cb5a3ccbcc157580ae098
     pull: true
     networks:
       - name: netbox_network
@@ -74,7 +74,7 @@
 - name: Netbox - Redis cache container
   community.general.docker_container:
     name: netbox-redis-cache
-    image: redis:7.4-alpine
+    image: redis:7.4-alpine@sha256:c35af3bbcef51a62c8bae5a9a563c6f1b60d7ebaea4cb5a3ccbcc157580ae098
     pull: true
     networks:
       - name: netbox_network
@@ -90,7 +90,7 @@
 - name: Netbox - App container
   community.general.docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v4.1.0
+    image: netboxcommunity/netbox:v4.1.0@sha256:0b4aee06a217355997826462456d185c77d67994304c4db865cc7ed194898804
     pull: true
     ports:
       - "8080"
@@ -136,7 +136,7 @@
 - name: Netbox - Housekeeping
   community.general.docker_container:
     name: netbox-housekeeping
-    image: netboxcommunity/netbox:v4.1.0
+    image: netboxcommunity/netbox:v4.1.0@sha256:0b4aee06a217355997826462456d185c77d67994304c4db865cc7ed194898804
     pull: true
     networks:
       - name: netbox_network

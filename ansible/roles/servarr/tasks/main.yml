@@ -21,7 +21,7 @@
 - name: Create Sonarr container
   community.general.docker_container:
     name: sonarr-app
-    image: linuxserver/sonarr:3.0.10
+    image: linuxserver/sonarr:3.0.10@sha256:4f69472a0cdea29e23967db6a3395487539b759def3920327d1f49ae00b9dfd4
     pull: true
     networks:
       - name: torrent_client_network
@@ -49,7 +49,7 @@
 - name: Create Prowlarr container
   community.general.docker_container:
     name: prowlarr-app
-    image: linuxserver/prowlarr:1.24.0-develop
+    image: linuxserver/prowlarr:1.24.0-develop@sha256:a0b464915a1b6f98b749aec41c62c716b9ef0c0490ed556505f138c3355e2a16
     pull: true
     networks:
       - name: torrent_client_network
