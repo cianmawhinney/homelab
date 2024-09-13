@@ -38,18 +38,32 @@
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 
-	// automatically install ansible dependencies for this project
-	"postCreateCommand": "ansible-galaxy install -r ansible/requirements.yml",
+	"remoteEnv": {
+		"SYNC_LOCALHOST_KUBECONFIG": "true"
+	},
+
+	"initializeCommand": "cd .devcontainer && bash ensure-mount-sources",
 
 	// "mounts": ["source=${localEnv:HOME}${localEnv:USERPROFILE}\\.terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached"]
 	"mounts": [
-		"source=c:\\Users\\Cian\\AppData\\Roaming\\terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached"
+		"source=c:\\Users\\Cian\\AppData\\Roaming\\terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind,consistency=cached"
 	],
 
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/digitalocean-cli:1": { },
 		"ghcr.io/devcontainers/features/terraform:1": { },
-		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": { },
-		"ghcr.io/devcontainers/features/docker-in-docker:2": { }
-	}
+
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+			"minikube": "none"
+		},
+		"./local-features/copy-kube-config": { }
+	},
+
+	// automatically install ansible dependencies for this project
+	"postCreateCommand": "ansible-galaxy install -r ansible/requirements.yml"
 }
