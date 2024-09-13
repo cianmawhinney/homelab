@@ -3,7 +3,7 @@
 - name: Install app
   community.general.docker_container:
     name: hello
-    image: nginxdemos/hello
+    image: nginxdemos/hello@sha256:f29f5d274815a6ee8f26fe9065d300bd346be1e39a02784842fce8b1f98e013d
     ports:
       - "80"
     container_default_behavior: compatibility

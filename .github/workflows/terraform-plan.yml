@@ -19,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 
@@ -32,7 +32,7 @@ jobs:
       - run: terraform plan -out=tfplan -var "do_token=${{secrets.DIGITALOCEAN_TOKEN}}"
 
       - name: Save Terraform plan for later
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4
         with:
           name: tfplan
           path: terraform/tfplan
@@ -50,17 +50,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 
       - run: terraform init
 
       - name: Download plan
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
         with:
           name: tfplan
           path: terraform/

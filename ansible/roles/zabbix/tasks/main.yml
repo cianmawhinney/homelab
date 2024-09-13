@@ -1,12 +1,11 @@
 ---
-
 - name: Create data directories
   ansible.builtin.file:
     state: directory
     name: "{{ zabbix_dir }}/{{ item }}"
-    mode: 0775
+    mode: "0775"
   with_items:
-    - config  # TODO: Find a better name for config (maybe something like `installation`?)
+    - config # TODO: Find a better name for config (maybe something like `installation`?)
     - scripts
     - db
 
@@ -17,7 +16,7 @@
 - name: MariaDB database container
   community.general.docker_container:
     name: zabbix-mariadb
-    image: mariadb:10.7
+    image: mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7ca459bf14b2f7b85a0e38a5454571
     pull: true
     command: "mysqld --character-set-server=utf8 --collation-server=utf8_bin"
     volumes:
@@ -38,7 +37,7 @@
 - name: Zabbix agent container
   community.general.docker_container:
     name: zabbix-agent
-    image: zabbix/zabbix-agent:alpine-5.2-latest
+    image: zabbix/zabbix-agent:alpine-5.2-latest@sha256:8e914db868957fb99f2205cbcc78f5716db2817ab9f0600ce549818a1168c209
     pull: true
     # ports:
     #   - "10050:10050"
@@ -59,7 +58,7 @@
 - name: Main server container
   community.general.docker_container:
     name: zabbix-server
-    image: zabbix/zabbix-server-mysql:alpine-5.2-latest
+    image: zabbix/zabbix-server-mysql:alpine-5.2-latest@sha256:130538197213ae2c25eb155292024d3ac468b4ae7a40d3b80a1d2e9a8132c8ae
     pull: true
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -74,7 +73,7 @@
       - "{{ zabbix_dir }}/config/snmptraps:/var/lib/zabbix/snmptraps:rw"
     env:
       DB_SERVER_HOST: db
-      DB_SERVER_PORT: '3306'
+      DB_SERVER_PORT: "3306"
       MYSQL_USER: "{{ zabbix_db_user }}"
       MYSQL_PASSWORD: "{{ zabbix_db_pass }}"
     networks:
@@ -86,7 +85,7 @@
 - name: SNMP traps container
   community.general.docker_container:
     name: zabbix-snmptraps
-    image: zabbix/zabbix-snmptraps:alpine-5.2-latest
+    image: zabbix/zabbix-snmptraps:alpine-5.2-latest@sha256:8a8a7556b6af7905b6a0ae76f3d1453dd1eb40654692c3d316fef5ca2f2d90bf
     pull: true
     ports:
       - "162:1162/udp"
@@ -101,13 +100,13 @@
 - name: Front end container
   community.general.docker_container:
     name: zabbix-frontend
-    image: zabbix/zabbix-web-apache-mysql:alpine-5.2-latest
+    image: zabbix/zabbix-web-apache-mysql:alpine-5.2-latest@sha256:28d7526384a7eb2628c200722a02c636ad91bc549504e8cce67298d64a79c93b
     pull: true
     ports:
       - "8080"
     env:
       DB_SERVER_HOST: db
-      DB_SERVER_PORT: '3306'
+      DB_SERVER_PORT: "3306"
       MYSQL_USER: "{{ zabbix_db_user }}"
       MYSQL_PASSWORD: "{{ zabbix_db_pass }}"
     networks:

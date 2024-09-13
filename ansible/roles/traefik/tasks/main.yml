@@ -1,10 +1,9 @@
 ---
-
 - name: Create Traefik data directory
   ansible.builtin.file:
     path: "{{ data_dir }}/{{ item }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   with_items:
     - traefik
     - traefik/letsencrypt
@@ -13,14 +12,14 @@
   ansible.builtin.template:
     src: traefik.yml
     dest: "{{ data_dir }}/traefik/traefik.yml"
-    mode: 0775
+    mode: "0775"
   register: template
 
 - name: Create app container
   community.general.docker_container:
     name: traefik
-    image: traefik:2.11
-    network_mode: host  # any port open in the container is bound to the host
+    image: traefik:2.11@sha256:ff991fd051b2652f3994f38ea0170cfdc4d48c533855f894244d8a716b97dd28
+    network_mode: host # any port open in the container is bound to the host
     volumes:
       - "{{ data_dir }}/traefik/traefik.yml:/etc/traefik/traefik.yml:ro"
       - "{{ data_dir }}/traefik/letsencrypt:/letsencrypt:rw"
