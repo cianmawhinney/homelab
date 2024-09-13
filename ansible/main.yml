@@ -1,5 +1,4 @@
 ---
-
 - name: Set up all services for homelab
   hosts: all
 
@@ -30,7 +29,7 @@
 
     - name: Upgrade apt packages
       ansible.builtin.apt:
-        upgrade: 'yes'
+        upgrade: "yes"
       become: true
       when: ansible_os_family == 'Debian'
 
@@ -39,7 +38,7 @@
       ansible.builtin.file:
         path: "{{ data_dir }}"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Set up local docker registry
       ansible.builtin.import_role:

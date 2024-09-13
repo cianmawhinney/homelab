@@ -1,11 +1,10 @@
 ---
-
 - name: Set up netbox data directory
   ansible.builtin.file:
     path: "{{ netbox_dir }}/app/media"
     state: directory
     owner: root
-    mode: 0775
+    mode: "0775"
   become: true
 
 - name: Set up netbox database directory
@@ -13,7 +12,7 @@
     path: "{{ netbox_dir }}/db"
     state: directory
     owner: 70
-    mode: 0700
+    mode: "0700"
   become: true
 
 - name: Set up netbox redis directory
@@ -21,7 +20,7 @@
     path: "{{ netbox_dir }}/redis"
     state: directory
     owner: 999
-    mode: 0775
+    mode: "0775"
   become: true
 
 - name: Set up netbox redis cache directory
@@ -29,7 +28,7 @@
     path: "{{ netbox_dir }}/redis-cache"
     state: directory
     owner: 999
-    mode: 0775
+    mode: "0775"
   become: true
 
 - name: Create netbox shared network

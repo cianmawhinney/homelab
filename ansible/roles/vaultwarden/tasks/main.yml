@@ -1,10 +1,9 @@
 ---
-
 - name: Set up vaultwarden data directories
   ansible.builtin.file:
     path: "{{ vaultwarden_dir }}"
     state: directory
-    mode: 0775
+    mode: "0775"
 
 - name: Vaultwarden - App contrainer
   community.general.docker_container:

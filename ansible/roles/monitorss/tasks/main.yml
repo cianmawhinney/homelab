@@ -1,10 +1,9 @@
 ---
-
 - name: Create MonitoRSS data directories
   ansible.builtin.file:
     state: directory
     path: "{{ monitorss_dir }}/{{ item }}"
-    mode: 0775
+    mode: "0775"
   with_items:
     - db
 
