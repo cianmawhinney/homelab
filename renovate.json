@@ -5,5 +5,12 @@
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
     ":pinDevDependencies"
+  ],
+  "packageRules": [
+    {
+      "description": "Automerge digest updates",
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    }
   ]
 }
