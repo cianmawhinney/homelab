@@ -18,7 +18,7 @@
 - name: Create app container
   community.general.docker_container:
     name: traefik
-    image: traefik:2.11@sha256:22f1cdebaf644b0e7ce4a3be5c4efa4272ca442eb9851c70bf53313c20cf7fe6
+    image: traefik:2.11@sha256:e1365eb855ba412565f066b4e79dc6e405087256ae6382e4716883f3a05b4f56
     network_mode: host # any port open in the container is bound to the host
     volumes:
       - "{{ data_dir }}/traefik/traefik.yml:/etc/traefik/traefik.yml:ro"
