@@ -89,7 +89,7 @@
 - name: Netbox - App container
   community.general.docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v4.1.3@sha256:46a5ff45382c13bf10f8c9d425a2e43f9c2238c40f49debafe77a318667b8d8a
+    image: netboxcommunity/netbox:v4.1.3@sha256:f18570dee95938d1780d15d7c7a42415693b777deb4e650578bbb82ab91a9fa7
     pull: true
     ports:
       - "8080"
@@ -135,7 +135,7 @@
 - name: Netbox - Housekeeping
   community.general.docker_container:
     name: netbox-housekeeping
-    image: netboxcommunity/netbox:v4.1.3@sha256:46a5ff45382c13bf10f8c9d425a2e43f9c2238c40f49debafe77a318667b8d8a
+    image: netboxcommunity/netbox:v4.1.3@sha256:f18570dee95938d1780d15d7c7a42415693b777deb4e650578bbb82ab91a9fa7
     pull: true
     networks:
       - name: netbox_network
