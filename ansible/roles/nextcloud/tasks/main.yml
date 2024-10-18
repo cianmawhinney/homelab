@@ -49,7 +49,7 @@
 - name: Nextcloud - Cron container
   community.general.docker_container:
     name: nextcloud-cron
-    image: "nextcloud:29.0.8-apache@sha256:67b507c9a346740255ae80dbd17b3728abc8e6ecd4bdcadaec4f791b79f11d30"
+    image: "nextcloud:29.0.8-apache@sha256:d61b8f8131d8a907b698733fdca74e4b6c5a524e72d02d66d722b2d8b19be24b"
     networks:
       - name: nextcloud_network
         aliases:
@@ -64,7 +64,7 @@
 - name: Nextcloud - App container
   community.general.docker_container:
     name: nextcloud-app
-    image: "nextcloud:29.0.8-apache@sha256:67b507c9a346740255ae80dbd17b3728abc8e6ecd4bdcadaec4f791b79f11d30"
+    image: "nextcloud:29.0.8-apache@sha256:d61b8f8131d8a907b698733fdca74e4b6c5a524e72d02d66d722b2d8b19be24b"
     networks:
       - name: nextcloud_network
         aliases:
