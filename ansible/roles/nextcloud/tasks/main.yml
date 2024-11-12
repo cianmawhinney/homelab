@@ -17,6 +17,7 @@
     name: nextcloud-mariadb
     image: mariadb:10.11@sha256:5c2a279eacfa00bd4453b10569e36d8ee24331cdc09273df70c4dbd383c277b4
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: nextcloud_network
         aliases:
@@ -37,12 +38,13 @@
   community.general.docker_container:
     name: nextcloud-redis
     image: redis:7.4-alpine@sha256:be113c8e5689dd5391c4c082972bb651ab739e63c285ad4938efe9cffbce7320
+    pull: true
+    image_name_mismatch: recreate
     networks:
       - name: nextcloud_network
         aliases:
           - redis
     network_mode: default
-    pull: true
     restart_policy: always
     container_default_behavior: compatibility
 
@@ -50,6 +52,8 @@
   community.general.docker_container:
     name: nextcloud-cron
     image: "nextcloud:29.0.9-apache@sha256:6317bdb4e169251e1b28fce2b9cdba7f6221eb14e54c8afea8d5c81baa4aae53"
+    pull: true
+    image_name_mismatch: recreate
     networks:
       - name: nextcloud_network
         aliases:
@@ -65,6 +69,8 @@
   community.general.docker_container:
     name: nextcloud-app
     image: "nextcloud:29.0.9-apache@sha256:6317bdb4e169251e1b28fce2b9cdba7f6221eb14e54c8afea8d5c81baa4aae53"
+    pull: true
+    image_name_mismatch: recreate
     networks:
       - name: nextcloud_network
         aliases:

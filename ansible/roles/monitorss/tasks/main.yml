@@ -16,6 +16,7 @@
     name: monitorss-redis
     image: redis:7.4-alpine@sha256:be113c8e5689dd5391c4c082972bb651ab739e63c285ad4938efe9cffbce7320
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: monitorss_network
         aliases:
@@ -30,6 +31,7 @@
     # mongo:5.0 requires a CPU with AVX
     image: mongo:4.4@sha256:52c42cbab240b3c5b1748582cc13ef46d521ddacae002bbbda645cebed270ec0
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: monitorss_network
         aliases:
@@ -45,6 +47,7 @@
     name: monitorss-bot
     image: synzen/monitorss@sha256:4fc4ef49007c18f89bf7423c7b3cdea7864f2330589c0961faedcdb82490c311
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: monitorss_network
         aliases:
@@ -62,6 +65,7 @@
     name: monitorss-web
     image: synzen/monitorss@sha256:4fc4ef49007c18f89bf7423c7b3cdea7864f2330589c0961faedcdb82490c311
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: monitorss_network
         aliases:

@@ -40,6 +40,7 @@
     name: netbox-postgres
     image: postgres:16-alpine@sha256:77987f53a748f1d1f5d300026c20e302718089c33d58ad4e0742d7b1661d5c7b
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: netbox_network
         aliases:
@@ -59,6 +60,7 @@
     name: netbox-redis
     image: redis:7.4-alpine@sha256:be113c8e5689dd5391c4c082972bb651ab739e63c285ad4938efe9cffbce7320
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: netbox_network
         aliases:
@@ -75,6 +77,7 @@
     name: netbox-redis-cache
     image: redis:7.4-alpine@sha256:be113c8e5689dd5391c4c082972bb651ab739e63c285ad4938efe9cffbce7320
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: netbox_network
         aliases:
@@ -91,6 +94,7 @@
     name: netbox-app
     image: netboxcommunity/netbox:v4.1.6@sha256:3b5bfc5f01ecbeac482f1d18f76e70892270cdf393b599c4cad47a8cc1b5de79
     pull: true
+    image_name_mismatch: recreate
     ports:
       - "8080"
     networks:
