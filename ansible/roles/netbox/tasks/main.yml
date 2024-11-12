@@ -38,7 +38,7 @@
 - name: Netbox - Postgres DB container
   community.general.docker_container:
     name: netbox-postgres
-    image: postgres:16-alpine@sha256:f10807d18845022be090a408390e66fc7babc5345914fa965640c41541d81329
+    image: postgres:16-alpine@sha256:77987f53a748f1d1f5d300026c20e302718089c33d58ad4e0742d7b1661d5c7b
     pull: true
     networks:
       - name: netbox_network
