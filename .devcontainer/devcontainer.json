@@ -23,7 +23,8 @@
 				"GitHub.vscode-pull-request-github",
 				"HashiCorp.terraform",
 				"eamodio.gitlens",
-				"github.vscode-github-actions"
+				"github.vscode-github-actions",
+				"ms-vscode.makefile-tools"
 			]
 		}
 	},
@@ -61,7 +62,11 @@
 		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
 			"minikube": "none"
 		},
-		"./local-features/copy-kube-config": { }
+		"./local-features/copy-kube-config": { },
+		"ghcr.io/audacioustux/devcontainers/argo:1": {
+			"argocd": true,
+			"argo": true
+		}
 	},
 
 	// automatically install ansible dependencies for this project
