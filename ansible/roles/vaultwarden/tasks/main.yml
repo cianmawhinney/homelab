@@ -8,7 +8,7 @@
 - name: Vaultwarden - App contrainer
   community.general.docker_container:
     name: vaultwarden-app
-    image: vaultwarden/server:1.32.2-alpine@sha256:7d69bfbf51b74a93e951f9949e7ce772e22ef0161afca8f1403d7144b2bc868d
+    image: vaultwarden/server:1.32.4-alpine@sha256:3eda23498a8199e58e81b01f68a3f028830224ed6f5651c8f0be33e15e5db0b7
     pull: true
     image_name_mismatch: recreate
     ports:
