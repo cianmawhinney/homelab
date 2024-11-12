@@ -18,6 +18,7 @@
     name: transmission-app
     image: linuxserver/transmission:3.00-r5-ls125@sha256:bd0155450055a611f14861e5a9408abb03687560629f69f15b8820dd553c5aec
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: torrent_client_network
         aliases:

@@ -10,6 +10,7 @@
     name: unifi-app
     image: linuxserver/unifi-controller:7.5.187@sha256:4d0acd08916712c906979a63b736a0ccdce4b6c748ccb90e65a320cb23bb5362
     pull: true
+    image_name_mismatch: recreate
     volumes:
       - "{{ data_dir }}/unifi:/config"
     env:

@@ -9,6 +9,8 @@
   community.general.docker_container:
     name: registry
     image: "registry:2.8@sha256:543dade69668e02e5768d7ea2b0aa4fae6aa7384c9a5a8dbecc2be5136079ddb"
+    pull: true
+    image_name_mismatch: recreate
     ports: "{{ registry_port }}:5000"
     volumes:
       - "{{ registry_dir }}:/var/lib/registry/"

@@ -18,6 +18,7 @@
     name: zabbix-mariadb
     image: mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7ca459bf14b2f7b85a0e38a5454571
     pull: true
+    image_name_mismatch: recreate
     command: "mysqld --character-set-server=utf8 --collation-server=utf8_bin"
     volumes:
       - "{{ zabbix_dir }}/db:/var/lib/mysql"
@@ -39,6 +40,7 @@
     name: zabbix-agent
     image: zabbix/zabbix-agent:alpine-5.2-latest@sha256:8e914db868957fb99f2205cbcc78f5716db2817ab9f0600ce549818a1168c209
     pull: true
+    image_name_mismatch: recreate
     # ports:
     #   - "10050:10050"
     volumes:
@@ -60,6 +62,7 @@
     name: zabbix-server
     image: zabbix/zabbix-server-mysql:alpine-5.2-latest@sha256:130538197213ae2c25eb155292024d3ac468b4ae7a40d3b80a1d2e9a8132c8ae
     pull: true
+    image_name_mismatch: recreate
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -87,6 +90,7 @@
     name: zabbix-snmptraps
     image: zabbix/zabbix-snmptraps:alpine-5.2-latest@sha256:8a8a7556b6af7905b6a0ae76f3d1453dd1eb40654692c3d316fef5ca2f2d90bf
     pull: true
+    image_name_mismatch: recreate
     ports:
       - "162:1162/udp"
     volumes:
@@ -102,6 +106,7 @@
     name: zabbix-frontend
     image: zabbix/zabbix-web-apache-mysql:alpine-5.2-latest@sha256:28d7526384a7eb2628c200722a02c636ad91bc549504e8cce67298d64a79c93b
     pull: true
+    image_name_mismatch: recreate
     ports:
       - "8080"
     env:
