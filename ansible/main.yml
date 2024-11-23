@@ -83,6 +83,7 @@
         name: watchtower
       tags:
         - watchtower
+      when: false
 
     - name: Set up netbox
       ansible.builtin.import_role:
