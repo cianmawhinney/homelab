@@ -141,6 +141,7 @@
     name: netbox-housekeeping
     image: netboxcommunity/netbox:v4.1.7@sha256:ca05c51a706eb130012c0058dacc16d427cd013ca820a8918adfa2299759a635
     pull: true
+    image_name_mismatch: recreate
     networks:
       - name: netbox_network
     volumes:
