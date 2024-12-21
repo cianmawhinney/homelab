@@ -51,7 +51,7 @@
 - name: Nextcloud - Cron container
   community.general.docker_container:
     name: nextcloud-cron
-    image: "nextcloud:29.0.10-apache@sha256:8f361f53f9eaed793ac0293763eae53de9e3ca99ee5c28191482246f34a41a86"
+    image: "nextcloud:29.0.10-apache@sha256:d47ce2cf9bc04928fde333fdc932e93bf9bbdd0fcd917e3cd1a5da367b6defe9"
     pull: true
     image_name_mismatch: recreate
     networks:
@@ -68,7 +68,7 @@
 - name: Nextcloud - App container
   community.general.docker_container:
     name: nextcloud-app
-    image: "nextcloud:29.0.10-apache@sha256:8f361f53f9eaed793ac0293763eae53de9e3ca99ee5c28191482246f34a41a86"
+    image: "nextcloud:29.0.10-apache@sha256:d47ce2cf9bc04928fde333fdc932e93bf9bbdd0fcd917e3cd1a5da367b6defe9"
     pull: true
     image_name_mismatch: recreate
     networks:
