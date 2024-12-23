@@ -3,7 +3,7 @@ terraform {
     organization = "cianmawhinney-homelab"
 
     workspaces {
-      name = "homelab"
+      tags = [ "homelab" ]
     }
   }
 
@@ -14,8 +14,10 @@ terraform {
     }
   }
 }
-variable "do_token" {}
 
+variable "do_token" {
+  sensitive = true
+}
 provider "digitalocean" {
   token = var.do_token
 }
