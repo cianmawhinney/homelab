@@ -41,3 +41,11 @@ module "k3s-eu-central" {
 }
 
 
+module "flux-k3s" {
+  source = "./modules/flux-bootstrap"
+
+  cluster_name = "k3s-eu-central"
+  github_repository = var.github_repository
+
+  depends_on = [module.k3s-eu-central]
+}
