@@ -8,7 +8,7 @@
 - name: Create local registry container
   community.general.docker_container:
     name: registry
-    image: "registry:2.8@sha256:319881be2ee9e345d5837d15842a04268de6a139e23be42654fc7664fc6eaf52"
+    image: "registry:2.8@sha256:d44a7b6767e9c87be677d3451fc680051e849be4a6aa8dfadb967e2b6a6c57d8"
     pull: true
     image_name_mismatch: recreate
     ports: "{{ registry_port }}:5000"
