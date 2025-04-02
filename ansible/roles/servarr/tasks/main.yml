@@ -49,7 +49,7 @@
 - name: Create Prowlarr container
   community.general.docker_container:
     name: prowlarr-app
-    image: linuxserver/prowlarr:1.32.2-develop@sha256:3e8bd80f03d1b5716a30439f0beebd2b46b47689bc3dee5368dd9be903f4a6ce
+    image: linuxserver/prowlarr:1.33.1-develop@sha256:c5bf634dbfa1facdc78f9a712ccb374779fa8cf391d92c28a599faeae49dcebe
     pull: true
     image_name_mismatch: recreate
     networks:
