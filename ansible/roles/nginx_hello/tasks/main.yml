@@ -2,7 +2,7 @@
 - name: Install app
   community.general.docker_container:
     name: hello
-    image: nginxdemos/hello@sha256:2293656951429d36b788d1285a97bd2a862428759802444450257760790423f6
+    image: nginxdemos/hello@sha256:27984e326bb77db2c9e1c669ee63fd1dc6708b9ed2c1315b81e30b1eef75f947
     pull: true
     image_name_mismatch: recreate
     ports:
