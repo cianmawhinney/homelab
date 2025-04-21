@@ -12,7 +12,7 @@ packer {
 
 variable "hcloud_token" {
   type      = string
-  default   = env("HCLOUD_TOKEN")
+  default   = "my-hcloud-token"
   sensitive = true
 }
 
