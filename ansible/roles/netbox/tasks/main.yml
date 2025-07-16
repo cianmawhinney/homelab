@@ -58,7 +58,7 @@
 - name: Netbox - Redis container
   community.general.docker_container:
     name: netbox-redis
-    image: redis:7.4-alpine@sha256:0c0142c3cd69bc030ea09fecfa1c1c0c7d0e7d6081be6bb4957804f23d2cf57a
+    image: redis:7.4-alpine@sha256:af1d0fc3f63b02b13ff7906c9baf7c5b390b8881ca08119cd570677fe2f60b55
     pull: true
     image_name_mismatch: recreate
     networks:
@@ -75,7 +75,7 @@
 - name: Netbox - Redis cache container
   community.general.docker_container:
     name: netbox-redis-cache
-    image: redis:7.4-alpine@sha256:0c0142c3cd69bc030ea09fecfa1c1c0c7d0e7d6081be6bb4957804f23d2cf57a
+    image: redis:7.4-alpine@sha256:af1d0fc3f63b02b13ff7906c9baf7c5b390b8881ca08119cd570677fe2f60b55
     pull: true
     image_name_mismatch: recreate
     networks:
