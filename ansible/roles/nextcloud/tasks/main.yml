@@ -15,7 +15,7 @@
 - name: Nextcloud - MariaDB container
   community.general.docker_container:
     name: nextcloud-mariadb
-    image: mariadb:10.11@sha256:24bb6e3d8e46f4581ddcc2b2c22fd78c99c77ac4e3fb7c9aba3a5c4c4d934ca2
+    image: mariadb:10.11@sha256:dbe56e20372fc6d6b8e0e396866ba89c4c7f128c38c4f59aaa54d957db95790c
     pull: true
     image_name_mismatch: recreate
     networks:
