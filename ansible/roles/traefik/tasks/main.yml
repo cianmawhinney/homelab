@@ -13,7 +13,7 @@
     src: traefik.yml
     dest: "{{ data_dir }}/traefik/traefik.yml"
     mode: "0775"
-  register: template
+  register: traefik_template
 
 - name: Create app container
   community.general.docker_container:
@@ -27,7 +27,7 @@
       - "{{ data_dir }}/traefik/letsencrypt:/letsencrypt:rw"
       # traefik requires access to the docker socket to gets dynamic configuration for services
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    recreate: "{{ template.changed }}"
+    recreate: "{{ traefik_template.changed }}"
     env: "{{ traefik_environment_variables }}"
     restart_policy: unless-stopped
     container_default_behavior: compatibility
