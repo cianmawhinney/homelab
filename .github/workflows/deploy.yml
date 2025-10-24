@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
 
       - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@c97d71562fcba83cc1ea0602d5a77013427f7571 # v2
+        uses: dawidd6/action-ansible-playbook@3363d6aa333ecb41ef01579bc5eb4412b3d6802f # v5
         with:
           playbook: main.yml
           directory: ./ansible
