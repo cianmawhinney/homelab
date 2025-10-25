@@ -19,23 +19,23 @@ down: registry-down flux-down ## Delete the local registry and uninstall flux fr
 
 .PHONY: registry-up
 registry-up:
-	scripts/registry/up.sh
+	bash scripts/registry/up.sh
 
 .PHONY: registry-down
 registry-down:
-	scripts/registry/down.sh
+	bash scripts/registry/down.sh
 
 .PHONY: flux-up
 flux-up:
-	scripts/flux/up.sh
+	bash scripts/flux/up.sh
 
 .PHONY: flux-push
 flux-push:
-	scripts/flux/push.sh
+	bash scripts/flux/push.sh
 
 .PHONY: flux-down
 flux-down:
-	scripts/flux/down.sh
+	bash scripts/flux/down.sh
 
 
 
