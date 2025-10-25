@@ -18,15 +18,28 @@ Additionally, one of the longer term goals is to eventually migrate away from sp
 Kubernetes looks like a good fit to help with these problems, even if it is a tad overkill for hosting the services for 1 user.
 
 
-## Disclaimer
-I don't recommend you use this repository, it's intended to be purely a
+## Kubernetes
+At the moment this repository is set up quite specifically to my local dev environment.
+The k8s related scripts in [`scripts`](./scripts/) assume that the environment is running in a docker container, and that the local K8s cluster can access the host too.
+
+Quick reminder for myself on how use the scripts:
+- Start everything up from nothing `make up`
+- Sync local manifests to OCI registry & force flux to reconcile immediately: `make sync`
+- Tear everything down: `make down`
+
+These scripts have tweaked based on [stefanprodan/flux-local-dev](https://github.com/stefanprodan/flux-local-dev), which was a huge help in getting this working.
+
+
+## Ansible
+### Disclaimer
+I don't recommend you use this section of the repository, it's intended to be purely a
 reference (and probably not even a very good one at that).
 
 The configuration sets up services the way I like them I like them. At a
 miniumum, you'll need to override some variables (especially secrets/passwords).
 
 
-## Services
+### Services
 * [Netbox](https://github.com/netbox-community/netbox-docker)
 * [Nextcloud](https://github.com/nextcloud/docker)
 * [Hello World Webpage](https://github.com/nginxinc/NGINX-Demos/tree/master/nginx-hello)
@@ -42,7 +55,7 @@ miniumum, you'll need to override some variables (especially secrets/passwords).
 * [Prowlarr](https://github.com/linuxserver/docker-prowlarr)
 
 
-## Usage
+### Usage
 Before running, the following is necessary:
 * An an inventory file needs to be created containing the desired host
 * The file `vars.yml` needs to be created to set the following variables:
@@ -62,7 +75,7 @@ roles. These can be installed by running:
 ansible-galaxy install -r requirements.yml
 ```
 
-### Running everything
+#### Running everything
 
 ```bash
 ansible-playbook -i inventory main.yml

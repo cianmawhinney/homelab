@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: apps
+  namespace: flux-system
+spec:
+  insecure: true
+  interval: 1m
+  provider: generic
+  ref:
+    tag: local
+  url: oci://host.docker.internal:5000/flux-apps-sync
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: apps-sync
+  namespace: flux-system
+spec:
+  # dependsOn:
+  #   - name: infra-config
+  interval: 1m
+  retryInterval: 30s
+  timeout: 5m
+  path: ./local
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: apps
