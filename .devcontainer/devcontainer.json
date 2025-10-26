@@ -52,7 +52,8 @@
 	],
 
 	"features": {
-		"ghcr.io/devcontainers-contrib/features/digitalocean-cli:1": { },
+		// doesn't seem to be available any more on this url, too lazy to fix properly
+		// "ghcr.io/devcontainers-contrib/features/digitalocean-cli:1": { },
 		"ghcr.io/devcontainers/features/terraform:1": { },
 
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
