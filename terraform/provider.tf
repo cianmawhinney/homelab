@@ -15,7 +15,7 @@ terraform {
 
     hcloud = {
       source  = "hetznercloud/hcloud"
-      version = "~> 1.54.0"
+      version = "~> 1.60.0"
     }
 
     flux = {
