@@ -108,3 +108,10 @@ module "kube-hetzner" {
     "2606:4700:4700::1111",
   ]
 }
+# resource "null_resource" "install_flux" {
+#   depends_on = [module.kube-hetzner]
+
+#   provisioner "local-exec" {
+#     command = "flux bootstrap"
+#   }
+# }
