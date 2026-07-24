@@ -14,7 +14,7 @@
 - name: MonitoRSS - Redis container
   community.general.docker_container:
     name: monitorss-redis
-    image: redis:7.4-alpine@sha256:8b81dd37ff027bec4e516d41acfbe9fe2460070dc6d4a4570a2ac5b9d59df065
+    image: redis:7.4-alpine@sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99
     pull: true
     image_name_mismatch: recreate
     networks:
