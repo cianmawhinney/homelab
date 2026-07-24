@@ -20,7 +20,7 @@
 - name: Create Sonarr container
   community.general.docker_container:
     name: sonarr-app
-    image: linuxserver/sonarr:3.0.10@sha256:4f69472a0cdea29e23967db6a3395487539b759def3920327d1f49ae00b9dfd4
+    image: linuxserver/sonarr:4.0.19@sha256:24acea2956a0ccb11f103877d9f4f8576600fb34bff34820ed749c2256dab89f
     pull: true
     image_name_mismatch: recreate
     networks:
