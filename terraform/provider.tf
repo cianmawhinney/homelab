@@ -54,18 +54,3 @@ variable "github_repository" {
 variable "github_token" {
   description = "GitHub PAT for interacting with Flux K8s config repo"
 }
-provider "flux" {
-  kubernetes = {
-    host                   = module.k3s-eu-central.api_endpoint
-    client_certificate     = module.k3s-eu-central.client_certificate
-    client_key             = module.k3s-eu-central.client_key
-    cluster_ca_certificate = module.k3s-eu-central.cluster_ca_certificate
-  }
-  git = {
-    url = "https://github.com/${var.github_org}/${var.github_repository}.git"
-    http = {
-      username = "git" # This can be any string when using a personal access token
-      password = var.github_token
-    }
-  }
-}
