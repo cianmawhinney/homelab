@@ -1,0 +1,6 @@
+---
+resources:
+  - ../base
+replicas:
+  - name: nginx-deployment
+    count: 3

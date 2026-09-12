@@ -15,3 +15,4 @@ rules:
 ignore: |
   ansible/vars.yml
   terraform/.terraform/**
+  kubernetes/clusters/*/flux-system/gotk-components.yaml
