@@ -24,7 +24,8 @@
 				"HashiCorp.terraform",
 				"eamodio.gitlens",
 				"github.vscode-github-actions",
-				"ms-vscode.makefile-tools"
+				"ms-vscode.makefile-tools",
+				"Anthropic.claude-code"
 			]
 		}
 	},

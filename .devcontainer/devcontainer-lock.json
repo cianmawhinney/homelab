@@ -1,9 +1,9 @@
 {
   "features": {
-    "ghcr.io/devcontainers-contrib/features/digitalocean-cli:1": {
-      "version": "1.0.4",
-      "resolved": "ghcr.io/devcontainers-extra/features/digitalocean-cli@sha256:663db259e0804eeb924cb973aba99e9a1028e778cc5ce994ea9d1182a34f7983",
-      "integrity": "sha256:663db259e0804eeb924cb973aba99e9a1028e778cc5ce994ea9d1182a34f7983"
+    "ghcr.io/audacioustux/devcontainers/argo:1": {
+      "version": "1.0.1",
+      "resolved": "ghcr.io/audacioustux/devcontainers/argo@sha256:b02730f023f35511ec8b7189cc83ea5a88fd11b4c632ae863d6cc5c9445bdd5c",
+      "integrity": "sha256:b02730f023f35511ec8b7189cc83ea5a88fd11b4c632ae863d6cc5c9445bdd5c"
     },
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
       "version": "1.10.0",
