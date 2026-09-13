@@ -40,4 +40,3 @@ moved {
   from = module.kube-hetzner
   to   = module.cluster.module.kube-hetzner
 }
-
