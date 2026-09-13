@@ -16,12 +16,6 @@ variable "hcloud_token" {
   sensitive = true
 }
 
-# We download the OpenSUSE MicroOS x86 image from an automatically selected mirror.
-variable "opensuse_microos_x86_mirror_link" {
-  type    = string
-  default = "https://download.opensuse.org/tumbleweed/appliances/openSUSE-MicroOS.x86_64-ContainerHost-OpenStack-Cloud.qcow2"
-}
-
 # We download the OpenSUSE MicroOS ARM image from an automatically selected mirror.
 variable "opensuse_microos_arm_mirror_link" {
   type    = string
@@ -75,21 +69,6 @@ locals {
   EOT
 }
 
-# Source for the MicroOS x86 snapshot
-source "hcloud" "microos-x86-snapshot" {
-  image       = "ubuntu-24.04"
-  rescue      = "linux64"
-  location    = "fsn1"
-  server_type = "cx22" # disk size of >= 40GiB is needed to install the MicroOS image
-  snapshot_labels = {
-    microos-snapshot = "yes"
-    creator          = "kube-hetzner"
-  }
-  snapshot_name = "OpenSUSE MicroOS x86 by Kube-Hetzner"
-  ssh_username  = "root"
-  token         = var.hcloud_token
-}
-
 # Source for the MicroOS ARM snapshot
 source "hcloud" "microos-arm-snapshot" {
   image       = "ubuntu-24.04"
@@ -100,38 +79,9 @@ source "hcloud" "microos-arm-snapshot" {
     microos-snapshot = "yes"
     creator          = "kube-hetzner"
   }
-  snapshot_name = "OpenSUSE MicroOS ARM by Kube-Hetzner"
+  snapshot_name = "Kube-Hetzner-MicroOS-ARM-Snapshot-${timestamp()}"
   ssh_username  = "root"
   token         = var.hcloud_token
-}
-
-# Build the MicroOS x86 snapshot
-build {
-  sources = ["source.hcloud.microos-x86-snapshot"]
-
-  # Download the MicroOS x86 image
-  provisioner "shell" {
-    inline = ["${local.download_image}${var.opensuse_microos_x86_mirror_link}"]
-  }
-
-  # Write the MicroOS x86 image to disk
-  provisioner "shell" {
-    inline            = [local.write_image]
-    expect_disconnect = true
-  }
-
-  # Ensure connection to MicroOS x86 and do house-keeping
-  provisioner "shell" {
-    pause_before      = "5s"
-    inline            = [local.install_packages]
-    expect_disconnect = true
-  }
-
-  # Ensure connection to MicroOS x86 and do house-keeping
-  provisioner "shell" {
-    pause_before = "5s"
-    inline       = [local.clean_up]
-  }
 }
 
 # Build the MicroOS ARM snapshot
