@@ -133,7 +133,7 @@ source "hcloud" "microos-arm-snapshot" {
     microos-snapshot = "yes"
     creator          = "kube-hetzner"
   }
-  snapshot_name = "OpenSUSE MicroOS ARM by Kube-Hetzner"
+  snapshot_name = "OpenSUSE MicroOS ARM by Kube-Hetzner ${timestamp()}"
   ssh_username  = "root"
   token         = var.hcloud_token
 }
