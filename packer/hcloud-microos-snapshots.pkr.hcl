@@ -12,7 +12,7 @@ packer {
 
 variable "hcloud_token" {
   type      = string
-  default   = env("HCLOUD_TOKEN")
+  default = coalesce(env("HCLOUD_TOKEN"), "unset")
   sensitive = true
 }
 
