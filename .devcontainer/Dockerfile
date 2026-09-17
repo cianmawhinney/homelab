@@ -27,4 +27,6 @@ RUN apt-get update \
         ansible \
         yamllint \
         ansible-lint \
+    && curl -L https://github.com/hetznercloud/cli/releases/latest/download/hcloud-linux-amd64.tar.gz | tar xz hcloud \
+    && mv hcloud /usr/local/bin/ \
     && rm -rf /var/lib/apt/lists/*
