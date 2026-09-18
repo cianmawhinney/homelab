@@ -46,6 +46,15 @@ packer-generate-microos:
 	fi
 	cd packer && packer build hcloud-microos-snapshots.pkr.hcl
 
+.PHONY: kube-refresh-configs
+kube-refresh-configs:
+	
+
+.PHONY: kube-sync-clusters
+kube-sync-clusters: ## Merge each Terraform environment's kubeconfig into the host and container configs
+	bash scripts/kube/sync-cluster-configs.sh
+	bash /usr/local/share/copy-kube-config.sh
+
 
 # Taken from https://stackoverflow.com/a/64996042
 help: ## Show this help text
