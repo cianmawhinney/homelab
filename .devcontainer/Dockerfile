@@ -1,8 +1,8 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/ubuntu/.devcontainer/base.Dockerfile
 
 # [Choice] Ubuntu version (use hirsuite or bionic on local arm64/Apple Silicon): hirsute, focal, bionic
-ARG VARIANT="ubuntu-22.04"
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+ARG VARIANT="ubuntu22.04"
+FROM mcr.microsoft.com/devcontainers/base:3-${VARIANT}
 
 RUN apt-get update \
     && apt-get install -y software-properties-common \
