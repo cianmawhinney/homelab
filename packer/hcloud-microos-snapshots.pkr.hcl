@@ -12,7 +12,7 @@ packer {
 
 variable "hcloud_token" {
   type      = string
-  default = coalesce(env("HCLOUD_TOKEN"), "unset")
+  default   = env("HCLOUD_TOKEN")
   sensitive = true
 }
 
@@ -63,6 +63,8 @@ variable "kernel_type" {
 }
 
 locals {
+  hcloud_token = coalesce(var.hcloud_token, "unset")
+
   # Only install kernel-longterm if selected; kernel-default is already in the base image
   kernel_package_list = var.kernel_type == "longterm" ? ["kernel-longterm"] : []
 
@@ -135,7 +137,7 @@ source "hcloud" "microos-arm-snapshot" {
   }
   snapshot_name = "OpenSUSE MicroOS ARM by Kube-Hetzner ${timestamp()}"
   ssh_username  = "root"
-  token         = var.hcloud_token
+  token         = local.hcloud_token
 }
 
 # Build the MicroOS ARM snapshot
