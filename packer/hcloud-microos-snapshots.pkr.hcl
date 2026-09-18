@@ -5,21 +5,25 @@ packer {
   required_plugins {
     hcloud = {
       version = ">= 1.0.5"
-      source  = "github.com/hashicorp/hcloud"
+      source  = "github.com/hetznercloud/hcloud"
     }
   }
 }
 
 variable "hcloud_token" {
   type      = string
-  default   = "my-hcloud-token"
+  default   = env("HCLOUD_TOKEN")
   sensitive = true
 }
 
-# We download the OpenSUSE MicroOS x86 image from an automatically selected mirror.
-variable "opensuse_microos_x86_mirror_link" {
+variable "arm_server_type" {
   type    = string
-  default = "https://download.opensuse.org/tumbleweed/appliances/openSUSE-MicroOS.x86_64-ContainerHost-OpenStack-Cloud.qcow2"
+  default = "cax11"
+}
+
+variable "arm_location" {
+  type    = string
+  default = "fsn1"
 }
 
 # We download the OpenSUSE MicroOS ARM image from an automatically selected mirror.
@@ -35,8 +39,42 @@ variable "packages_to_install" {
   default = []
 }
 
+# Timezone to set on the snapshot (e.g., "Europe/Madrid", "UTC", "America/New_York")
+variable "timezone" {
+  type    = string
+  default = "UTC"
+}
+
+# Path to a local file containing sysctl settings (one per line, e.g., "vm.swappiness = 10")
+# These will be installed to /etc/sysctl.d/99-custom.conf
+variable "sysctl_config_file" {
+  type    = string
+  default = ""
+}
+
+# Choose which kernel to use: "default" for the rolling release kernel or "longterm" for LTS kernel
+variable "kernel_type" {
+  type    = string
+  default = "default"
+  validation {
+    condition     = contains(["longterm", "default"], var.kernel_type)
+    error_message = "The kernel_type must be either longterm or default."
+  }
+}
+
 locals {
-  needed_packages = join(" ", concat(["restorecond policycoreutils policycoreutils-python-utils setools-console audit bind-utils wireguard-tools fuse open-iscsi nfs-client xfsprogs cryptsetup lvm2 git cifs-utils bash-completion mtr tcpdump udica"], var.packages_to_install))
+  hcloud_token = coalesce(var.hcloud_token, "unset")
+
+  # Only install kernel-longterm if selected; kernel-default is already in the base image
+  kernel_package_list = var.kernel_type == "longterm" ? ["kernel-longterm"] : []
+
+  needed_packages = join(" ", concat(local.kernel_package_list, ["restorecond", "policycoreutils", "policycoreutils-python-utils", "setools-console", "audit", "bind-utils", "wireguard-tools", "fuse", "open-iscsi", "nfs-client", "xfsprogs", "cryptsetup", "lvm2", "git", "cifs-utils", "bash-completion", "mtr", "tcpdump", "udica", "qemu-guest-agent"], var.packages_to_install))
+
+  # Read sysctl config if file path is provided, otherwise empty (base64 encoded for safe transfer)
+  sysctl_config_content = var.sysctl_config_file != "" ? base64encode(file(var.sysctl_config_file)) : ""
+
+  # Commands to write sysctl config if provided (decode base64)
+  sysctl_commands = local.sysctl_config_content != "" ? "echo '${local.sysctl_config_content}' | base64 -d > /etc/sysctl.d/99-custom.conf" : ""
 
   # Add local variables for inline shell commands
   download_image = "wget --timeout=5 --waitretry=5 --tries=5 --retry-connrefused --inet4-only "
@@ -48,6 +86,14 @@ locals {
     echo 'done. Rebooting...'
     sleep 1 && udevadm settle && reboot
   EOT
+
+  # Kernel switching commands: remove kernel-default and lock it when using longterm
+  # This ensures GRUB always boots the longterm kernel without complex configuration
+  kernel_switch_commands = var.kernel_type == "longterm" ? join("\n", [
+    "zypper rm -y kernel-default",
+    "zypper addlock kernel-default",
+    "grub2-mkconfig -o /boot/grub2/grub.cfg"
+  ]) : "true"
 
   install_packages = <<-EOT
     set -ex
@@ -61,6 +107,8 @@ locals {
     restorecon -Rv /etc/selinux/targeted/policy
     restorecon -Rv /var/lib
     setenforce 1
+    ${local.sysctl_commands}
+    ${local.kernel_switch_commands}
     EOF
     sleep 1 && udevadm settle && reboot
   EOT
@@ -71,67 +119,25 @@ locals {
     rm -rf /etc/ssh/ssh_host_*
     echo "Make sure to use NetworkManager"
     touch /etc/NetworkManager/NetworkManager.conf
+    echo "Setting timezone to '${var.timezone}'..."
+    timedatectl set-timezone '${var.timezone}'
     sleep 1 && udevadm settle
   EOT
-}
-
-# Source for the MicroOS x86 snapshot
-source "hcloud" "microos-x86-snapshot" {
-  image       = "ubuntu-24.04"
-  rescue      = "linux64"
-  location    = "fsn1"
-  server_type = "cx22" # disk size of >= 40GiB is needed to install the MicroOS image
-  snapshot_labels = {
-    microos-snapshot = "yes"
-    creator          = "kube-hetzner"
-  }
-  snapshot_name = "OpenSUSE MicroOS x86 by Kube-Hetzner"
-  ssh_username  = "root"
-  token         = var.hcloud_token
 }
 
 # Source for the MicroOS ARM snapshot
 source "hcloud" "microos-arm-snapshot" {
   image       = "ubuntu-24.04"
   rescue      = "linux64"
-  location    = "fsn1"
-  server_type = "cax11" # disk size of >= 40GiB is needed to install the MicroOS image
+  location    = var.arm_location
+  server_type = var.arm_server_type # disk size of >= 40GiB is needed to install the MicroOS image
   snapshot_labels = {
     microos-snapshot = "yes"
     creator          = "kube-hetzner"
   }
-  snapshot_name = "OpenSUSE MicroOS ARM by Kube-Hetzner"
+  snapshot_name = "OpenSUSE MicroOS ARM by Kube-Hetzner ${timestamp()}"
   ssh_username  = "root"
-  token         = var.hcloud_token
-}
-
-# Build the MicroOS x86 snapshot
-build {
-  sources = ["source.hcloud.microos-x86-snapshot"]
-
-  # Download the MicroOS x86 image
-  provisioner "shell" {
-    inline = ["${local.download_image}${var.opensuse_microos_x86_mirror_link}"]
-  }
-
-  # Write the MicroOS x86 image to disk
-  provisioner "shell" {
-    inline            = [local.write_image]
-    expect_disconnect = true
-  }
-
-  # Ensure connection to MicroOS x86 and do house-keeping
-  provisioner "shell" {
-    pause_before      = "5s"
-    inline            = [local.install_packages]
-    expect_disconnect = true
-  }
-
-  # Ensure connection to MicroOS x86 and do house-keeping
-  provisioner "shell" {
-    pause_before = "5s"
-    inline       = [local.clean_up]
-  }
+  token         = local.hcloud_token
 }
 
 # Build the MicroOS ARM snapshot

@@ -38,6 +38,13 @@ flux-down:
 	bash scripts/flux/down.sh
 
 
+.PHONY: packer-generate-microos
+packer-generate-microos:
+	@if [ -z "$$HCLOUD_TOKEN" ]; then \
+		echo "HCLOUD_TOKEN environment variable is not set" >&2; \
+		exit 1; \
+	fi
+	cd packer && packer build hcloud-microos-snapshots.pkr.hcl
 
 
 # Taken from https://stackoverflow.com/a/64996042
