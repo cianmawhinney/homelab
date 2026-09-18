@@ -6,7 +6,8 @@ provider "flux" {
     cluster_ca_certificate = module.cluster.kubeconfig_data.cluster_ca_certificate
   }
   git = {
-    url = "https://github.com/${var.github_org}/${var.github_repository}.git"
+    url    = "https://github.com/${var.github_org}/${var.github_repository}.git"
+    branch = var.github_branch
     http = {
       username = "git" # can be any string when authenticating with a PAT
       password = var.github_token

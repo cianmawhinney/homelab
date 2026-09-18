@@ -38,6 +38,12 @@ variable "github_repository" {
   default     = "homelab"
 }
 
+variable "github_branch" {
+  description = "Branch of the Flux K8s config repo to reconcile from"
+  default     = "master"
+}
+
 variable "github_token" {
   description = "GitHub PAT for interacting with Flux K8s config repo"
+  sensitive   = true
 }
