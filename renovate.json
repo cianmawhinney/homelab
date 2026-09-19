@@ -11,8 +11,11 @@
   },
   "packageRules": [
     {
-      "description": "Automerge digest updates",
+      "description": "Group digest updates into a single weekly PR and automerge it",
       "matchUpdateTypes": ["digest"],
+      "groupName": "all digests",
+      "groupSlug": "all-digest",
+      "schedule": ["* * * * 0"],
       "automerge": true
     }
   ]
