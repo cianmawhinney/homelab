@@ -7,5 +7,5 @@ metadata:
   name: cluster-settings
   namespace: flux-system
 data:
-  cluster_domain: k8s.dev.mawh.in
+  cluster_domain: k8s.prod.mawh.in
   cluster_issuer: letsencrypt-production
