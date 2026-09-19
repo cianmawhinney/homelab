@@ -54,10 +54,10 @@ module "kube-hetzner" {
   load_balancer_type     = "lb11"
   load_balancer_location = "nbg1"
 
-  ingress_controller        = "traefik"
-  ingress_replica_count     = 0 # autoscale the number of replicas
-  traefik_autoscaling       = true
-  traefik_redirect_to_https = true
+  # Traefik and cert-manager are installed by Flux from kubernetes/infrastructure
+  # so every environment (including a local Docker Desktop cluster) runs the same config.
+  ingress_controller  = "none"
+  enable_cert_manager = false
 
   # Since there is only 1 node, we can't afford losing a node when performing updates.
   automatically_upgrade_os = false

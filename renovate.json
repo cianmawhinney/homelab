@@ -6,6 +6,9 @@
     "helpers:pinGitHubActionDigests",
     ":pinDevDependencies"
   ],
+  "flux": {
+    "managerFilePatterns": ["/^kubernetes/.+\\.ya?ml$/"]
+  },
   "packageRules": [
     {
       "description": "Automerge digest updates",
