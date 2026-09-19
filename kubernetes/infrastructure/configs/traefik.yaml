@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: TLSStore
+metadata:
+  name: default          # must be "default" to be served as the default certi
+  namespace: traefik     # same namespace as the Secret
+spec:
+  defaultCertificate:
+    secretName: wildcard-tls
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard
+  namespace: traefik
+spec:
+  secretName: wildcard-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: ${cluster_issuer}
+  dnsNames:
+    - ${cluster_domain}
+    - "*.${cluster_domain}"

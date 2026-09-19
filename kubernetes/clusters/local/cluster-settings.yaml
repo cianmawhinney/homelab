@@ -1,0 +1,11 @@
+---
+# Per-cluster values substituted into ${...} placeholders by the
+# infra-configs and apps Kustomizations.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data:
+  cluster_domain: k8s.local.mawh.in
+  cluster_issuer: letsencrypt-staging
