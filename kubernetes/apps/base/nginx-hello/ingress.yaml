@@ -4,10 +4,23 @@ kind: Ingress
 metadata:
   namespace: default
   name: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: ${cluster_issuer}
 spec:
   ingressClassName: traefik
   rules:
-    - http:
+    - host: hello.${cluster_domain}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx
+                port:
+                  name: http
+    - host: hi.${cluster_domain}
+      http:
         paths:
           - path: /
             pathType: Prefix

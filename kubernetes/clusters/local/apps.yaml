@@ -28,3 +28,7 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: apps
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
