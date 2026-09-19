@@ -11,8 +11,13 @@
   },
   "packageRules": [
     {
-      "description": "Automerge digest updates",
+      "description": "Group digest updates into a single weekly PR and automerge it",
       "matchUpdateTypes": ["digest"],
+      "groupName": "all digests",
+      "groupSlug": "all-digest",
+      // Schedule the digest updates to run weekly on Sunday
+      // The exact time can't be controlled as I'm using Mend's hosted Renovate
+      "schedule": ["* * * * 0"],
       "automerge": true
     }
   ]
