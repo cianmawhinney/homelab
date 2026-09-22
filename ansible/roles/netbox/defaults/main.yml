@@ -5,3 +5,22 @@ netbox_dir: "{{ data_dir }}/netbox"
 netbox_db_user: "netbox"
 netbox_db_pass: "netbox-db-pass"
 netbox_secret_key: "netbox-secret"
+
+# Shared by the app and worker containers, which must run the same configuration
+netbox_container_env:
+  SECRET_KEY: "{{ netbox_secret_key }}"
+  DB_HOST: postgres
+  DB_NAME: netbox
+  DB_USER: "{{ netbox_db_user }}"
+  DB_PASSWORD: "{{ netbox_db_pass }}"
+
+  REDIS_DATABASE: "0"
+  REDIS_HOST: "redis"
+  REDIS_SSL: "false"
+
+  REDIS_CACHE_DATABASE: "1"
+  REDIS_CACHE_HOST: "redis-cache"
+  REDIS_CACHE_SSL: "false"
+
+  LOGIN_REQUIRED: "true"
+  RELEASE_CHECK_URL: "https://api.github.com/repos/netbox-community/netbox/releases"
