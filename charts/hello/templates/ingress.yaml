@@ -1,0 +1,42 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  namespace: default
+  labels:
+    app: hello
+  annotations:
+    cert-manager.io/issuer: acme
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+
+{{- if .Values.ingress.enabled }}
+spec:
+  ingressClassName: {{ if .Values.ingress.className }}{{ quote .Values.ingress.className }}{{ else }}"traefik"{{ end }}
+  rules:
+    - {{- if .Values.ingress.host }}
+      host: {{ .Values.ingress.host }}
+      {{- end }}
+      http:
+        paths:
+          - path: /hello
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-world-svc
+                port:
+                  number: 80
+  {{- if .Values.ingress.tlsSecret }}
+  tls:
+    - hosts:
+        {{- if .Values.ingress.host }}
+        - {{ .Values.ingress.host }}
+        {{- end }}
+      secretName: {{ .Values.ingress.tlsSecret }}
+  {{- end }}
+{{- end }}
