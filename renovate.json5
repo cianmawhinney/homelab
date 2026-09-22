@@ -11,6 +11,12 @@
   },
   "packageRules": [
     {
+      "description": "Don't pin the devcontainer base image to a digest",
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["mcr.microsoft.com/devcontainers/base"],
+      "pinDigests": false
+    },
+    {
       "description": "Don't look for updates in the local dev registry, it's unreachable from Mend's hosted Renovate",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["host.docker.internal:5000/**"],
