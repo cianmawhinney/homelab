@@ -11,6 +11,12 @@
   },
   "packageRules": [
     {
+      "description": "Don't look for updates in the local dev registry, it's unreachable from Mend's hosted Renovate",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["host.docker.internal:5000/**"],
+      "enabled": false
+    },
+    {
       "description": "Group digest updates into a single weekly PR and automerge it",
       "matchUpdateTypes": ["digest"],
       "groupName": "all digests",
