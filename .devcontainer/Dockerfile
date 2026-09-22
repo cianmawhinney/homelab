@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/base:3-ubuntu22.04
+FROM mcr.microsoft.com/devcontainers/base:3-ubuntu22.04@sha256:833a9eb9b48b57160531c9ea552d942d4d428ec58d76305d43f4976419b32173
 
 RUN apt-get update \
     && apt-get install -y software-properties-common \
