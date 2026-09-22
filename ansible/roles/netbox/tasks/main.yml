@@ -92,7 +92,7 @@
 - name: Netbox - App container
   community.general.docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v4.1.9@sha256:2d2a559249b855183e90b0ce4242150ad549b56ce56c0d847f4d846388f6345a
+    image: netboxcommunity/netbox:v4.7.1-5.1.1@sha256:59e3e5954d0243d8648f2fa7ba82cf7c7770aaeef392026cca8b21cd67411e74
     pull: true
     image_name_mismatch: recreate
     ports:
@@ -105,23 +105,7 @@
       # see https://github.com/netbox-community/netbox-docker/blob/release/docker-compose.yml
       # for details of the folders, should any of the files need modifying.
       - "{{ netbox_dir }}/app/media:/opt/netbox/netbox/media"
-    env:
-      SECRET_KEY: "{{ netbox_secret_key }}"
-      DB_HOST: postgres
-      DB_NAME: netbox
-      DB_USER: "{{ netbox_db_user }}"
-      DB_PASSWORD: "{{ netbox_db_pass }}"
-
-      REDIS_DATABASE: "0"
-      REDIS_HOST: "redis"
-      REDIS_SSL: "false"
-
-      REDIS_CACHE_DATABASE: "1"
-      REDIS_CACHE_HOST: "redis-cache"
-      REDIS_CACHE_SSL: "false"
-
-      LOGIN_REQUIRED: "true"
-      RELEASE_CHECK_URL: "https://api.github.com/repos/netbox-community/netbox/releases"
+    env: "{{ netbox_container_env }}"
     restart_policy: unless-stopped
     container_default_behavior: compatibility
     labels:
@@ -130,45 +114,33 @@
       traefik.http.routers.netbox.entrypoints: "websecure"
       traefik.http.routers.netbox.tls: "true"
     healthcheck:
-      start_period: 60s
+      start_period: 180s
       timeout: 3s
       interval: 15s
-      test: "curl -f http://localhost:8080/login/ || exit 1"
+      test: "/opt/netbox/health.sh"
 
-# FIXME: A lot of this is a quick & dirty copy and paste job from above
-- name: Netbox - Housekeeping
+# Runs background jobs: scripts, reports, webhooks, bulk operations, and since
+# NetBox 4.4 the housekeeping system job that replaced the housekeeping script.
+- name: Netbox - Worker container
   community.general.docker_container:
-    name: netbox-housekeeping
-    image: netboxcommunity/netbox:v4.1.9@sha256:2d2a559249b855183e90b0ce4242150ad549b56ce56c0d847f4d846388f6345a
+    name: netbox-worker
+    image: netboxcommunity/netbox:v4.7.1-5.1.1@sha256:59e3e5954d0243d8648f2fa7ba82cf7c7770aaeef392026cca8b21cd67411e74
     pull: true
     image_name_mismatch: recreate
     networks:
       - name: netbox_network
+    network_mode: default
     volumes:
       - "{{ netbox_dir }}/app/media:/opt/netbox/netbox/media"
-    env:
-      SECRET_KEY: "{{ netbox_secret_key }}"
-      DB_HOST: postgres
-      DB_NAME: netbox
-      DB_USER: "{{ netbox_db_user }}"
-      DB_PASSWORD: "{{ netbox_db_pass }}"
-
-      REDIS_DATABASE: "0"
-      REDIS_HOST: "redis"
-      REDIS_SSL: "false"
-
-      REDIS_CACHE_DATABASE: "1"
-      REDIS_CACHE_HOST: "redis-cache"
-      REDIS_CACHE_SSL: "false"
-
-      LOGIN_REQUIRED: "true"
-      RELEASE_CHECK_URL: "https://api.github.com/repos/netbox-community/netbox/releases"
+    env: "{{ netbox_container_env }}"
     restart_policy: unless-stopped
     container_default_behavior: compatibility
     command:
-      - /opt/netbox/housekeeping.sh
+      - /opt/netbox/venv/bin/python
+      - /opt/netbox/netbox/manage.py
+      - rqworker
     healthcheck:
       start_period: 20s
       timeout: 3s
       interval: 15s
-      test: "ps | grep -v grep | grep -q housekeeping || exit 1"
+      test: "ps -aux | grep -v grep | grep -q rqworker || exit 1"
