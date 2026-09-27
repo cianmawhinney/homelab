@@ -20,7 +20,7 @@
 - name: Create Sonarr container
   community.general.docker_container:
     name: sonarr-app
-    image: linuxserver/sonarr:4.0.20@sha256:a5c1a5fecbef946927ab90ad68df319ac5fe644057e5fc18cd993f01ac07b2b2
+    image: linuxserver/sonarr:4.0.20@sha256:f247545d23ba8b233d6604575347e48a623fe6ad75dda02348bf81917f3b5c06
     pull: true
     image_name_mismatch: recreate
     networks:
@@ -49,7 +49,7 @@
 - name: Create Prowlarr container
   community.general.docker_container:
     name: prowlarr-app
-    image: linuxserver/prowlarr:2.6.5-develop@sha256:85248c75ebf12f985bdd1d3b8f17deda23b7a5902aaa0888b9f13e57410580e9
+    image: linuxserver/prowlarr:2.6.5-develop@sha256:f0c51c56a8b781632313c06e530701a86d2cbf29fb5a529b84398cc702fc625a
     pull: true
     image_name_mismatch: recreate
     networks:
