@@ -8,7 +8,7 @@
 - name: Create Unifi controller app container
   community.general.docker_container:
     name: unifi-app
-    image: linuxserver/unifi-controller:7.5.187@sha256:4d0acd08916712c906979a63b736a0ccdce4b6c748ccb90e65a320cb23bb5362
+    image: linuxserver/unifi-controller:8.0.24@sha256:0ae315a3a45635e443899e30e86bd507c2c48922cb27f4bc7241777885f4650e
     pull: true
     image_name_mismatch: recreate
     volumes:
