@@ -92,7 +92,7 @@
 - name: Netbox - App container
   community.general.docker_container:
     name: netbox-app
-    image: netboxcommunity/netbox:v4.7.2-5.1.1@sha256:ad038bdb0e3498e5bf81c2c8becf396d62cbdc118d0b491b4d58014968033066
+    image: netboxcommunity/netbox:v4.7.2-5.1.1@sha256:3cf9d3bd77aa186233b84d0ea1cf1755581d5e5678fa7d86ec3be62f79d0c643
     pull: true
     image_name_mismatch: recreate
     ports:
@@ -124,7 +124,7 @@
 - name: Netbox - Worker container
   community.general.docker_container:
     name: netbox-worker
-    image: netboxcommunity/netbox:v4.7.2-5.1.1@sha256:ad038bdb0e3498e5bf81c2c8becf396d62cbdc118d0b491b4d58014968033066
+    image: netboxcommunity/netbox:v4.7.2-5.1.1@sha256:3cf9d3bd77aa186233b84d0ea1cf1755581d5e5678fa7d86ec3be62f79d0c643
     pull: true
     image_name_mismatch: recreate
     networks:
