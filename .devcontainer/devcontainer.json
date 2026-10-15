@@ -38,7 +38,8 @@
 	"remoteUser": "vscode",
 
 	"remoteEnv": {
-		"SYNC_LOCALHOST_KUBECONFIG": "true"
+		"SYNC_LOCALHOST_KUBECONFIG": "true",
+		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude"
 	},
 
 	"initializeCommand": "cd .devcontainer && bash ensure-mount-sources",
@@ -46,7 +47,8 @@
 	// "mounts": ["source=${localEnv:HOME}${localEnv:USERPROFILE}\\.terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached"]
 	"mounts": [
 		"source=c:\\Users\\Cian\\AppData\\Roaming\\terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached",
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind,consistency=cached"
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind,consistency=cached",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude-devcontainer,target=/home/vscode/.claude,type=bind,consistency=cached"
 	],
 
 	"features": {
