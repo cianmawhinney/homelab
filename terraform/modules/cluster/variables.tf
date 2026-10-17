@@ -19,3 +19,9 @@ variable "cluster_ssh_private_key" {
   default     = null
   sensitive   = true
 }
+
+variable "sops_age_key" {
+  description = "age private key Flux uses to decrypt SOPS secrets in this cluster"
+  type        = string
+  sensitive   = true
+}

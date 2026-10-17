@@ -67,4 +67,10 @@ module "kube-hetzner" {
     "1.1.1.1",
     "2606:4700:4700::1111",
   ]
+
+  # Extra manifests applied on cluster creation, currently just the sops-age secret for Flux
+  extra_kustomize_folder = "${path.module}/extra-manifests"
+  extra_kustomize_parameters = {
+    sops_age_key = var.sops_age_key
+  }
 }
