@@ -74,3 +74,4 @@ module "kube-hetzner" {
     sops_age_key = var.sops_age_key
   }
 }
+
