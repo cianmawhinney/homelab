@@ -7,3 +7,6 @@ ansible/inventory
 .vault_pass.txt
 
 *.test*
+
+# Plaintext temp files from the VS Code SOPS extension
+.decrypted~*
