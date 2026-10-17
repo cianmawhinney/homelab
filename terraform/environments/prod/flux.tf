@@ -17,4 +17,7 @@ provider "flux" {
 
 resource "flux_bootstrap_git" "this" {
   path = "kubernetes/clusters/prod"
+
+  # Wait for the whole cluster module, so the sops-age secret exists before Flux starts reconciling
+  depends_on = [module.cluster]
 }

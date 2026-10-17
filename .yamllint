@@ -11,6 +11,9 @@ rules:
   octal-values:
     forbid-explicit-octal: true
     forbid-implicit-octal: true
+  document-start:
+    ignore: |
+      *.sops.yaml
 
 ignore: |
   ansible/vars.yml

@@ -1,0 +1,44 @@
+---
+# Public keys only. The local private key lives in the password manager (see README),
+# dev/prod private keys are provisioned by terraform.
+#
+# Rules are matched top to bottom, the first match wins.
+# Any one key in a key group can decrypt the file.
+#
+# After changing recipients, update existing files with (values are left as-is,
+# only the data key is re-wrapped for the new recipients):
+#   find kubernetes -name '*.sops.yaml' -exec sops updatekeys -y {} \;
+
+keys:
+  - &local age1mfw9hxpfq5wlvhw4fkk7628g2q5w57zme8h67l80fal20qkyxgrslzfgs3
+  - &dev age1j9738mqgxa47psy7pxyt67alz3vu6tyjuhakusl6cas3ut6vk40s9v5she
+  - &prod age1vv6kvhgqyj5a3sffwa2nahf0g3lf5ef3arh4vk576ekjwf3mx5ws2lgekh
+
+creation_rules:
+  # Per-environment app secrets, only readable by that cluster
+  - path_regex: kubernetes/apps/local/.*\.sops\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    key_groups:
+      - age:
+          - *local
+
+  - path_regex: kubernetes/apps/dev/.*\.sops\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    key_groups:
+      - age:
+          - *dev
+
+  - path_regex: kubernetes/apps/prod/.*\.sops\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    key_groups:
+      - age:
+          - *prod
+
+  # Everything else (infrastructure, apps/base) is shared by all clusters
+  - path_regex: kubernetes/.*\.sops\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    key_groups:
+      - age:
+          - *local
+          - *dev
+          - *prod

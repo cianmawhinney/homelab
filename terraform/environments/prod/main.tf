@@ -11,6 +11,12 @@ variable "cluster_ssh_private_key" {
   sensitive   = true
 }
 
+variable "sops_age_key" {
+  description = "age private key Flux uses to decrypt SOPS secrets in this cluster"
+  type        = string
+  sensitive   = true
+}
+
 module "cluster" {
   source = "../../modules/cluster"
   providers = {
@@ -22,6 +28,7 @@ module "cluster" {
   hcloud_token            = var.hcloud_token
   cluster_ssh_public_key  = var.cluster_ssh_public_key
   cluster_ssh_private_key = var.cluster_ssh_private_key
+  sops_age_key            = var.sops_age_key
 }
 
 # See the matching moved blocks in environments/dev/main.tf: harmless no-ops

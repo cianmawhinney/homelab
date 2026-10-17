@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - cluster-issuers.yaml
   - traefik.yaml
+  - cloudflare-api-token.sops.yaml

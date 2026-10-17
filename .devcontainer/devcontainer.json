@@ -48,7 +48,8 @@
 	"mounts": [
 		"source=c:\\Users\\Cian\\AppData\\Roaming\\terraform.d,target=/home/vscode/.terraform.d,type=bind,consistency=cached",
 		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind,consistency=cached",
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude-devcontainer,target=/home/vscode/.claude,type=bind,consistency=cached"
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude-devcontainer,target=/home/vscode/.claude,type=bind,consistency=cached",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.sops-age,target=/home/vscode/.config/sops/age,type=bind,consistency=cached"
 	],
 
 	"features": {

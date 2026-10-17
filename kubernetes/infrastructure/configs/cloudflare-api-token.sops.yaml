@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    namespace: cert-manager
+    name: cloudflare-api-token
+stringData:
+    api-token: ENC[AES256_GCM,data:0ihaGZpRC0OkxUZibbJTOCnXxaqgR+sDTs7r6ufPmZNLjItEtcAv2gPENgCv+4gr8A/xjmo=,iv:q3mkjMSVHczGM2JwMAlobi7OyIorLbussxnWskC9RWo=,tag:/QBZE5Y0k+M1UtfCbDEzXA==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB3WGx3bWdjV3dEY21Ta1Zm
+            NnIyNzUvNGl0dGNob3haVDlLRENxVVFDRDFzCkowTTJLZG1iUUQrdFhwVWdMM3g4
+            RXBqcUdvSlhWanhQUjMrMjNmYUNBUVkKLS0tIHZFQnhxamZ6UVZtdytyM2NIUVdz
+            ME9vQzZsVWJjazFTUDZXSzhhQWNoWFkKMeWbpiQxecswdkxrd2+rlrGbgI4yODWt
+            BwiHzFV7dqCBERTHJhBKGOEo8lZZqmkPDISbJuQgCexlcThU5Zs7Ug==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1mfw9hxpfq5wlvhw4fkk7628g2q5w57zme8h67l80fal20qkyxgrslzfgs3
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBRT20wYjJRSWxvSVNCa0tO
+            bnZVTVZKclJlTkxIbFJtZTZ2TVBIRXVlYlNnCjdEMHJlMndsQ3dYRGVneVNYRmt6
+            UldKbkxHZURhZG1seHZIN3EvRlZjVDQKLS0tIG1YTk5DOVZnRVlLQk1kcTJDOWo0
+            bWJ0UWRoZ1oraGRhSVYyMXNiUlRXbFUKhmtUti/Y+v5KnmxcKPikhqKS12zvu7oJ
+            Y9lY4TVEoR0WBhYzgVYlOVA/Rd4B2UegPOzRN/dai6hv9EjNsEWcqQ==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1j9738mqgxa47psy7pxyt67alz3vu6tyjuhakusl6cas3ut6vk40s9v5she
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBVU2ZkRlRtOE5XRWd4aEQ3
+            NE1MRkVIdDZ2OWJKVTFFaHg2MDBZVkcyUnpZClM4UmJKMFZkbW9DdGhRU0QzL1pk
+            M281WjUvVTMwU05sd3ZEZHBxS252OGcKLS0tIENMeWdkZkQwWjJCODhtVzJtaEJT
+            cjVTWTQ1Zjlsc0NnSHBOYlhsT0JYcGcKMyTxkvVRI3wkCl0jUS+z+isXQleLZXZH
+            6jhxBQoUGpawrwESllpa8O43TnnJ05OqrQzfRc6OYlP9cwB0XnY1Dw==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1vv6kvhgqyj5a3sffwa2nahf0g3lf5ef3arh4vk576ekjwf3mx5ws2lgekh
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-10-17T14:07:23Z"
+    mac: ENC[AES256_GCM,data:pY9JzUxaxehxoBNKFFAnF2a0Xvz+FX/FpOdAlbNQNNWM2chbYQ21+4IdXrRqQt7LlJmSoWD0JRGzZIexoZLvCDI8QhuMz+RZryglL4XvWEWhCED8lmtkTvuBmWm+sPVVLqliBkpU6XhyDAftlPAXDzQFwZeZBdHERKev+gNCPBc=,iv:1CF3haGN2wiOyG8Ukmx3ejYpagz5VC3eZUBwAcmXrMc=,tag:kTuhrDVmQlE0hWmXhA2v4w==,type:str]
+    version: 3.13.3
