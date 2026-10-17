@@ -16,7 +16,7 @@
 - name: MariaDB database container
   community.general.docker_container:
     name: zabbix-mariadb
-    image: mariadb:10.11@sha256:7db29378d4fdab73f8123bbc2b48905c90d1a4b00cf848b028f1e81e623257f2
+    image: mariadb:13.0@sha256:0e4bb0f339feba125d1154fbacd36c16ec8518f52e44e1f82ecec7d6771caf39
     pull: true
     image_name_mismatch: recreate
     command: "mysqld --character-set-server=utf8 --collation-server=utf8_bin"
