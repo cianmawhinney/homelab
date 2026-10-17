@@ -1,5 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/base:3-ubuntu22.04
 
+ARG SOPS_VERSION=3.13.3
+
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
@@ -19,10 +21,14 @@ RUN apt-get update \
         python3-pip \
         python3-yaml \
         xorriso \
+        age \
     && pip3 install \
         ansible \
         yamllint \
         ansible-lint \
     && curl -L https://github.com/hetznercloud/cli/releases/latest/download/hcloud-linux-amd64.tar.gz | tar xz hcloud \
     && mv hcloud /usr/local/bin/ \
+    && curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 \
+    && mv sops-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops \
+    && chmod +x /usr/local/bin/sops \
     && rm -rf /var/lib/apt/lists/*

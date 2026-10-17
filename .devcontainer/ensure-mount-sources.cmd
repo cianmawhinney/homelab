@@ -7,4 +7,5 @@ echo "Ensuring mount points exist..."
 md "%USERPROFILE%\.kube"
 md "%USERPROFILE%\.minikube"
 md "%USERPROFILE%\.claude-devcontainer"
+md "%USERPROFILE%\.sops-age"
 endlocal
