@@ -13,8 +13,8 @@ spec:
   interval: 24h
   url: oci://ghcr.io/traefik/helm/traefik
   ref:
-    tag: 42.0.0
-    digest: sha256:779f04f7aa930daddba2aacf0f4a75c8d83cac477c00996372680b61fdf423aa
+    tag: 42.1.2
+    digest: sha256:b3ff8020c28455622d532bd97a67fbd5e843a6a0be64c005ea954193b63a62f1
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
