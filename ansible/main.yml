@@ -70,7 +70,6 @@
         name: nextcloud
       tags:
         - nextcloud
-      when: false
 
     - name: Set up zabbix
       ansible.builtin.import_role:
