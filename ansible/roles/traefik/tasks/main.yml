@@ -18,7 +18,7 @@
 - name: Create app container
   community.general.docker_container:
     name: traefik
-    image: traefik:2.11@sha256:ec27061da1e225e33d06636988a15c5fee4fc344c8e7afc9f8f087e38e2ec744
+    image: traefik:2.11@sha256:9d21c49aab4a76eada128ab057dc2976a4e797aae4d3f5d33a23847adc9f99cf
     pull: true
     image_name_mismatch: recreate
     network_mode: host # any port open in the container is bound to the host
