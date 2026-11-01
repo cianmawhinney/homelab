@@ -15,7 +15,7 @@
 - name: Nextcloud - MariaDB container
   community.general.docker_container:
     name: nextcloud-mariadb
-    image: mariadb:10.11@sha256:0d0945c57f75b3a3b9ebe71aedaaad005fa5305054e8fca3d2e42a8c92b43b5e
+    image: mariadb:10.11@sha256:d769e37960821dfdcf096954f6e7ac89f747e116c1bba98e48edd265dfc7deae
     pull: true
     image_name_mismatch: recreate
     networks:
@@ -37,7 +37,7 @@
 - name: Nextcloud - Redis container
   community.general.docker_container:
     name: nextcloud-redis
-    image: redis:7.4-alpine@sha256:57e4255cc971b1c8d6f8a6ca283ac01bc3ecdd914273ef6bfaede87aaecd6541
+    image: redis:7.4-alpine@sha256:8da19c7399dca900c6822a1cf30f9d2285585e2c4b457ff4095b0f4500054d3f
     pull: true
     image_name_mismatch: recreate
     networks:
@@ -51,7 +51,7 @@
 - name: Nextcloud - Cron container
   community.general.docker_container:
     name: nextcloud-cron
-    image: "nextcloud:35.0.2-apache@sha256:89af7ee7a96ff5e9668280566209268ae6b2d02327f6ef6d56f6d68228cf9431"
+    image: "nextcloud:35.0.2-apache@sha256:e0b1a2af52c82c07b7a0e8e59878bd8769e704447734d5d238a836982f51b9c8"
     pull: true
     image_name_mismatch: recreate
     networks:
@@ -68,7 +68,7 @@
 - name: Nextcloud - App container
   community.general.docker_container:
     name: nextcloud-app
-    image: "nextcloud:35.0.2-apache@sha256:89af7ee7a96ff5e9668280566209268ae6b2d02327f6ef6d56f6d68228cf9431"
+    image: "nextcloud:35.0.2-apache@sha256:e0b1a2af52c82c07b7a0e8e59878bd8769e704447734d5d238a836982f51b9c8"
     pull: true
     image_name_mismatch: recreate
     networks:
