@@ -27,7 +27,7 @@ module "kube-hetzner" {
     hcloud = hcloud
   }
   source  = "kube-hetzner/kube-hetzner/hcloud"
-  version = "~> 2.21"
+  version = "~> 3.0"
 
   hcloud_token = var.hcloud_token
 
